@@ -1,5 +1,5 @@
 # Tryontech
-Plug-in Size Manager
+Plug-in smart sizing system
 ## Contribuidores 🫂
 <!-- readme: contributors -start -->
 <table>
