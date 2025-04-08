@@ -1,0 +1,18 @@
+@import '../styles/fonts/fonts.css';
+
+:root {
+    --font-primary: 'Poppins', sans-serif;
+    --font-primary-weight: 400;
+    --font-primary-weight-bold: 500;
+    --font-primary-style: normal;
+    --font-secondary: 'NATS', sans-serif;
+  
+    --font-size-title: 64px;
+    --font-size-subtitle: 18px;
+    --font-size-label: 19px;
+    --font-size-body: 20px;
+    --font-size-small: 14px;
+
+    --color-purple: #6710E0;
+  }
+  

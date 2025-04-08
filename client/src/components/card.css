@@ -1,0 +1,14 @@
+.cd-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 874px;
+    height: 1068px;
+    column-gap: 5px;
+}
+

@@ -1,0 +1,142 @@
+@import '../../styles/variables.css';
+
+
+.lg-header {
+    width: 80%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #ffffff;
+  }
+  
+  .logout .icon {
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .logout .icon:hover {
+    transform: scale(1.1);
+  }
+
+.lg-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: right;
+    width: auto;
+    height: auto;
+    margin-bottom: auto;
+
+
+}
+
+.lg-form-title {
+    font-size: 32px;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight-bold); ;
+    font-style: var(--font-primary-style);
+
+    
+}
+  
+.lg-form-lb {
+    font-size: var(--font-size-label);
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight-bold); ;
+    font-style: var(--font-primary-style);
+    padding-top: 20px;
+    padding-bottom: 5px;
+    color: #666666;
+}
+
+.lg-form-username {
+  width: 665px;
+  height: 56px;
+  border-color: rgba(102, 102, 102, 0.35);
+  border-radius: 10px;
+  text-indent: 10px;
+
+}
+.lg-form-username::placeholder {
+  font-size: var(--font-size-small);
+  font-family: var(--font-primary);
+  font-weight: var(--font-primary-weight-bold); ;
+  font-style: var(--font-primary-style);
+
+  color: #666666c8;
+
+}
+
+.lg-form-password {
+  width: 665px;
+  height: 56px;
+  border-color: rgba(102, 102, 102, 0.35);
+  border-radius: 10px;
+  text-indent: 10px;
+}
+.lg-form-password::placeholder {
+  font-size: var(--font-size-small);
+  font-family: var(--font-primary);
+  font-weight: var(--font-primary-weight-bold); ;
+  font-style: var(--font-primary-style);
+
+  color: #666666c8;
+}
+
+.lg-form-forgot {
+    font-size: var(--font-size-label);
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight-bold); ;
+    font-style: var(--font-primary-style);
+    color: var(--color-purple);
+    text-align: right;
+    padding-top: 10px;
+    padding-bottom: 25px;
+    padding-right: 20px;
+}
+
+.lg-form-btn-container {
+   position: relative;
+   width: fit-content;
+}
+
+.bt-purple {
+  position:relative;
+  z-index: 1;
+  right: -40px;
+}
+.tb-transparent {
+  position:absolute;
+  z-index: 2;
+
+
+}
+
+.lg-title {
+  font-size: var(--font-size-title);
+  font-family: var(--font-secondary);
+  font-weight: var(--font-primary-weight);
+  font-style: var(--font-primary-style);
+  
+
+}
+
+.lg-title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+}
+
+.divider {
+  
+  display: flex;
+  border-bottom: rgba(102, 102, 102, 0.25) 3px solid;
+  width: 180px;
+  padding: 20px;
+}
+
