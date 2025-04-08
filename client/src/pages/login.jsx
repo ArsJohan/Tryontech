@@ -6,12 +6,16 @@ import '../assets/styles/pages/login.css';
 import logout from '../assets/images/logout-icon.svg';
 import { BrowserRouter, UNSAFE_createBrowserHistory } from 'react-router-dom';
 import {Background} from '../components/background.jsx';
+import logoBackground from '../assets/images/logo-background.png';
 
 export function Login() {
     return (
         
-        <div className='lg-container'>
-            <Background></Background>
+        <div className="lg-container">
+            <Background elipseTop={"bk-circle-blur-topRight"} 
+            elipseBottom={"bk-circle-blur-bottomLeft-big"}
+            image={logoBackground}>
+            </Background>
 
             <Card>
                 <header className="lg-header">
