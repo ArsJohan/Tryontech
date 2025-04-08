@@ -1,0 +1,22 @@
+.bk-container {
+    display: flex;
+    position: relative;
+    width: 615px;
+    height: 1068px;
+    background-color: #000000;
+    overflow: hidden;
+    
+
+}
+
+
+.bk-circle-blur {
+    position: absolute; /* Permite posicionarlo dentro de un contenedor */
+    width: 200px; /* Ancho del círculo */
+    height: 200px; /* Altura del círculo */
+    border-radius: 50%; /* Hace que sea un círculo */
+    background-color: #6B069C; /* Color morado semitransparente */
+    filter: blur(45px); /* Aplica el efecto de desenfoque */;
+    right:-30px;
+    top:-20px
+}

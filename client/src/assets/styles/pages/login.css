@@ -1,6 +1,18 @@
 @import '../../styles/variables.css';
 
 
+
+
+.lg-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: auto;
+  height: auto;
+
+}
+
+
 .lg-header {
     width: 80%;
     display: flex;
