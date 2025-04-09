@@ -1,15 +1,9 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Login } from './pages/login.jsx';
+import AppRouter from './routes/AppRouter';
 
 export function App() {
     return (
-        <Router>
-            <Routes>
-                <Route path="/login" element={<Login />} />
-                {/* Agregar más rutas aqui*/}
-            </Routes>
-        </Router>
+        <AppRouter />
     );
 }
 

@@ -4,7 +4,6 @@ import {Button} from '../components/button.jsx';
 import { Footer } from '../components/footer.jsx';
 import '../assets/styles/pages/login.css';
 import logout from '../assets/images/logout-icon.svg';
-import { BrowserRouter} from 'react-router-dom';
 import {Background} from '../components/background.jsx';
 import logoBackground from '../assets/images/logo-background.png';
 
