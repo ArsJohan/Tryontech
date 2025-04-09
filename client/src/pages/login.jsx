@@ -4,7 +4,7 @@ import {Button} from '../components/button.jsx';
 import { Footer } from '../components/footer.jsx';
 import '../assets/styles/pages/login.css';
 import logout from '../assets/images/logout-icon.svg';
-import { BrowserRouter, UNSAFE_createBrowserHistory } from 'react-router-dom';
+import { BrowserRouter} from 'react-router-dom';
 import {Background} from '../components/background.jsx';
 import logoBackground from '../assets/images/logo-background.png';
 
@@ -20,9 +20,9 @@ export function Login() {
 
             <Card>
                 <header className="lg-header">
-                    <a href="login" className="logout">
+                    <link to="" className="logout">
                         <img src={logout} alt="Logout" className="icon"/>
-                    </a>
+                    </link>
                 </header>
                 <div className="lg-title-container">
                     <div className="divider"></div>
@@ -35,12 +35,12 @@ export function Login() {
                     <input type="email" id="email" className="lg-form-username" placeholder="Example@gmail.com"/>
                     <label htmlFor="password" className="lg-form-lb-password">Password</label>
                     <input type="password" id="password" className="lg-form-password" placeholder="*****"/>
-                    <a href="forgot" className="lg-form-forgot">Forgot your password?</a>
+                    <link to="forgot" className="lg-form-forgot">Forgot your password?</link>
                     <div className="lg-form-btn-container">
-                        <BrowserRouter>
-                        <Button className={"bt-purple"} text={"Sign in" } to="/interfaz"></Button>
-                        <Button className={"bt-transparent"} text={"Sign up" } to="/interfaz"></Button>
-                        </BrowserRouter>
+                       
+                        <Button className={"bt-purple"} text={"Sign in" } to="/"></Button>
+                        <Button className={"bt-transparent"} text={"Sign up" } to="/Register"></Button>
+                      
                     </div>
                 </div>
                 <Footer/>
