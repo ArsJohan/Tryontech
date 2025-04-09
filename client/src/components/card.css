@@ -6,9 +6,9 @@
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 3px 4px 8px rgba(0,0,0,0.1);
     width: 874px;
-    height: 1068px;
+    height: 1040px;
     column-gap: 5px;
 }
 

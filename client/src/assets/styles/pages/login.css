@@ -16,12 +16,11 @@
 
 
 .lg-header {
-    width: 100%;
+    width: 95%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding: 15px 30px;
-    padding-right: 35px;
+    padding: 15px 25px;
     background-color: #ffffff;
   }
   
@@ -81,6 +80,10 @@
   height: 56px;
   border-color: rgba(102, 102, 102, 0.35);
   border-radius: 10px;
+  padding-left: 24px;
+  font-size: var(--font-size-body);
+
+
 
 }
 .lg-form-username::placeholder {
@@ -90,9 +93,7 @@
   font-style: var(--font-primary-style);
 
   color: #666666c8;
-  padding-left: 24px;
-  padding-bottom: 17px;
-  padding-top: 15px;
+
 
 }
 
@@ -101,6 +102,14 @@
   height: 56px;
   border-color: rgba(102, 102, 102, 0.35);
   border-radius: 10px;
+  font-size: var(--font-size-small);
+  font-family: var(--font-primary);
+  font-weight: var(--font-primary-weight-bold); ;
+  font-style: var(--font-primary-style);
+  color: #666666c8;
+  padding-left: 24px;
+  font-size: var(--font-size-body);
+
 
   
 }
@@ -111,9 +120,7 @@
   font-style: var(--font-primary-style);
 
   color: #666666c8;
-  padding-left: 24px;
-  padding-bottom: 17px;
-  padding-top: 15px;
+  
 }
 
 .lg-form-forgot {

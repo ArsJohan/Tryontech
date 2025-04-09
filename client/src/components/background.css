@@ -5,10 +5,11 @@
     display: flex;
     position: relative;
     width: 800px;
-    height: 1108px;
+    height: 1080px;
     background-color: #282424;
     overflow: hidden;
     padding-top: 0%;
+    border-radius: 10px;
 
     
 
