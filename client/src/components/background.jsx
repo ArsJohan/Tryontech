@@ -1,11 +1,11 @@
 import React from "react";
 import './background.css';
 
-export function Background({elipseTop, elipseBottom,image}) {
+export function Background({elipseTop, elipseBottom,children}) {
     return (
         <div className="bk-container">
             <div className={elipseTop}></div>
-            <img src={image} alt="Background" className="bk-image"/>
+            {children}
             <div className={elipseBottom}></div>
 
 

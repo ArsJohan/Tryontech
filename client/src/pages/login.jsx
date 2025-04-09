@@ -13,8 +13,9 @@ export function Login() {
         
         <div className="lg-container">
             <Background elipseTop={"bk-circle-blur-topRight"} 
-            elipseBottom={"bk-circle-blur-bottomLeft-big"}
-            image={logoBackground}>
+            elipseBottom={"bk-circle-blur-bottomLeft-big"}>
+                <h1 className="bk-title">“A new way <br/> to measure yourself ”</h1>
+                <img src={logoBackground} alt="Background" className="bk-image"/>
             </Background>
 
             <Card>
@@ -30,9 +31,9 @@ export function Login() {
                 </div>
                 <div className="lg-form-container">
                     <h1 className="lg-form-title">Sign in</h1>
-                    <label htmlFor="email" className="lg-form-lb">Email</label>
+                    <label htmlFor="email" className="lg-form-lb-user">Email</label>
                     <input type="email" id="email" className="lg-form-username" placeholder="Example@gmail.com"/>
-                    <label htmlFor="password" className="lg-form-lb">Password</label>
+                    <label htmlFor="password" className="lg-form-lb-password">Password</label>
                     <input type="password" id="password" className="lg-form-password" placeholder="*****"/>
                     <a href="forgot" className="lg-form-forgot">Forgot your password?</a>
                     <div className="lg-form-btn-container">

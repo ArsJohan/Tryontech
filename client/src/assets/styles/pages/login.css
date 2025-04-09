@@ -16,17 +16,18 @@
 
 
 .lg-header {
-    width: 80%;
+    width: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     padding: 15px 30px;
+    padding-right: 35px;
     background-color: #ffffff;
   }
   
   .logout .icon {
-    height: 24px;
-    width: 24px;
+    height: 49px;
+    width: 62px;
     cursor: pointer;
     transition: transform 0.2s ease;
   }
@@ -50,19 +51,28 @@
 .lg-form-title {
     font-size: 32px;
     font-family: var(--font-primary);
-    font-weight: var(--font-primary-weight-bold); ;
+    font-weight:400; 
     font-style: var(--font-primary-style);
-
+    padding-bottom: -20px;
     
 }
   
-.lg-form-lb {
+.lg-form-lb-password {
+    font-size: var(--font-size-label);
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight-bold); ;
+    font-style: var(--font-primary-style);
+    padding-top: 40px;
+    padding-bottom: 10px;
+    color: #666666;
+}
+.lg-form-lb-user {
     font-size: var(--font-size-label);
     font-family: var(--font-primary);
     font-weight: var(--font-primary-weight-bold); ;
     font-style: var(--font-primary-style);
     padding-top: 20px;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
     color: #666666;
 }
 
@@ -71,7 +81,6 @@
   height: 56px;
   border-color: rgba(102, 102, 102, 0.35);
   border-radius: 10px;
-  text-indent: 10px;
 
 }
 .lg-form-username::placeholder {
@@ -81,6 +90,9 @@
   font-style: var(--font-primary-style);
 
   color: #666666c8;
+  padding-left: 24px;
+  padding-bottom: 17px;
+  padding-top: 15px;
 
 }
 
@@ -89,7 +101,8 @@
   height: 56px;
   border-color: rgba(102, 102, 102, 0.35);
   border-radius: 10px;
-  text-indent: 10px;
+
+  
 }
 .lg-form-password::placeholder {
   font-size: var(--font-size-small);
@@ -98,6 +111,9 @@
   font-style: var(--font-primary-style);
 
   color: #666666c8;
+  padding-left: 24px;
+  padding-bottom: 17px;
+  padding-top: 15px;
 }
 
 .lg-form-forgot {
@@ -143,7 +159,10 @@
   justify-content: center;
   align-items: center;
   flex-direction: row;
-
+  width: 663px;
+  height: 87px;
+  padding-top: 60px;
+  padding-bottom:34px;
 }
 
 .divider {
