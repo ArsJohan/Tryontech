@@ -1,28 +1,21 @@
-import { createContext, useState, useContext } from "react";
-
-{/* Creación de un Contexto para la autenticación */}
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+export const AuthProvider = ({ children }) => {
+  // Simula que el usuario NO está autenticado por ahora
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = (userData) => {
-    setUser(userData);
-    setIsAuthenticated(true);
-  };
-
-  const logout = () => {
-    setUser(null);
-    setIsAuthenticated(false);
-  };
+  // Puedes cambiar esto a true para probar
+  const login = () => setIsAuthenticated(true);
+  const logout = () => setIsAuthenticated(false);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => {AuthContext};
+// Custom hook para usar el contexto fácilmente
+export const useAuth = () => useContext(AuthContext);

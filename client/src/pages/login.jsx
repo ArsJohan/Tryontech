@@ -6,6 +6,7 @@ import '../assets/styles/pages/login.css';
 import logout from '../assets/images/logout-icon.svg';
 import {Background} from '../components/background.jsx';
 import logoBackground from '../assets/images/logo-background.png';
+import { Link } from 'react-router-dom';
 
 export function Login() {
     return (
@@ -19,9 +20,9 @@ export function Login() {
 
             <Card>
                 <header className="lg-header">
-                    <link to="" className="logout">
+                    <Link to="" className="logout">
                         <img src={logout} alt="Logout" className="icon"/>
-                    </link>
+                    </Link>
                 </header>
                 <div className="lg-title-container">
                     <div className="divider"></div>
@@ -34,7 +35,7 @@ export function Login() {
                     <input type="email" id="email" className="lg-form-username" placeholder="Example@gmail.com"/>
                     <label htmlFor="password" className="lg-form-lb-password">Password</label>
                     <input type="password" id="password" className="lg-form-password" placeholder="*****"/>
-                    <link to="forgot" className="lg-form-forgot">Forgot your password?</link>
+                    <Link to="forgot" className="lg-form-forgot">Forgot your password?</Link>
                     <div className="lg-form-btn-container">
                        
                         <Button className={"bt-purple"} text={"Sign in" } to="/"></Button>
@@ -49,3 +50,5 @@ export function Login() {
         
     )
 }
+
+export default Login;
