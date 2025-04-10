@@ -1,0 +1,70 @@
+@import '../assets/styles/variables.css';
+
+
+.bk-container {
+    display: flex;
+    position: relative;
+    width: 800px;
+    height: 1080px;
+    background-color: #282424;
+    overflow: hidden;
+    padding-top: 0%;
+    border-radius: 10px;
+
+    
+
+}
+
+.bk-title{
+    position: absolute;
+    font-family: var(--font-primary);
+    font-size: 64px;
+    font-weight: var(--font-primary-weight);
+    font-style: var(--font-primary-style);
+    color: #FFFFFF;
+    z-index: 1;
+    text-align: center;
+    padding-left: 15%;
+    top: 118px;
+    width: auto;
+    height: 128px;
+}
+
+.bk-image {
+    position: absolute; /* Permite posicionarlo dentro de un contenedor */
+    width: 750px; /* Ancho del círculo */
+    height: 758px; /* Altura del círculo */
+    z-index: 1;
+    bottom: -1px;
+    right: -20px;
+    
+}
+
+
+.bk-circle-blur-topRight {
+    position: absolute; /* Permite posicionarlo dentro de un contenedor */
+    width: 344px; /* Ancho del círculo */
+    height: 320px; /* Altura del círculo */
+    border-radius: 50%; /* Hace que sea un círculo */
+    background-color: #6B069C; /* Color morado semitransparente */
+    filter: blur(45px); /* Aplica el efecto de desenfoque */;
+    right:-30px;
+    top:-120px;
+    z-index: 0;
+    
+}
+
+.bk-circle-blur-bottomLeft-big {
+    position: absolute; /* Permite posicionarlo dentro de un contenedor */
+    width: 1000px; /* Ancho del círculo */
+    height: 650px; /* Altura del círculo */
+    border-radius: 50%; /* Hace que sea un círculo */
+    background-color: #6B069C; /* Color morado semitransparente */
+    filter: blur(45px); /* Aplica el efecto de desenfoque */; 
+    bottom:-150px;
+    right:-5px;
+    transform: rotate(20.33deg);
+    z-index: 0;
+    
+    
+}
