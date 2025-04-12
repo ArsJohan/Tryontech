@@ -6,6 +6,7 @@ import '../assets/styles/pages/login.css';
 import logout from '../assets/images/logout-icon.svg';
 import {Background} from '../components/background.jsx';
 import logoBackground from '../assets/images/logo-background.png';
+import '../assets/styles/elements.css';
 import { Link } from 'react-router-dom';
 
 export function Login() {
