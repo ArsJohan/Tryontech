@@ -212,3 +212,61 @@
     color: #666666c8;
     font-size: var(--font-size-small);
 }
+
+/* Requerimientos Contraseña*/
+.password-requirements {
+    margin-top: 10px;
+    display: grid; /* Usa Grid para organizar los elementos */
+    grid-template-columns: 3fr 4fr; /* 2 columnas */
+    gap: 2px; /* Espaciado entre filas y columnas */
+    font-size: 14px;
+    color: #666666;
+    list-style-type: none;
+    padding-left: 0; /* Elimina el padding predeterminado de la lista */
+}
+
+.password-requirements li {
+    position: relative;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight);
+    font-style: var(--font-primary-style);
+    font-size: var(--font-size-small);
+    color: rgba(102, 102, 102, 0.6);
+    text-decoration: none ; /* Asegura que el texto no herede estilos no deseados */
+}
+
+.password-requirements li::before {
+    content: "•"; /* Ícono de no cumplido */
+    color: rgba(102, 102, 102, 0.6); /* Color del ícono */
+    margin-right: 8px;
+    font-size: 30px; /* Tamaño del ícono */
+    text-decoration: none; /* Asegura que el ícono no se tache */
+    display: inline-block; /* Asegura que el ícono se comporte como un elemento independiente */
+    
+}
+
+.password-requirements li.fulfilled {
+    text-decoration: line-through; /* Tacha el texto cuando se cumple */
+    color: green;
+}
+
+.password-requirements li.fulfilled::before {
+    color: green; /* Cambia el color del ícono cuando se cumple */
+    text-decoration: none; /* Asegura que el ícono no se tache */
+    display: inline-block; /* Asegura que el ícono se mantenga independiente */
+}
+
+
+.invalid {
+    border-color: red !important;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight);
+    font-style: var(--font-primary-style);
+    font-size: var(--font-size-small);
+}

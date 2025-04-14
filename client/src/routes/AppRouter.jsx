@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Login from '../pages/login.jsx';
 import { SignUpPersonal } from '../pages/singUpPersonal.jsx';
@@ -19,6 +19,8 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
+          {/* Ruta por defecto que redirige a /login */}
+          <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<SignUpPersonal/>}/>
         {/*<Route path="/" element={
@@ -26,7 +28,7 @@ const AppRouter = () => {
             <FittingRoom />
           </ProtectedRoute>
         } />*/}
-        <Route path="*" element={null} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Card from "../components/card";
 import { Header } from "../components/header";
 import arrowLeft from "../assets/images/arrow-left.svg";
@@ -12,11 +12,90 @@ import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 
 export function SignUpPersonal() {
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [isEmailValid, setIsEmailValid] = useState(false);
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [isPhoneValid, setIsPhoneValid] = useState(false);
     const [birthdateType, setBirthdateType] = useState("text");
     const [birthdateValue, setBirthdateValue] = useState("");
+    const [password, setPassword] = useState("");
+    const [selectedSex, setSelectedSex] = useState("");
+    const [requirements, setRequirements] = useState({
+        length: false,
+        uppercase: false,
+        number: false,
+        specialChar: false,
+    });
+    const [isFormComplete, setIsFormComplete] = useState(false);
+
+    const checkFormCompletion = () => {
+        if (
+            username.trim() !== "" &&
+            email.trim() !== "" &&
+            isEmailValid &&
+            phoneNumber.trim() !== "" &&
+            isPhoneValid &&
+            birthdateValue.trim() !== "" &&
+            password.trim() !== "" &&
+            requirements.length &&
+            requirements.uppercase &&
+            requirements.number &&
+            requirements.specialChar &&
+            selectedSex !== ""
+        ) {
+            setIsFormComplete(true);
+        } else {
+            setIsFormComplete(false);
+        }
+    };
+
+    useEffect(() => {
+        checkFormCompletion();
+    }, [username, email, isEmailValid, phoneNumber, isPhoneValid, birthdateValue, password, requirements, selectedSex]);
+
+    const handleUsernameChange = (e) => {
+        setUsername(e.target.value);
+    };
+
+    const handleEmailChange = (e) => {
+        const value = e.target.value;
+        setEmail(value);
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        setIsEmailValid(emailRegex.test(value));
+    };
+
+    const handlePhoneChange = (value) => {
+        setPhoneNumber(value);
+
+        const phoneRegex = /^\d{10,}$/;
+        setIsPhoneValid(phoneRegex.test(value));
+    };
+
+    const handleSexChange = (e) => {
+        setSelectedSex(e.target.value);
+    };
+
+    const handlePasswordChange = (e) => {
+        const value = e.target.value;
+        setPassword(value);
+
+        setRequirements({
+            length: value.length >= 8,
+            uppercase: /[A-Z]/.test(value),
+            number: /[0-9]/.test(value),
+            specialChar: /[!@#$%^&*(),.?":{}|<>]/.test(value),
+        });
+    };
+
+    const handleBirthdateChange = (e) => {
+        setBirthdateValue(e.target.value);
+    };
+    
     return (
         <div className="sg-container">
-            <Card width={"1100px"} height={"1040px"}>
+            <Card width={"1100px"} height={"1120px"}>
                 <Header classN={"sg-header"}>
                     <>
                         <img src={arrowLeft} alt="arrow-left" className="sg-icon"/>
@@ -32,7 +111,15 @@ export function SignUpPersonal() {
                     <div className="sg-form-input-container">
                         <div className="sg-form-input-group">
                             <label htmlFor="Username" className="sg-form-lb">Username</label>
-                            <input type="text" id="Username" className="sg-form-input" style={{width:"366px"}} placeholder="John Doe"/>
+                            <input
+                                type="text"
+                                id="Username"
+                                className="sg-form-input"
+                                style={{ width: "366px" }}
+                                placeholder="John Doe"
+                                value={username}
+                                onChange={handleUsernameChange}
+                            />
                         </div>
                         <div className="sg-form-input-group">
                             <label htmlFor="Birthdate" className="sg-form-lb">What's your date of borth?</label>
@@ -42,7 +129,7 @@ export function SignUpPersonal() {
                                 className="sg-form-input"
                                 placeholder="DD/MM/YYYY"
                                 value={birthdateValue}
-                                onChange={(e) => setBirthdateValue(e.target.value)}
+                                onChange={handleBirthdateChange}
                                 onFocus={() => setBirthdateType("date")}
                                 onBlur={() => {
                                 if (!birthdateValue) setBirthdateType("text");
@@ -51,41 +138,85 @@ export function SignUpPersonal() {
                             />
                         </div>
                         <div className="sg-form-input-group">
-                          
                             <label htmlFor="Registeremail" className="sg-form-lb">Email</label>
-                            <input type="email" id="Registeremail" className="sg-form-input"  style={{width:"542px"}} placeholder="Example@gmail.com"/>
+                            <input
+                                type="email"
+                                id="Registeremail"
+                                className={`sg-form-input ${isEmailValid ? "" : "invalid"}`} // Agrega una clase si no es válido
+                                style={{ width: "542px" }}
+                                placeholder="Example@gmail.com"
+                                value={email}
+                                onChange={handleEmailChange}
+                            />
+                            {!isEmailValid && email.trim() !== "" && (
+                                <span className="error-message">Please enter a valid email address</span>
+                            )}
                         </div>
                         <div className="sg-form-input-group">
                             <label htmlFor="Registerpassword" className="sg-form-lb">Password</label>
-                            <input type="password" id="Registerpassword" className="sg-form-input"  style={{width:"542px"}} placeholder="*****"/>
-                        </div>
-                        <div className="sg-form-input-group" style={{ paddingRight: "400px" }}>
-                            <label htmlFor="Phone" className="sg-form-lb">Phone number</label>
-                            <PhoneInput
-                                country={'us'} // País predeterminado (puedes cambiarlo)
-                                value={''} // Valor inicial del input
-                                onChange={(phone) => console.log(phone)} // Maneja el cambio del valor
-                                inputClass="sg-form-phone-input" // Clase personalizada para el input
-                                containerClass="sg-phone-input-container" // Clase personalizada para el contenedor
-                                buttonClass="sg-phone-button" // Clase personalizada para el botón del país
-                                placeholder="(XXX) XXX-XXXX" // Placeholder personalizado
+                            <input
+                                type="password"
+                                id="Registerpassword"
+                                className="sg-form-input"
+                                style={{ width: "542px" }}
+                                placeholder="*****"
+                                value={password}
+                                onChange={handlePasswordChange}
                             />
+                            <ul className="password-requirements">
+                                <li className={requirements.length ? "fulfilled" : ""}>Use 8 or more characters</li>
+                                <li className={requirements.uppercase ? "fulfilled" : ""}>Use upper and lower case letters (e.g. Aa)</li>
+                                <li className={requirements.number ? "fulfilled" : ""}>Use a number (e.g. 1234)</li>
+                                <li className={requirements.specialChar ? "fulfilled" : ""}>Use a symbol (e.g. !@#$)</li>
+                            </ul>
+                        </div>
+                        <div className="sg-form-input-group" style={{ paddingRight: "400px", paddingTop: "1px"}}>
+                            <label className="sg-form-lb">Phone number</label>
+                            <PhoneInput
+                                country={'us'}
+                                value={phoneNumber}
+                                onChange={handlePhoneChange}
+                                inputClass={`sg-form-phone-input ${isPhoneValid ? "" : "invalid"}`} // Agrega una clase si no es válido
+                                containerClass="sg-phone-input-container"
+                                buttonClass="sg-phone-button"
+                                placeholder="(XXX) XXX-XXXX"
+                            />
+                            {!isPhoneValid && phoneNumber.trim() !== "" && (
+                                <span className="error-message">Please enter a valid phone number</span>
+                            )}
                         </div>
                         <div className="sg-form-input-group">
                             <label className="sg-form-lb">What's your sex?</label>
                             <div className="sg-form-checkbox-group">
-                                <input type="checkbox" id="Male" className="sg-form-checkbox" name="Sex" value="Male" />
-                                <label  className="sg-form-lb" style={{paddingLeft:"8px"}}>Female</label>
-                                <input type="checkbox" id="Female" className="sg-form-checkbox" name="Sex" value="Female" />
-                                <label  className="sg-form-lb" style={{paddingLeft:"8px"}}>Male</label>
-                                
-                                
+                                <input
+                                    type="radio"
+                                    id="Male"
+                                    className="sg-form-checkbox"
+                                    name="Sex"
+                                    value="Male"
+                                    onChange={handleSexChange}
+                                />
+                                <label className="sg-form-lb" style={{ paddingLeft: "8px" }}>Male</label>
+                                <input
+                                    type="radio"
+                                    id="Female"
+                                    className="sg-form-checkbox"
+                                    name="Sex"
+                                    value="Female"
+                                    onChange={handleSexChange}
+                                />
+                                <label className="sg-form-lb" style={{ paddingLeft: "8px" }}>Female</label>
                             </div>
                         </div>
                         
                     </div>   
                     <Barstep step={1}>
-                        <Button className={"bt-disabled"} text={"Next"} to={"/register-mesures"} width={"255px"}></Button>
+                    <Button
+                            className={isFormComplete ? "bt-purple" : "bt-disabled"}
+                            text={"Next"}
+                            to={isFormComplete ? "/register-mesures" : "#"}
+                            width={"255px"}
+                        />
                     </Barstep>
                      
                 </div> 
