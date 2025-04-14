@@ -87,12 +87,12 @@
 }
 
 .sg-form-input {
-    border-color: #6710E0;
+    border-color: #6710E0 !important;
     font-size: var(--font-size-body);
-    width: 366px;
-    height: 56px;
-    border-radius: 10px;
-    padding-left: 24px;
+    width: 542px;
+    height: 56px !important;
+    border-radius: 10px !important;
+    padding-left: 24px !important;
     appearance: none;
     outline: none;
     cursor: pointer;
@@ -100,6 +100,7 @@
     font-family: var(--font-primary) !important;
     font-weight: var(--font-primary-weight-bold) !important;
     font-style: var(--font-primary-style) !important;
+    padding-right: 24px;
 }
 
 .sg-form-input::placeholder {
@@ -107,7 +108,7 @@
     font-family: inherit;
     font-weight:inherit;
     font-style: inherit;
-  
+    
     color: #666666c8 !important;
     
 }
@@ -139,4 +140,75 @@
 .sg-form-checkbox:checked {
     background-color: #6710E0; /* Cambia el color cuando está seleccionado */
     border: 2px solid #FFFFFF; /* Agrega un borde blanco al estar seleccionado */
+}
+
+
+
+.sg-form-phone-input {
+    border-color: #6710E0 !important;
+    font-size: var(--font-size-body);
+    width: 592px !important;
+    height: 56px !important;
+    border-radius: 10px !important;
+    padding-left: 110px !important;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    font-size: var(--font-size-small) !important;
+    font-family: var(--font-primary) !important;
+    font-weight: var(--font-primary-weight-bold) !important;
+    font-style: var(--font-primary-style) !important;
+    padding-right: 24px;
+}
+
+.sg-form-phone-input::placeholder {
+    font-size: inherit;
+    font-family: inherit;
+    font-weight:inherit;
+    font-style: inherit;
+    
+    color: #666666c8 !important;
+    
+}
+
+
+/* Contenedor del input */
+.sg-phone-input-container {
+    width: 100% !important;
+    
+}
+/* Botón del país (ícono de la bandera) */
+.sg-phone-button {
+    background-color: transparent !important ;
+    border: none !important;
+    cursor: pointer;
+}
+
+.react-tel-input .selected-flag .flag {
+   left: 34px;
+    transform: scale(2.2);
+}
+
+
+.react-tel-input .country-list{
+    font-family:var(--font-primary) !important;
+    font-weight: var(--font-primary-weight-bold) !important;
+    font-style: var(--font-primary-style) !important;
+}
+
+.react-tel-input .selected-flag:hover {
+    background: transparent !important;
+}
+.react-tel-input .flag-dropdown.open .selected-flag {
+    background: transparent !important;
+    border-radius: 3px 0 0 0;
+}
+.react-tel-input .flag-dropdown.open .selected-flag:hover {
+    background: transparent !important;
+}
+
+/* Placeholder del input */
+.react-tel-input .form-control::placeholder {
+    color: #666666c8;
+    font-size: var(--font-size-small);
 }

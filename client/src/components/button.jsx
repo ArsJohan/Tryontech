@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom"; // Importa useNavigate
 import './button.css';
 
-export function Button({ className,text, to }) {
+export function Button({ className,text, to, width }) {
     const navigate = useNavigate(); // Hook para navegar
 
     const handleClick = () => {
@@ -10,7 +10,7 @@ export function Button({ className,text, to }) {
     };
 
     return (
-        <button className={className} onClick={handleClick}>
+        <button className={className} onClick={handleClick} style={{ width: width }}>
             {text}
         </button>
     );
