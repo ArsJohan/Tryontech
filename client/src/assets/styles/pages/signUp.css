@@ -1,0 +1,142 @@
+@import '../../styles/variables.css';
+
+.sg-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+}
+
+.sg-header {
+    display: flex;
+    justify-content: start;
+    width: 90%;
+    align-items: center;
+    padding: 0px 0px 0px 0px !important;
+}
+
+.sg-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: auto;
+    height: auto;
+    margin-bottom: auto;
+    padding-left: 133px;
+}
+
+.sg-form-title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: auto;
+    height:auto;
+    padding-top: 60px;
+    padding-bottom:34px;
+}
+
+.sg-form-title{
+    font-size: 40px;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight-bold);
+    font-style: var(--font-primary-style);
+    margin: 0px;
+}
+
+.sg-form-subtitle{
+    font-size: 13px;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight-bold);
+    font-style: var(--font-primary-style);
+    color: rgba(102, 102, 102, 0.6);
+
+
+}
+
+.sg-form-input-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    height: auto;
+    margin-bottom: auto;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.sg-form-input-group{
+    display: flex;
+    flex-direction: column;
+    padding-right: 54px;
+    padding-top: 31px;
+
+}
+
+.sg-form-lb{
+    font-size: 16px;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight);
+    font-style: var(--font-primary-style);
+    color: #666666;
+    padding-bottom: 4px;
+    padding-right: 32px;
+
+}
+
+.sg-form-input {
+    border-color: #6710E0;
+    font-size: var(--font-size-body);
+    width: 366px;
+    height: 56px;
+    border-radius: 10px;
+    padding-left: 24px;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    font-size: var(--font-size-small) !important;
+    font-family: var(--font-primary) !important;
+    font-weight: var(--font-primary-weight-bold) !important;
+    font-style: var(--font-primary-style) !important;
+}
+
+.sg-form-input::placeholder {
+    font-size: inherit;
+    font-family: inherit;
+    font-weight:inherit;
+    font-style: inherit;
+  
+    color: #666666c8 !important;
+    
+}
+
+
+.sg-form-checkbox-group{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    height: auto;
+    margin-bottom: auto;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+
+.sg-form-checkbox {
+    border-radius: 10px !important;
+    width:16px !important;
+    height: 16px !important;
+    border: 3px solid #6710E0 !important;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    background-color: #FFFFFF;
+}
+
+.sg-form-checkbox:checked {
+    background-color: #6710E0; /* Cambia el color cuando está seleccionado */
+    border: 2px solid #FFFFFF; /* Agrega un borde blanco al estar seleccionado */
+}

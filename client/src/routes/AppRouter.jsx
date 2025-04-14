@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import Login from '../pages/Login.jsx';
+import Login from '../pages/login.jsx';
+import { SignUpPersonal } from '../pages/singUpPersonal.jsx';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -19,6 +20,7 @@ const AppRouter = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<SignUpPersonal/>}/>
         {/*<Route path="/" element={
           <ProtectedRoute>
             <FittingRoom />

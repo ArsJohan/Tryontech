@@ -16,12 +16,11 @@
 
 
 .lg-header {
-    width: 95%;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 15px 25px;
-    background-color: #ffffff;
+    flex-direction: column;
+    justify-content: end;
+    width: 97%;
+    align-items: flex-end;
   }
   
   .logout .icon {
@@ -89,7 +88,7 @@
 .lg-form-username::placeholder {
   font-size: var(--font-size-small);
   font-family: var(--font-primary);
-  font-weight: var(--font-primary-weight-bold); ;
+  font-weight: var(--font-primary-weight-bold); 
   font-style: var(--font-primary-style);
 
   color: #666666c8;
@@ -104,7 +103,7 @@
   border-radius: 10px;
   font-size: var(--font-size-small);
   font-family: var(--font-primary);
-  font-weight: var(--font-primary-weight-bold); ;
+  font-weight: var(--font-primary-weight-bold); 
   font-style: var(--font-primary-style);
   color: #666666c8;
   padding-left: 24px;
@@ -116,7 +115,7 @@
 .lg-form-password::placeholder {
   font-size: var(--font-size-small);
   font-family: var(--font-primary);
-  font-weight: var(--font-primary-weight-bold); ;
+  font-weight: var(--font-primary-weight-bold); 
   font-style: var(--font-primary-style);
 
   color: #666666c8;
@@ -126,7 +125,7 @@
 .lg-form-forgot {
     font-size: var(--font-size-label);
     font-family: var(--font-primary);
-    font-weight: var(--font-primary-weight-bold); ;
+    font-weight: var(--font-primary-weight-bold); 
     font-style: var(--font-primary-style);
     color: var(--color-purple);
     text-align: right;
@@ -152,31 +151,9 @@
 
 }
 
-.lg-title {
-  font-size: var(--font-size-title);
-  font-family: var(--font-secondary);
-  font-weight: var(--font-primary-weight);
-  font-style: var(--font-primary-style);
-  
 
-}
 
-.lg-title-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-  width: 663px;
-  height: 87px;
-  padding-top: 60px;
-  padding-bottom:34px;
-}
 
-.divider {
-  
-  display: flex;
-  border-bottom: rgba(102, 102, 102, 0.25) 3px solid;
-  width: 180px;
-  padding: 20px;
-}
+
+
 

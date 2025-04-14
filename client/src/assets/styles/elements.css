@@ -5,3 +5,23 @@
     width: 180px;
     padding: 20px;
   }
+
+  .title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 663px;
+    height: 87px;
+    padding-top: 60px;
+    padding-bottom:34px;
+  }
+
+  .title {
+    font-size: var(--font-size-title);
+    font-family: var(--font-secondary);
+    font-weight: var(--font-primary-weight);
+    font-style: var(--font-primary-style);
+    
+  
+  }

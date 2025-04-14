@@ -1,4 +1,6 @@
 @import '../styles/fonts/fonts.css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
 
 :root {
     --font-primary: 'Poppins', sans-serif;
@@ -14,13 +16,5 @@
     --font-size-small: 16px;
 
     --color-purple: #6710E0;
-}
-
-.divider {
-  
-  display: flex;
-  border-bottom: rgba(102, 102, 102, 0.25) 3px solid;
-  width: 180px;
-  padding: 20px;
 }
   
