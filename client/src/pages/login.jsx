@@ -14,8 +14,9 @@ export function Login() {
     return (
         
         <div className="lg-container">
-            <Background elipseTop={"bk-circle-blur-topRight"} 
-            elipseBottom={"bk-circle-blur-bottomLeft-big"}>
+            <Background elipseTop={"bk-circle-blur-topRight-md"} 
+            elipseBottom={"bk-circle-blur-bottomLeft-big"} width= {"800px"}
+            height={"1080px"}>
                 <h1 className="bk-title">“A new way <br/> to measure yourself ”</h1>
                 <img src={logoBackground} alt="Background" className="bk-image"/>
             </Background>

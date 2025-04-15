@@ -10,6 +10,7 @@ import Barstep from "../components/Barstep";
 import Button from "../components/button.jsx";
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
+import Background from "../components/background.jsx";
 
 export function SignUpPersonal() {
     const [username, setUsername] = useState("");
@@ -95,6 +96,9 @@ export function SignUpPersonal() {
     
     return (
         <div className="sg-container">
+            <Background elipseTop={"bk-circle-blur-topRight-sq"}
+            elipseBottom={"bk-circle-blur-bottomLeft-medium"} width={"333px"} height={"1150px"}>
+            </Background>
             <Card width={"1100px"} height={"1120px"}>
                 <Header classN={"sg-header"}>
                     <>
