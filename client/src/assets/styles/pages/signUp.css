@@ -17,6 +17,17 @@
     padding: 0px 0px 0px 0px !important;
 }
 
+.sg-icon {
+    height: 28px;
+    width: 28px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.sg-icon:hover {
+    transform: scale(1.1);
+}
+
 .sg-form-container {
     display: flex;
     flex-direction: column;

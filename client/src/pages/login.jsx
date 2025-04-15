@@ -40,7 +40,7 @@ export function Login() {
                     <div className="lg-form-btn-container">
                        
                         <Button className={"bt-purple"} text={"Sign in" } to="/"></Button>
-                        <Button className={"bt-transparent"} text={"Sign up" } to="/Register"></Button>
+                        <Button className={"bt-transparent"} text={"Sign up" } to="/PersonalInfo"></Button>
                       
                     </div>
                 </div>

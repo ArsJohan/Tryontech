@@ -66,6 +66,10 @@
     width: 192px;
 }
 
+.bs-bar-line.active {
+    background-color: #6710E0; /* Color de la línea activa */
+    transition: background-color 0.3s ease;
+}
 .bs-bar-step.active {
     color: #6710E0; /* Color del paso activo */
     font-weight: bold;

@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from "react";
-import Card from "../components/card";
-import { Header } from "../components/header";
+import Card from "../components/card.jsx";
+import { Header } from "../components/header.jsx";
 import arrowLeft from "../assets/images/arrow-left.svg";
-import Footer from "../components/footer";
-import Title from "../components/title";
+import Footer from "../components/footer.jsx";
+import Title from "../components/title.jsx";
 import "../assets/styles/elements.css";
 import "../assets/styles/pages/signUp.css";
-import Barstep from "../components/Barstep";
+import Barstep from "../components/Barstep.jsx";
 import Button from "../components/button.jsx";
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
@@ -218,7 +218,7 @@ export function SignUpPersonal() {
                     <Button
                             className={isFormComplete ? "bt-purple" : "bt-disabled"}
                             text={"Next"}
-                            to={isFormComplete ? "/register-mesures" : "#"}
+                            to={isFormComplete ? "/Measures" : "#"}
                             width={"255px"}
                         />
                     </Barstep>
