@@ -1,6 +1,7 @@
-import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import Login from '../pages/Login.jsx';
+import Login from '../pages/login.jsx';
+import { SignUpPersonal } from '../pages/singUpPersonal.jsx';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -18,13 +19,16 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
+          {/* Ruta por defecto que redirige a /login */}
+          <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/PersonalInfo" element={<SignUpPersonal/>}/>
         {/*<Route path="/" element={
           <ProtectedRoute>
             <FittingRoom />
           </ProtectedRoute>
         } />*/}
-        <Route path="*" element={null} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   );
