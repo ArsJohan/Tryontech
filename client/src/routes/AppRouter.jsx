@@ -22,7 +22,7 @@ const AppRouter = () => {
           {/* Ruta por defecto que redirige a /login */}
           <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<SignUpPersonal/>}/>
+        <Route path="/PersonalInfo" element={<SignUpPersonal/>}/>
         {/*<Route path="/" element={
           <ProtectedRoute>
             <FittingRoom />
