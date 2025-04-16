@@ -32,6 +32,84 @@
     transform: scale(1.1);
 }
 
+
+
+.sg-popup-header {
+    display: grid;
+    grid-template-columns: 20fr 1fr; /* Dos columnas */
+    gap: 2px; /* Espaciado entre columnas */
+    width: 826px;
+    height: 56px;
+}
+
+.sg-popup-title{
+    font-family: 'Heading', sans-serif;
+    font-weight: bold;
+    color: #6710E0;
+}
+.sg-popup-subtitle{
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    font-size: 32px;
+    padding-left: 24px;
+}
+
+.sg-popup-option{
+    font-family: 'Inter', sans-serif;
+    font-weight:normal;
+    font-size: var(--font-size-small) ;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+.sg-popup-option.active {
+    font-weight: bold;
+    color: #6710E0; /* Morado */
+}
+
+.divider-h.active {
+    border-color: #6710E0; /* Morado */
+}
+.sg-popup-text {
+    font-family: 'Inter', sans-serif;
+    font-weight:normal;
+    font-size: var(--font-size-small) ;
+    padding-left: 57px;
+}
+
+.sg-popup-body{
+    display: flex;
+    flex-direction: row;
+    width: 791px;
+    height: 520px;
+    align-items: center;
+    justify-content: center;
+}
+.sg-popup-content-img{
+    width: 430px;
+    height: 301px;
+    display: block;
+
+}
+.sg-popup-content {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    align-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.sg-popup-content-guide {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    height: auto;
+    margin-bottom: auto;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+
 .sg-form-container {
     display: flex;
     flex-direction: column;
@@ -41,24 +119,6 @@
     margin-bottom: auto;
     padding-left: 133px;
 }
-
-.sg-popup-header {
-    display: grid;
-    grid-template-columns: 4fr 1fr; /* Dos columnas */
-    gap: 2px; /* Espaciado entre columnas */
-    width: 826px;
-    height: 56px;
-
-}
-.sg-popup-content {
-    display: grid;
-    grid-template-columns: 3fr 2fr; /* Dos columnas */
-    grid-template-rows: 2fr 2fr; /* Una fila */
-    gap: 2px; /* Espaciado entre filas y columnas */
-    width: 791px;
-    height: 520px;
-}
-
 
 .sg-form-title-container {
     display: flex;

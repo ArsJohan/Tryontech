@@ -8,6 +8,12 @@ import Button from "../components/button.jsx";
 import Barstep from  "../components/Barstep.jsx";
 import arrowLeft from "../assets/images/arrow-left.svg";
 import rowUp from "../assets/images/row-up.svg";
+import oneCircle from "../assets/images/one.svg";
+import twoCircle from "../assets/images/two.svg";
+import threeCircle from "../assets/images/three.svg";
+import fourCircle from "../assets/images/four.svg";
+import womenLeg from "../assets/images/women-guide-leg.png";
+import womenTrunk from "../assets/images/women-guide-trunk.png";
 import Title from "../components/title.jsx";
 import '../assets/styles/elements.css';
 
@@ -40,6 +46,9 @@ export function SignUpMeasures() {
     const [isFormComplete, setIsFormComplete] = useState(false);
     const [isTermsAccepted, setIsTermsAccepted] = useState(false);
     const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
+    const [currentImage, setCurrentImage] = useState(womenTrunk);
+    const [isLabelTrunk, setLabelTrunk] = useState(true); // Estado para mostrar las etiquetas de trunk o legs
 
     const handleMeasurementChange = (e) => {
         const { name, value } = e.target;
@@ -69,6 +78,22 @@ export function SignUpMeasures() {
         checkFormCompletion();
     }, [measurements, warnings, isTermsAccepted]);
 
+    const handleTrunkClick = () => {
+        setCurrentImage(womenTrunk); // Cambia la imagen a womenTrunk
+        setLabelTrunk(true); // Cambia el estado para mostrar las etiquetas de trunk    
+    };
+    
+    const handleLegsClick = () => {
+        setCurrentImage(womenLeg); // Cambia la imagen a womenLeg
+        setLabelTrunk(false); // Cambia el estado para mostrar las etiquetas de legs
+    };
+    const handleClosePopup = () => {
+        setIsClosing(true); // Activa la animación de cierre
+        setTimeout(() => {
+            setIsPopupVisible(false); // Oculta el popup después de la animación
+            setIsClosing(false); // Resetea el estado de cierre
+        }, 300); // La duración debe coincidir con la animación CSS
+    };
     return (
         <div className="sg-container">
               <Background elipseTop={"bk-circle-blur-topRight-sq"}
@@ -121,15 +146,105 @@ export function SignUpMeasures() {
                     </div>
                     {isPopupVisible && (
 
-                        <Card width={"862px"} height={"662px"} z_index={1000} position={"fixed"}>
+                        <Card width={"862px"} height={"662px"} z_index={1000} position={"fixed"} closing={isClosing ? "closing" : "" } transform={"translateY(0)"}>
                                 <div className="sg-popup-header">
                                     <h1 className="sg-popup-title">How to Measure?</h1>
-                                    <div className="sg-popup-close" onClick={() => setIsPopupVisible(false)}>
-                                        <img src={rowUp}></img>
+                                    <div className="sg-popup-close" onClick={handleClosePopup}>
+                                        <img src={rowUp} className="sg-icon"></img>
                                     </div>
                                 </div>
+                                <div className="sg-popup-body">
+                                    <div className="sg-popup-content-img">
+                                            <img src={currentImage} alt="Measutement Guide"></img>
+                                            <div className="sg-popup-content-guide" style={{ justifyContent: "space-evenly" }}>
+                                                <div
+                                                    className={`divider-h ${currentImage === womenTrunk ? "active" : ""}`}
+                                                    style={{ width: "98px", paddingLeft: "10px", paddingTop: "0px", cursor: "pointer" }}
+                                                    onClick={handleTrunkClick}
+                                                ></div>
+                                                <div
+                                                    className={`divider-h ${currentImage === womenLeg ? "active" : ""}`}
+                                                    style={{ width: "98px", paddingLeft: "10px", paddingTop: "0px", cursor: "pointer" }}
+                                                    onClick={handleLegsClick}
+                                                ></div>
+                                            </div>
+                                        <div className="sg-popup-content-guide" style={{ justifyContent: "space-evenly" }}>
+                                            <p
+                                                className={`sg-popup-option ${currentImage === womenTrunk ? "active" : ""}`}
+                                                onClick={handleTrunkClick}
+                                                style={{ cursor: "pointer" }}
+                                            >
+                                                Trunk
+                                            </p>
+                                            <p
+                                                className={`sg-popup-option ${currentImage === womenLeg ? "active" : ""}`}
+                                                onClick={handleLegsClick}
+                                                style={{ cursor: "pointer" }}
+                                            >
+                                                Legs
+                                            </p>
+                                        </div>
+                                        
+                                            
+                                    </div>
+                                    {isLabelTrunk && (
+                                        <div className="sg-popup-content">
+                                            <div className="sg-popup-content-guide">
+                                                <img src={oneCircle}></img>
+                                                <h2 className="sg-popup-subtitle">ARM LENGTH</h2>
+                                                <a className="sg-popup-text">
+                                                Measure from the shoulder seam down to your wrist.
+                                                </a>
+                                            </div>
+                                            <div className="sg-popup-content-guide">
+                                                <img src={twoCircle}></img>
+                                                <h2 className="sg-popup-subtitle">CHEST</h2>
+                                                <a className="sg-popup-text">
+                                                Wrap the tape around the fullest part of your chest, keeping it level.
+                                                </a>
+                                            </div>
+                                            <div className="sg-popup-content-guide">
+                                                <img src={threeCircle}></img>
+                                                <h2 className="sg-popup-subtitle">WAIST</h2>
+                                                <a className="sg-popup-text">
+                                                Measure around the widest part of your hips, keeping the tape snug but not tight.
+                                                </a>
+                                            </div>
+                                            <div className="sg-popup-content-guide">
+                                                <img src={fourCircle}></img>
+                                                <h2 className="sg-popup-subtitle">BOTTOM HIP</h2>
+                                                <a className="sg-popup-text">
+                                                    Measure around the lower part of your hips, just above the thighs.
+                                                </a>
+                                            </div>
+                                         </div>
+                                    )}
+                            {!isLabelTrunk && (
                                 <div className="sg-popup-content">
+                                     <div className="sg-popup-content-guide">
+                                         <img src={oneCircle}></img>
+                                         <h2 className="sg-popup-subtitle">WAIST</h2>
+                                         <a className="sg-popup-text">
+                                         Measure around the widest part of your hips, keeping the tape snug but not tight.
+                                         </a>
+                                     </div>
+                                        <div className="sg-popup-content-guide">
+                                            <img src={twoCircle}></img>
+                                            <h2 className="sg-popup-subtitle">BOTTOM HIP</h2>
+                                            <a className="sg-popup-text">
+                                                Measure around the lower part of your hips, just above the thighs.
+                                            </a>
+                                        </div>
+                                        <div className="sg-popup-content-guide">
+                                            <img src={threeCircle}></img>
+                                            <h2 className="sg-popup-subtitle">LEG LENGTH</h2>
+                                            <a className="sg-popup-text">
+                                            Measure from the top of your inner thigh down to your ankle.                                            
+                                            </a>
+                                        </div>
                                 </div>
+                            )}
+                            </div>
                         
                         </Card>
 
