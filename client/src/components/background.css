@@ -4,14 +4,11 @@
 .bk-container {
     display: flex;
     position: relative;
-    
     background-color: #282424;
     overflow: hidden;
-    padding-top: 0%;
+    padding: 20px;
     border-radius: 10px;
-
-    
-
+    height: 100%;
 }
 
 .bk-title{

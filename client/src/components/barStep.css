@@ -9,13 +9,11 @@
     margin: auto 0 0 0;
     padding: 0 20px;
     position: relative;
-    right: 16px;
 }
 
 .bs-bar-step-container {
     display: flex;
     align-items: start;
-    width: 100%;
     max-width: 600px;
     padding: 43px 0 60px 0;
     position: relative;

@@ -21,7 +21,7 @@ export function Login() {
                 <img src={logoBackground} alt="Background" className="bk-image"/>
             </Background>
 
-            <Card width={ "874px"} height={ "1040px"}>
+            <Card width={ "874px"} height={ "1080px"}>
                 <header className="lg-header">
                     
                     <Link to="" className="logout">
@@ -39,7 +39,7 @@ export function Login() {
                     <Link to="forgot" className="lg-form-forgot">Forgot your password?</Link>
                     <div className="lg-form-btn-container">
                        
-                        <Button className={"bt-purple"} text={"Sign in" } to="/"></Button>
+                        <Button className={"bt-purple-lg"} text={"Sign in" } to="/"></Button>
                         <Button className={"bt-transparent"} text={"Sign up" } to="/PersonalInfo"></Button>
                       
                     </div>

@@ -7,11 +7,10 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: auto;
-  height: auto;
-  margin-left: 200px;
-  margin-right: 200px;
-
+  height: 100%;
+  transform: scale(0.656);
+  position: fixed;
+  left: -201px;
 }
 
 
@@ -26,6 +25,7 @@
   .logout .icon {
     height: 49px;
     width: 62px;
+    padding-top: 20px;
     cursor: pointer;
     transition: transform 0.2s ease;
   }
@@ -139,7 +139,7 @@
    width: fit-content;
 }
 
-.bt-purple {
+.lg-bt-purple {
   position:relative;
   z-index: 1;
   right: -40px;

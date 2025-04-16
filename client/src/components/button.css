@@ -12,6 +12,7 @@
     width: 304px;
     height: 64px;
     border-color: var(--color-purple);
+    transition: background-color 0.3s ease;
     
 }
 

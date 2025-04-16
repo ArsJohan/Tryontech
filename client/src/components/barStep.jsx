@@ -2,9 +2,9 @@ import React from "react";
 import './barstep.css';
 
 
-export function Barstep({ step, children }) {
+export function Barstep({ step, children, positionRight, positionLeft }) {
     return (    
-        <div className="bs-container">
+        <div className="bs-container" style={{ left: positionLeft, right: positionRight }}>
             <div className="bs-bar-step-container">
                 <div className={`bs-bar-step ${step >= 1 ? "active" : ""}`}>
                     <div className="bs-circle-bar-step"></div>

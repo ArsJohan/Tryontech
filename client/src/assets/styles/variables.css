@@ -17,4 +17,8 @@
 
     --color-purple: #6710E0;
 }
+
+html {
+   display: flex;
+}
   

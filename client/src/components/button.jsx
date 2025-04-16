@@ -10,7 +10,7 @@ export function Button({ className,text, to, width }) {
     };
 
     return (
-        <button className={className} onClick={handleClick} style={{ width: width }}>
+        <button className={className} onClick={handleClick} style={{ width: width, right: "None !important", position: "None"  }}>
             {text}
         </button>
     );
