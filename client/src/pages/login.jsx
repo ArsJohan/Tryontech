@@ -39,8 +39,8 @@ export function Login() {
                     <Link to="forgot" className="lg-form-forgot">Forgot your password?</Link>
                     <div className="lg-form-btn-container">
                        
-                        <Button className={"bt-purple-lg"} text={"Sign in" } to="/"></Button>
-                        <Button className={"bt-transparent"} text={"Sign up" } to="/PersonalInfo"></Button>
+                        <Button className={"bt-purple"} text={"Sign in" } to="/" position={"relative"} zindex={"2"} right={"-40px"}></Button>
+                        <Button className={"bt-transparent"} text={"Sign up" } to="/PersonalInfo" position={"absolute"} zindex={"1"}></Button>
                       
                     </div>
                 </div>
