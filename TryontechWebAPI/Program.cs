@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using TryontechWebAPI.Models;
+//using TryontechWebAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 // Add DBContext
-builder.Services.AddDbContext<TryontechContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+//builder.Services.AddDbContext<TryontechContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
