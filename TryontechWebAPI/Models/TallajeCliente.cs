@@ -27,7 +27,7 @@ public partial class TallajeCliente
 
     public string? TipoCuerpo { get; set; }
 
-    public int? IdCliente { get; set; }
+    public int IdCliente { get; set; }
 
     public virtual Cliente? IdClienteNavigation { get; set; }
 }
