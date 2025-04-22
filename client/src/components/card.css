@@ -13,7 +13,7 @@
 }
 
 .cd-card.closing {
-    transform: translateY(-10%); /* Mueve el popup ligeramente hacia arriba */
+    transform: translateX(-50%) translateY(100%); /* Mueve el popup ligeramente hacia arriba */
     height: 0; /* Reduce la altura a 0 */
     opacity: 0; /* Reduce la opacidad a 0 */
     padding: 0; /* Elimina el padding para que se colapse completamente */
