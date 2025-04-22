@@ -85,7 +85,7 @@ namespace TryontechWebAPI.Clases
             return DBTryOnTech.TallajeClientes.FirstOrDefault(p => p.Id == Id); // Se verifica que existe en la base de datos
 
         }
-        public Cliente ConsultarCliente(int Id)
+        public Cliente ConsultarCliente(int? Id)
         {
             return DBTryOnTech.Clientes.FirstOrDefault(p => p.Id == Id); // Se verifica que existe en la base de datos
 
