@@ -7,9 +7,9 @@ public partial class ColorPrendum
 {
     public int Id { get; set; }
 
-    public string? Nombre { get; set; }
+    public string Nombre { get; set; } = null!;
 
-    public bool? Activo { get; set; }
+    public bool Activo { get; set; }
 
     public virtual ICollection<Prendum> Prenda { get; set; } = new List<Prendum>();
 }
