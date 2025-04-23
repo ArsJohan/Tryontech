@@ -27,5 +27,6 @@ public partial class TallajeCliente
 
     public int IdCliente { get; set; }
 
+
     public virtual Cliente IdClienteNavigation { get; set; } = null!;
 }
