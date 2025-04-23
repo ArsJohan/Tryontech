@@ -47,13 +47,13 @@ public partial class TryontechContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=JOHAN\\SQLEXPRESS;Database=DBTryOnTech;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=johan\\SQLEXPRESS;Database=DBTryOnTech;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BolsaPrendum>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Bolsa_Pr__3213E83F6CF4472E");
+            entity.HasKey(e => e.Id).HasName("PK__Bolsa_Pr__3213E83F66FA4ABD");
 
             entity.ToTable("Bolsa_Prenda");
 
@@ -64,16 +64,18 @@ public partial class TryontechContext : DbContext
 
             entity.HasOne(d => d.IdClienteNavigation).WithMany(p => p.BolsaPrenda)
                 .HasForeignKey(d => d.IdCliente)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Bolsa_Pre__id_cl__5535A963");
 
             entity.HasOne(d => d.IdPrendaNavigation).WithMany(p => p.BolsaPrenda)
                 .HasForeignKey(d => d.IdPrenda)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Bolsa_Pre__id_pr__5629CD9C");
         });
 
         modelBuilder.Entity<Cliente>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Cliente__3213E83FC5D6C88D");
+            entity.HasKey(e => e.Id).HasName("PK__Cliente__3213E83FD4C691C3");
 
             entity.ToTable("Cliente");
 
@@ -88,16 +90,18 @@ public partial class TryontechContext : DbContext
 
             entity.HasOne(d => d.IdModeloNavigation).WithMany(p => p.Clientes)
                 .HasForeignKey(d => d.IdModelo)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Cliente__id_mode__4CA06362");
 
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Clientes)
                 .HasForeignKey(d => d.IdUsuario)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Cliente__id_usua__4BAC3F29");
         });
 
         modelBuilder.Entity<ColorPrendum>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ColorPre__3213E83FD174A76C");
+            entity.HasKey(e => e.Id).HasName("PK__ColorPre__3213E83F387E5CF7");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Activo).HasColumnName("activo");
@@ -109,7 +113,7 @@ public partial class TryontechContext : DbContext
 
         modelBuilder.Entity<Informe>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Informe__3213E83F63AD3EA8");
+            entity.HasKey(e => e.Id).HasName("PK__Informe__3213E83F52CEEDA4");
 
             entity.ToTable("Informe");
 
@@ -128,7 +132,7 @@ public partial class TryontechContext : DbContext
 
         modelBuilder.Entity<Modelo>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Modelo__3213E83FE83BB5B3");
+            entity.HasKey(e => e.Id).HasName("PK__Modelo__3213E83F9D66FA45");
 
             entity.ToTable("Modelo");
 
@@ -151,7 +155,7 @@ public partial class TryontechContext : DbContext
 
         modelBuilder.Entity<Prendum>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Prenda__3213E83FA16C32E5");
+            entity.HasKey(e => e.Id).HasName("PK__Prenda__3213E83F8D45BCA4");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Activo).HasColumnName("activo");
@@ -171,16 +175,18 @@ public partial class TryontechContext : DbContext
 
             entity.HasOne(d => d.IdColorNavigation).WithMany(p => p.Prenda)
                 .HasForeignKey(d => d.IdColor)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Prenda__id_color__3C69FB99");
 
             entity.HasOne(d => d.IdTipoNavigation).WithMany(p => p.Prenda)
                 .HasForeignKey(d => d.IdTipo)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Prenda__id_tipo__3B75D760");
         });
 
         modelBuilder.Entity<ProbadorPrenda>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Probador__3213E83F08641721");
+            entity.HasKey(e => e.Id).HasName("PK__Probador__3213E83F26DB4328");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.AjusteCadera).HasColumnName("ajuste_cadera");
@@ -195,7 +201,7 @@ public partial class TryontechContext : DbContext
 
         modelBuilder.Entity<Recomendacion>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Recomend__3213E83FE5898075");
+            entity.HasKey(e => e.Id).HasName("PK__Recomend__3213E83FCDE7C5C9");
 
             entity.ToTable("Recomendacion");
 
@@ -210,16 +216,18 @@ public partial class TryontechContext : DbContext
 
             entity.HasOne(d => d.IdClienteNavigation).WithMany(p => p.Recomendacions)
                 .HasForeignKey(d => d.IdCliente)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Recomenda__id_cl__5BE2A6F2");
 
             entity.HasOne(d => d.IdTallaNavigation).WithMany(p => p.Recomendacions)
                 .HasForeignKey(d => d.IdTalla)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Recomenda__id_ta__5AEE82B9");
         });
 
         modelBuilder.Entity<Review>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Review__3213E83FB8468F58");
+            entity.HasKey(e => e.Id).HasName("PK__Review__3213E83F4A325D67");
 
             entity.ToTable("Review");
 
@@ -231,12 +239,13 @@ public partial class TryontechContext : DbContext
 
             entity.HasOne(d => d.IdClienteNavigation).WithMany(p => p.Reviews)
                 .HasForeignKey(d => d.IdCliente)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Review__id_clien__4F7CD00D");
         });
 
         modelBuilder.Entity<Talla>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Talla__3213E83F2A6F9377");
+            entity.HasKey(e => e.Id).HasName("PK__Talla__3213E83FC2706F6B");
 
             entity.ToTable("Talla");
 
@@ -249,7 +258,7 @@ public partial class TryontechContext : DbContext
 
         modelBuilder.Entity<Tallaje>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Tallaje__3213E83F86E1D914");
+            entity.HasKey(e => e.Id).HasName("PK__Tallaje__3213E83F7781B988");
 
             entity.ToTable("Tallaje");
 
@@ -271,12 +280,13 @@ public partial class TryontechContext : DbContext
 
             entity.HasOne(d => d.IdTallaNavigation).WithMany(p => p.Tallajes)
                 .HasForeignKey(d => d.IdTalla)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Tallaje__id_tall__412EB0B6");
         });
 
         modelBuilder.Entity<TallajeCliente>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__TallajeC__3213E83F07136E6A");
+            entity.HasKey(e => e.Id).HasName("PK__TallajeC__3213E83F208CE4C2");
 
             entity.ToTable("TallajeCliente");
 
@@ -294,12 +304,13 @@ public partial class TryontechContext : DbContext
 
             entity.HasOne(d => d.IdClienteNavigation).WithMany(p => p.TallajeClientes)
                 .HasForeignKey(d => d.IdCliente)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__TallajeCl__id_cl__52593CB8");
         });
 
         modelBuilder.Entity<TallajePrendum>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__TallajeP__3213E83F8F93B5BD");
+            entity.HasKey(e => e.Id).HasName("PK__TallajeP__3213E83FC5A8AA48");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.IdPrenda).HasColumnName("id_prenda");
@@ -311,16 +322,18 @@ public partial class TryontechContext : DbContext
 
             entity.HasOne(d => d.IdPrendaNavigation).WithMany(p => p.TallajePrenda)
                 .HasForeignKey(d => d.IdPrenda)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__TallajePr__id_pr__440B1D61");
 
             entity.HasOne(d => d.IdTallajeNavigation).WithMany(p => p.TallajePrenda)
                 .HasForeignKey(d => d.IdTallaje)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__TallajePr__id_ta__44FF419A");
         });
 
         modelBuilder.Entity<TipoPrendum>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__TipoPren__3213E83FE6B047BE");
+            entity.HasKey(e => e.Id).HasName("PK__TipoPren__3213E83F1CA600C0");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Activo).HasColumnName("activo");
@@ -332,15 +345,12 @@ public partial class TryontechContext : DbContext
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Usuario__3213E83F608FF7B5");
+            entity.HasKey(e => e.Id).HasName("PK__Usuario__3213E83FF5069A5C");
 
             entity.ToTable("Usuario");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Estado)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("estado");
+            entity.Property(e => e.Estado).HasColumnName("estado");
             entity.Property(e => e.Password)
                 .HasMaxLength(50)
                 .IsUnicode(false)
