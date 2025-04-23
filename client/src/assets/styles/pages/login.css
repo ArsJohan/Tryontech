@@ -1,6 +1,33 @@
 @import '../../styles/variables.css';
 
 
+.lg-form-password-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.lg-form-password-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.lg-form-hide-text {
+  font-size: var(--font-size-label);
+  font-family: var(--font-primary);
+  font-weight: var(--font-primary-weight-bold); ;
+  font-style: var(--font-primary-style);
+  color: #666666;
+  cursor: pointer;
+}
+
+.lg-form-password-icon {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
 
 
 .lg-container {

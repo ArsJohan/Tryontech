@@ -34,7 +34,14 @@ export function Login() {
                     <h1 className="lg-form-title">Sign in</h1>
                     <label htmlFor="Email" className="lg-form-lb-user">Email</label>
                     <input type="email" id="Email" className="lg-form-username" placeholder="Example@gmail.com"/>
-                    <label htmlFor="Password" className="lg-form-lb-password">Password</label>
+                        
+                        <div className="lg-form-password-container">
+                            <label htmlFor="Password" className="lg-form-lb-password">Password</label>
+                            <div className="lg-form-password-toggle">
+                            <span className="lg-form-hide-text">Hide</span>
+                            <img src="" alt="Toggle Password Visibility" className="lg-form-password-icon" />
+                        </div>
+                    </div>
                     <input type="password" id="Password" className="lg-form-password" placeholder="*****"/>
                     <Link to="forgot" className="lg-form-forgot">Forgot your password?</Link>
                     <div className="lg-form-btn-container">
