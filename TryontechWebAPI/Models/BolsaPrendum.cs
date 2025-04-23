@@ -9,11 +9,11 @@ public partial class BolsaPrendum
 
     public int? NumeroPrendas { get; set; }
 
-    public int? IdPrenda { get; set; }
+    public int IdPrenda { get; set; }
 
-    public int? IdCliente { get; set; }
+    public int IdCliente { get; set; }
 
-    public virtual Cliente? IdClienteNavigation { get; set; }
+    public virtual Cliente IdClienteNavigation { get; set; } = null!;
 
-    public virtual Prendum? IdPrendaNavigation { get; set; }
+    public virtual Prendum IdPrendaNavigation { get; set; } = null!;
 }
