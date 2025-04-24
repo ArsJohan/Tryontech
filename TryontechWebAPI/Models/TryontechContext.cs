@@ -100,7 +100,7 @@ public partial class TryontechContext : DbContext
         });
 
         modelBuilder.Entity<ColorPrendum>(entity =>
-        {<
+        {
             entity.HasKey(e => e.Id).HasName("PK__ColorPre__3213E83F23460B19");
 
             entity.Property(e => e.Id).HasColumnName("id");
