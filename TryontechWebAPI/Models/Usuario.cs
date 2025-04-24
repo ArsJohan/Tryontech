@@ -21,5 +21,6 @@ public partial class Usuario
 
     public string Salt { get; set; } = null!;
 
+
     public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
 }
