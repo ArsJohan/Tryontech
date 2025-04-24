@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Card  from '../components/card.jsx';
 import {Button} from '../components/button.jsx';
 import { Footer } from '../components/footer.jsx';
@@ -9,8 +9,15 @@ import logoBackground from '../assets/images/logo-background.png';
 import '../assets/styles/elements.css';
 import { Link } from 'react-router-dom';
 import Title from '../components/title.jsx';
+import hide from '../assets/images/hide.png';
+import visible from '../assets/images/visible.png';
 
 export function Login() {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
     return (
         
         <div className="lg-container">
@@ -35,14 +42,15 @@ export function Login() {
                     <label htmlFor="Email" className="lg-form-lb-user">Email</label>
                     <input type="email" id="Email" className="lg-form-username" placeholder="Example@gmail.com"/>
                         
-                        <div className="lg-form-password-container">
+                        <div className="lg-form-password-container" onClick={togglePasswordVisibility}>
                             <label htmlFor="Password" className="lg-form-lb-password">Password</label>
                             <div className="lg-form-password-toggle">
-                            <span className="lg-form-hide-text">Hide</span>
-                            <img src="" alt="Toggle Password Visibility" className="lg-form-password-icon" />
-                        </div>
+                                <img src={showPassword ? visible : hide} alt="Toggle Password Visibility" className="lg-form-password-icon" />
+                                <span className="lg-form-hide-text">Hide</span>
+                            
+                            </div>
                     </div>
-                    <input type="password" id="Password" className="lg-form-password" placeholder="*****"/>
+                    <input type={showPassword ? "text" : "password"} id="Password" className="lg-form-password" placeholder="*****"/>
                     <Link to="forgot" className="lg-form-forgot">Forgot your password?</Link>
                     <div className="lg-form-btn-container">
                        

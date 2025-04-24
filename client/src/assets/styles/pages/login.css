@@ -4,7 +4,7 @@
 .lg-form-password-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   margin-bottom: 10px;
 }
 
@@ -24,8 +24,8 @@
 }
 
 .lg-form-password-icon {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
 }
 
@@ -88,7 +88,6 @@
     font-weight: var(--font-primary-weight-bold); ;
     font-style: var(--font-primary-style);
     padding-top: 40px;
-    padding-bottom: 10px;
     color: #666666;
 }
 .lg-form-lb-user {
