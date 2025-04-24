@@ -33,9 +33,9 @@ public partial class Tallaje
 
     public float? Cuello { get; set; }
 
-    public int? IdTalla { get; set; }
+    public int IdTalla { get; set; }
 
-    public virtual Talla? IdTallaNavigation { get; set; }
+    public virtual Talla IdTallaNavigation { get; set; } = null!;
 
     public virtual ICollection<TallajePrendum> TallajePrenda { get; set; } = new List<TallajePrendum>();
 }
