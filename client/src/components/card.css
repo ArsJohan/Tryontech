@@ -1,0 +1,21 @@
+.cd-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 3px 4px 8px rgba(0,0,0,0.1);
+    column-gap: 5px;
+    transition: transform 0.3s ease, opacity 0.3s ease, height 0.3s ease, padding 0.3s ease;
+    opacity: 1;
+}
+
+.cd-card.closing {
+    transform: translateX(-50%) translateY(100%); /* Mueve el popup ligeramente hacia arriba */
+    height: 0; /* Reduce la altura a 0 */
+    opacity: 0; /* Reduce la opacidad a 0 */
+    padding: 0; /* Elimina el padding para que se colapse completamente */
+    overflow: hidden; /* Oculta el contenido mientras se colapsa */
+}
