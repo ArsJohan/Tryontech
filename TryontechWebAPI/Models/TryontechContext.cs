@@ -47,7 +47,7 @@ public partial class TryontechContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=JOHAN\\SQLEXPRESS;Database=DBTryOnTech;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=M4NU_Helper\\DEV;Database=DBTryOnTech;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -55,9 +55,7 @@ public partial class TryontechContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Bolsa_Pr__3213E83F10AA0FAD");
 
-
             entity.ToTable("Bolsa_Prenda");
-
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.IdCliente).HasColumnName("id_cliente");
             entity.Property(e => e.IdPrenda).HasColumnName("id_prenda");
@@ -115,8 +113,6 @@ public partial class TryontechContext : DbContext
         {
 
             entity.HasKey(e => e.Id).HasName("PK__Informe__3213E83F7B7F9632");
-
-
             entity.ToTable("Informe");
 
             entity.Property(e => e.Id).HasColumnName("id");
@@ -134,9 +130,7 @@ public partial class TryontechContext : DbContext
 
         modelBuilder.Entity<Modelo>(entity =>
         {
-
             entity.HasKey(e => e.Id).HasName("PK__Modelo__3213E83F687171EA");
-
 
             entity.ToTable("Modelo");
 
@@ -230,7 +224,6 @@ public partial class TryontechContext : DbContext
 
         modelBuilder.Entity<Review>(entity =>
         {
-
             entity.HasKey(e => e.Id).HasName("PK__Review__3213E83F667D2050");
 
             entity.ToTable("Review");
@@ -310,13 +303,14 @@ public partial class TryontechContext : DbContext
                 .HasForeignKey(d => d.IdCliente)
 
                 .OnDelete(DeleteBehavior.ClientSetNull)
+                
                 .HasConstraintName("FK__TallajeCl__id_cl__534D60F1");
         });
 
         modelBuilder.Entity<TallajePrendum>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__TallajeP__3213E83FD97EB79C");
-
+            
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.IdPrenda).HasColumnName("id_prenda");
             entity.Property(e => e.IdTallaje).HasColumnName("id_tallaje");
