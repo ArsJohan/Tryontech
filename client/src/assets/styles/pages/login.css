@@ -1,0 +1,159 @@
+@import '../../styles/variables.css';
+
+
+
+
+.lg-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: auto;
+  height: auto;
+  margin-left: 200px;
+  margin-right: 200px;
+
+}
+
+
+.lg-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    width: 97%;
+    align-items: flex-end;
+  }
+  
+  .logout .icon {
+    height: 49px;
+    width: 62px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .logout .icon:hover {
+    transform: scale(1.1);
+  }
+
+.lg-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: right;
+    width: auto;
+    height: auto;
+    margin-bottom: auto;
+
+
+}
+
+.lg-form-title {
+    font-size: 32px;
+    font-family: var(--font-primary);
+    font-weight:400; 
+    font-style: var(--font-primary-style);
+    padding-bottom: -20px;
+    
+}
+  
+.lg-form-lb-password {
+    font-size: var(--font-size-label);
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight-bold); ;
+    font-style: var(--font-primary-style);
+    padding-top: 40px;
+    padding-bottom: 10px;
+    color: #666666;
+}
+.lg-form-lb-user {
+    font-size: var(--font-size-label);
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight-bold); ;
+    font-style: var(--font-primary-style);
+    padding-top: 20px;
+    padding-bottom: 10px;
+    color: #666666;
+}
+
+.lg-form-username {
+  width: 665px;
+  height: 56px;
+  border-color: rgba(102, 102, 102, 0.35);
+  border-radius: 10px;
+  padding-left: 24px;
+  font-size: var(--font-size-body);
+
+
+
+}
+.lg-form-username::placeholder {
+  font-size: var(--font-size-small);
+  font-family: var(--font-primary);
+  font-weight: var(--font-primary-weight-bold); 
+  font-style: var(--font-primary-style);
+
+  color: #666666c8;
+
+
+}
+
+.lg-form-password {
+  width: 665px;
+  height: 56px;
+  border-color: rgba(102, 102, 102, 0.35);
+  border-radius: 10px;
+  font-size: var(--font-size-small);
+  font-family: var(--font-primary);
+  font-weight: var(--font-primary-weight-bold); 
+  font-style: var(--font-primary-style);
+  color: #666666c8;
+  padding-left: 24px;
+  font-size: var(--font-size-body);
+
+
+  
+}
+.lg-form-password::placeholder {
+  font-size: var(--font-size-small);
+  font-family: var(--font-primary);
+  font-weight: var(--font-primary-weight-bold); 
+  font-style: var(--font-primary-style);
+
+  color: #666666c8;
+  
+}
+
+.lg-form-forgot {
+    font-size: var(--font-size-label);
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight-bold); 
+    font-style: var(--font-primary-style);
+    color: var(--color-purple);
+    text-align: right;
+    padding-top: 10px;
+    padding-bottom: 25px;
+    padding-right: 20px;
+}
+
+.lg-form-btn-container {
+   position: relative;
+   width: fit-content;
+}
+
+.bt-purple {
+  position:relative;
+  z-index: 1;
+  right: -40px;
+}
+.tb-transparent {
+  position:absolute;
+  z-index: 2;
+
+
+}
+
+
+
+
+
+
+
