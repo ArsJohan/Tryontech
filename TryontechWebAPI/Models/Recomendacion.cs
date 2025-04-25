@@ -7,9 +7,9 @@ public partial class Recomendacion
 {
     public int Id { get; set; }
 
-    public string? Descripcion { get; set; }
+    public string Descripcion { get; set; } = null!;
 
-    public DateOnly? Fecha { get; set; }
+    public DateOnly Fecha { get; set; }
 
     public int IdTalla { get; set; }
 
