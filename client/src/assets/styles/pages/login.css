@@ -1,17 +1,43 @@
 @import '../../styles/variables.css';
 
 
+.lg-form-password-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
+.lg-form-password-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.lg-form-hide-text {
+  font-size: var(--font-size-label);
+  font-family: var(--font-primary);
+  font-weight: var(--font-primary-weight-bold); ;
+  font-style: var(--font-primary-style);
+  color: #666666;
+  cursor: pointer;
+}
+
+.lg-form-password-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
 
 
 .lg-container {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: auto;
-  height: auto;
-  margin-left: 200px;
-  margin-right: 200px;
-
+  height: 100%;
+  transform: scale(0.656);
+  position: fixed;
+  left: -201px;
 }
 
 
@@ -26,6 +52,7 @@
   .logout .icon {
     height: 49px;
     width: 62px;
+    padding-top: 20px;
     cursor: pointer;
     transition: transform 0.2s ease;
   }
@@ -61,7 +88,6 @@
     font-weight: var(--font-primary-weight-bold); ;
     font-style: var(--font-primary-style);
     padding-top: 40px;
-    padding-bottom: 10px;
     color: #666666;
 }
 .lg-form-lb-user {
@@ -139,17 +165,6 @@
    width: fit-content;
 }
 
-.bt-purple {
-  position:relative;
-  z-index: 1;
-  right: -40px;
-}
-.tb-transparent {
-  position:absolute;
-  z-index: 2;
-
-
-}
 
 
 

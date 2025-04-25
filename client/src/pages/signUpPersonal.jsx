@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from "react";
-import Card from "../components/card";
-import { Header } from "../components/header";
+import Card from "../components/card.jsx";
+import { Header } from "../components/header.jsx";
 import arrowLeft from "../assets/images/arrow-left.svg";
-import Footer from "../components/footer";
-import Title from "../components/title";
+import Footer from "../components/footer.jsx";
+import Title from "../components/title.jsx";
 import "../assets/styles/elements.css";
 import "../assets/styles/pages/signUp.css";
-import Barstep from "../components/Barstep";
+import Barstep from "../components/Barstep.jsx";
 import Button from "../components/button.jsx";
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
@@ -97,9 +97,9 @@ export function SignUpPersonal() {
     return (
         <div className="sg-container">
             <Background elipseTop={"bk-circle-blur-topRight-sq"}
-            elipseBottom={"bk-circle-blur-bottomLeft-medium"} width={"333px"} height={"1150px"}>
+            elipseBottom={"bk-circle-blur-bottomLeft-medium"} width={"400px"} height={"1130px"}>
             </Background>
-            <Card width={"1100px"} height={"1120px"}>
+            <Card width={"1100px"} height={"1130px"}>
                 <Header classN={"sg-header"}>
                     <>
                         <img src={arrowLeft} alt="arrow-left" className="sg-icon"/>
@@ -198,6 +198,7 @@ export function SignUpPersonal() {
                                     className="sg-form-checkbox"
                                     name="Sex"
                                     value="Male"
+                                    style={{borderRadius:"10px"}}
                                     onChange={handleSexChange}
                                 />
                                 <label className="sg-form-lb" style={{ paddingLeft: "8px" }}>Male</label>
@@ -207,6 +208,7 @@ export function SignUpPersonal() {
                                     className="sg-form-checkbox"
                                     name="Sex"
                                     value="Female"
+                                    style={{borderRadius:"10px"}}
                                     onChange={handleSexChange}
                                 />
                                 <label className="sg-form-lb" style={{ paddingLeft: "8px" }}>Female</label>
@@ -214,11 +216,11 @@ export function SignUpPersonal() {
                         </div>
                         
                     </div>   
-                    <Barstep step={1}>
-                    <Button
+                    <Barstep step={1} positionRight={"16px"}>
+                        <Button
                             className={isFormComplete ? "bt-purple" : "bt-disabled"}
                             text={"Next"}
-                            to={isFormComplete ? "/register-mesures" : "#"}
+                            to={isFormComplete ? "/Measures" : "#"}
                             width={"255px"}
                         />
                     </Barstep>

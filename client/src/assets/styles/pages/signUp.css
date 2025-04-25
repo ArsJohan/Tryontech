@@ -1,21 +1,114 @@
 @import '../../styles/variables.css';
 
+
 .sg-container{
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: auto;
-    height: auto;
+    height: 100%;
+    transform: scale(0.656);
+    position: absolute;
+    padding: 0 0 0 0;
+    left: -90px;
 }
 
 .sg-header {
     display: flex;
     justify-content: start;
-    width: 90%;
+    width: 87%;
     align-items: center;
-    padding: 0px 0px 0px 0px !important;
+    padding-top: 20px;
 }
+
+.sg-icon {
+    height: 28px;
+    width: 28px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.sg-icon:hover {
+    transform: scale(1.1);
+}
+
+
+
+.sg-popup-header {
+    display: grid;
+    grid-template-columns: 20fr 1fr; /* Dos columnas */
+    gap: 2px; /* Espaciado entre columnas */
+    width: 826px;
+    height: 56px;
+}
+
+.sg-popup-title{
+    font-family: 'Heading', sans-serif;
+    font-weight: bold;
+    color: #6710E0;
+}
+.sg-popup-subtitle{
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    font-size: 32px;
+    padding-left: 24px;
+}
+
+.sg-popup-option{
+    font-family: 'Inter', sans-serif;
+    font-weight:normal;
+    font-size: var(--font-size-small) ;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+.sg-popup-option.active {
+    font-weight: bold;
+    color: #6710E0; /* Morado */
+}
+
+.divider-h.active {
+    border-color: #6710E0; /* Morado */
+}
+.sg-popup-text {
+    font-family: 'Inter', sans-serif;
+    font-weight:normal;
+    font-size: var(--font-size-small) ;
+    padding-left: 57px;
+}
+
+.sg-popup-body{
+    display: flex;
+    flex-direction: row;
+    width: 791px;
+    height: 520px;
+    align-items: center;
+    justify-content: center;
+}
+.sg-popup-content-img{
+    width: 430px;
+    height: 301px;
+    display: block;
+
+}
+.sg-popup-content {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    align-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.sg-popup-content-guide {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    height: auto;
+    margin-bottom: auto;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
 
 .sg-form-container {
     display: flex;
@@ -67,6 +160,45 @@
     justify-content: flex-start;
 }
 
+.sg-form-btn-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+    height: auto;
+    margin-bottom: auto;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.sg-terms-container {
+    display: flex;
+}
+.sg-form-measures {
+    display: grid; /* Usa Grid para organizar los elementos */
+    grid-template-columns: 3fr 3fr 3fr; /* 3 columnas */
+    grid-template-rows: 2fr 2fr 2fr; /* 3 filas */
+    gap: 2px; /* Espaciado entre filas y columnas */
+    width: 1067px;
+    height: 360px;
+
+}
+.sg-measurements-help {
+    display: flex;
+    margin-top: 105px;
+    font-size: 14px;
+    color: #666666;
+    line-height: 1.5;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight);
+    font-style: var(--font-primary-style);
+    flex-direction: row;
+    width: 84%;
+    justify-content: flex-end;
+    margin-right: 25px;
+
+}
+
+
 .sg-form-input-group{
     display: flex;
     flex-direction: column;
@@ -86,10 +218,20 @@
 
 }
 
+.sg-form-lb-bottom{
+    font-size: 14px;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight);
+    font-style: var(--font-primary-style);
+    color: #666666;
+    padding-bottom: 4px;
+
+}
+
+
 .sg-form-input {
     border-color: #6710E0 !important;
     font-size: var(--font-size-body);
-    width: 542px;
     height: 56px !important;
     border-radius: 10px !important;
     padding-left: 24px !important;
@@ -127,7 +269,6 @@
 
 
 .sg-form-checkbox {
-    border-radius: 10px !important;
     width:16px !important;
     height: 16px !important;
     border: 3px solid #6710E0 !important;

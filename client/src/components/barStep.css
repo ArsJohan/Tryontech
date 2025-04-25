@@ -9,13 +9,11 @@
     margin: auto 0 0 0;
     padding: 0 20px;
     position: relative;
-    right: 16px;
 }
 
 .bs-bar-step-container {
     display: flex;
     align-items: start;
-    width: 100%;
     max-width: 600px;
     padding: 43px 0 60px 0;
     position: relative;
@@ -66,6 +64,10 @@
     width: 192px;
 }
 
+.bs-bar-line.active {
+    background-color: #6710E0; /* Color de la línea activa */
+    transition: background-color 0.3s ease;
+}
 .bs-bar-step.active {
     color: #6710E0; /* Color del paso activo */
     font-weight: bold;

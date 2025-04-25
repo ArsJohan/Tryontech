@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Login from '../pages/login.jsx';
-import { SignUpPersonal } from '../pages/singUpPersonal.jsx';
+import { SignUpPersonal } from '../pages/signUpPersonal.jsx';
+import SignUpMeasures from '../pages/signUpMeasures.jsx';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -23,6 +24,7 @@ const AppRouter = () => {
           <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/PersonalInfo" element={<SignUpPersonal/>}/>
+        <Route path="/Measures" element={<SignUpMeasures/>}/>
         {/*<Route path="/" element={
           <ProtectedRoute>
             <FittingRoom />
