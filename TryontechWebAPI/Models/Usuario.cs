@@ -7,17 +7,19 @@ public partial class Usuario
 {
     public int Id { get; set; }
 
-    public string? Username { get; set; }
+    public string Username { get; set; } = null!;
 
-    public string? Password { get; set; }
+    public string Correo { get; set; } = null!;
 
-    public string? Telefono { get; set; }
+    public string Password { get; set; } = null!;
 
-    public string? Rol { get; set; }
+    public string Telefono { get; set; } = null!;
 
-    public string? Estado { get; set; }
+    public string Rol { get; set; } = null!;
 
-    public string? Salt { get; set; }
+    public bool Estado { get; set; }
+
+    public string Salt { get; set; } = null!;
 
     public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
 }
