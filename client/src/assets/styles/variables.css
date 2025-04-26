@@ -1,0 +1,24 @@
+@import '../styles/fonts/fonts.css';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+
+:root {
+    --font-primary: 'Poppins', sans-serif;
+    --font-primary-weight: 400;
+    --font-primary-weight-bold: 500;
+    --font-primary-style: normal;
+    --font-secondary: 'NATS', sans-serif;
+  
+    --font-size-title: 64px;
+    --font-size-subtitle: 18px;
+    --font-size-label: 19px;
+    --font-size-body: 20px;
+    --font-size-small: 16px;
+
+    --color-purple: #6710E0;
+}
+
+html {
+   display: flex;
+}
+  
