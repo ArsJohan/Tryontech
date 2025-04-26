@@ -11,20 +11,16 @@ namespace TryontechWebAPI.Controllers
     [Route("api/profile")]
     public class ProfileController : Controller
     {
-        [HttpPost]
-        [Route("create")]
-        public string CrearCuenta(string username, string password, string telefono, string correo, DateOnly fechaNacimiento, string sexo)
+        [HttpPost("create")]
+        public string CrearCuenta([FromBody] CrearCuentaDto datos)
         {
-            // primero instanciar la clase usuario
-            clsUsuario usuario = new clsUsuario();
-            // crear el usuario
-            Usuario nuevoUsuario = usuario.CrearUsuario(username, password, telefono, correo);
-            // luego instanciar la clase cliente
-            clsCliente cliente = new clsCliente();
-            // crear el cliente
-            string resultado = cliente.InsertarCliente(fechaNacimiento, sexo, nuevoUsuario);
-            return resultado;
+            clsUsuario clsusuario = new clsUsuario();
+            Usuario nuevoUsuario = clsusuario.CrearUsuario(datos.Username, datos.Password, datos.Telefono, datos.Correo);
 
+            clsCliente cliente = new clsCliente();
+            string resultado = cliente.InsertarCliente(datos.FechaNacimiento, datos.Sexo, nuevoUsuario);
+
+            return resultado;
         }
     }
 }

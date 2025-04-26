@@ -1,19 +1,26 @@
-using Microsoft.EntityFrameworkCore;
-//using TryontechWebAPI.Models;
-
 var builder = WebApplication.CreateBuilder(args);
+
+//Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") //My domain fronted
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 
-// Add DBContext
-//builder.Services.AddDbContext<TryontechContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
+app.UseCors("FrontendPolicy"); // Use CORS policy
+app.UseRouting();
+
 
 app.UseAuthorization();
 
