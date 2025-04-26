@@ -8,6 +8,7 @@ public partial class TryontechContext : DbContext
 {
     public TryontechContext()
     {
+
     }
 
     public TryontechContext(DbContextOptions<TryontechContext> options)

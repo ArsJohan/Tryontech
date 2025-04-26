@@ -15,13 +15,9 @@ public partial class Cliente
 
     public int IdUsuario { get; set; }
 
-    public int IdUsuario { get; set; }
-
     public virtual ICollection<BolsaPrendum> BolsaPrenda { get; set; } = new List<BolsaPrendum>();
 
     public virtual Modelo IdModeloNavigation { get; set; } = null!;
-
-    public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
 
     public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
 
