@@ -1,0 +1,413 @@
+@import '../../styles/variables.css';
+
+
+.sg-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    transform: scale(0.656);
+    position: absolute;
+    padding: 0 0 0 0;
+    left: -90px;
+}
+
+.sg-header {
+    display: flex;
+    justify-content: start;
+    width: 87%;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.sg-icon {
+    height: 28px;
+    width: 28px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.sg-icon:hover {
+    transform: scale(1.1);
+}
+
+
+
+.sg-popup-header {
+    display: grid;
+    grid-template-columns: 20fr 1fr; /* Dos columnas */
+    gap: 2px; /* Espaciado entre columnas */
+    width: 826px;
+    height: 56px;
+}
+
+.sg-popup-title{
+    font-family: 'Heading', sans-serif;
+    font-weight: bold;
+    color: #6710E0;
+}
+.sg-popup-subtitle{
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    font-size: 32px;
+    padding-left: 24px;
+}
+
+.sg-popup-option{
+    font-family: 'Inter', sans-serif;
+    font-weight:normal;
+    font-size: var(--font-size-small) ;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+.sg-popup-option.active {
+    font-weight: bold;
+    color: #6710E0; /* Morado */
+}
+
+.divider-h.active {
+    border-color: #6710E0; /* Morado */
+}
+.sg-popup-text {
+    font-family: 'Inter', sans-serif;
+    font-weight:normal;
+    font-size: var(--font-size-small) ;
+    padding-left: 57px;
+}
+
+.sg-popup-body{
+    display: flex;
+    flex-direction: row;
+    width: 791px;
+    height: 520px;
+    align-items: center;
+    justify-content: center;
+}
+.sg-popup-content-img{
+    width: 430px;
+    height: 301px;
+    display: block;
+
+}
+.sg-popup-content {
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    align-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.sg-popup-content-guide {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    height: auto;
+    margin-bottom: auto;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+
+.sg-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: auto;
+    height: auto;
+    margin-bottom: auto;
+    padding-left: 133px;
+}
+
+.sg-form-title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: auto;
+    height:auto;
+    padding-top: 60px;
+    padding-bottom:34px;
+}
+
+.sg-form-title{
+    font-size: 40px;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight-bold);
+    font-style: var(--font-primary-style);
+    margin: 0px;
+}
+
+.sg-form-subtitle{
+    font-size: 13px;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight-bold);
+    font-style: var(--font-primary-style);
+    color: rgba(102, 102, 102, 0.6);
+
+
+}
+
+.sg-form-input-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    height: auto;
+    margin-bottom: auto;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.sg-form-btn-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+    height: auto;
+    margin-bottom: auto;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.sg-terms-container {
+    display: flex;
+}
+.sg-form-measures {
+    display: grid; /* Usa Grid para organizar los elementos */
+    grid-template-columns: 3fr 3fr 3fr; /* 3 columnas */
+    grid-template-rows: 2fr 2fr 2fr; /* 3 filas */
+    gap: 2px; /* Espaciado entre filas y columnas */
+    width: 1067px;
+    height: 360px;
+
+}
+.sg-measurements-help {
+    display: flex;
+    margin-top: 105px;
+    font-size: 14px;
+    color: #666666;
+    line-height: 1.5;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight);
+    font-style: var(--font-primary-style);
+    flex-direction: row;
+    width: 84%;
+    justify-content: flex-end;
+    margin-right: 25px;
+
+}
+
+
+.sg-form-input-group{
+    display: flex;
+    flex-direction: column;
+    padding-right: 54px;
+    padding-top: 31px;
+
+}
+
+.sg-form-lb{
+    font-size: 16px;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight);
+    font-style: var(--font-primary-style);
+    color: #666666;
+    padding-bottom: 4px;
+    padding-right: 32px;
+
+}
+
+.sg-form-lb-bottom{
+    font-size: 14px;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight);
+    font-style: var(--font-primary-style);
+    color: #666666;
+    padding-bottom: 4px;
+
+}
+
+
+.sg-form-input {
+    border-color: #6710E0 !important;
+    font-size: var(--font-size-body);
+    height: 56px !important;
+    border-radius: 10px !important;
+    padding-left: 24px !important;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    font-size: var(--font-size-small) !important;
+    font-family: var(--font-primary) !important;
+    font-weight: var(--font-primary-weight-bold) !important;
+    font-style: var(--font-primary-style) !important;
+    padding-right: 24px;
+}
+
+.sg-form-input::placeholder {
+    font-size: inherit;
+    font-family: inherit;
+    font-weight:inherit;
+    font-style: inherit;
+    
+    color: #666666c8 !important;
+    
+}
+
+
+.sg-form-checkbox-group{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: auto;
+    height: auto;
+    margin-bottom: auto;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+
+.sg-form-checkbox {
+    width:16px !important;
+    height: 16px !important;
+    border: 3px solid #6710E0 !important;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    background-color: #FFFFFF;
+}
+
+.sg-form-checkbox:checked {
+    background-color: #6710E0; /* Cambia el color cuando está seleccionado */
+    border: 2px solid #FFFFFF; /* Agrega un borde blanco al estar seleccionado */
+}
+
+
+
+.sg-form-phone-input {
+    border-color: #6710E0 !important;
+    font-size: var(--font-size-body);
+    width: 592px !important;
+    height: 56px !important;
+    border-radius: 10px !important;
+    padding-left: 110px !important;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    font-size: var(--font-size-small) !important;
+    font-family: var(--font-primary) !important;
+    font-weight: var(--font-primary-weight-bold) !important;
+    font-style: var(--font-primary-style) !important;
+    padding-right: 24px;
+}
+
+.sg-form-phone-input::placeholder {
+    font-size: inherit;
+    font-family: inherit;
+    font-weight:inherit;
+    font-style: inherit;
+    
+    color: #666666c8 !important;
+    
+}
+
+
+/* Contenedor del input */
+.sg-phone-input-container {
+    width: 100% !important;
+    
+}
+/* Botón del país (ícono de la bandera) */
+.sg-phone-button {
+    background-color: transparent !important ;
+    border: none !important;
+    cursor: pointer;
+}
+
+.react-tel-input .selected-flag .flag {
+   left: 34px;
+    transform: scale(2.2);
+}
+
+
+.react-tel-input .country-list{
+    font-family:var(--font-primary) !important;
+    font-weight: var(--font-primary-weight-bold) !important;
+    font-style: var(--font-primary-style) !important;
+}
+
+.react-tel-input .selected-flag:hover {
+    background: transparent !important;
+}
+.react-tel-input .flag-dropdown.open .selected-flag {
+    background: transparent !important;
+    border-radius: 3px 0 0 0;
+}
+.react-tel-input .flag-dropdown.open .selected-flag:hover {
+    background: transparent !important;
+}
+
+/* Placeholder del input */
+.react-tel-input .form-control::placeholder {
+    color: #666666c8;
+    font-size: var(--font-size-small);
+}
+
+/* Requerimientos Contraseña*/
+.password-requirements {
+    margin-top: 10px;
+    display: grid; /* Usa Grid para organizar los elementos */
+    grid-template-columns: 3fr 4fr; /* 2 columnas */
+    gap: 2px; /* Espaciado entre filas y columnas */
+    font-size: 14px;
+    color: #666666;
+    list-style-type: none;
+    padding-left: 0; /* Elimina el padding predeterminado de la lista */
+}
+
+.password-requirements li {
+    position: relative;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight);
+    font-style: var(--font-primary-style);
+    font-size: var(--font-size-small);
+    color: rgba(102, 102, 102, 0.6);
+    text-decoration: none ; /* Asegura que el texto no herede estilos no deseados */
+}
+
+.password-requirements li::before {
+    content: "•"; /* Ícono de no cumplido */
+    color: rgba(102, 102, 102, 0.6); /* Color del ícono */
+    margin-right: 8px;
+    font-size: 30px; /* Tamaño del ícono */
+    text-decoration: none; /* Asegura que el ícono no se tache */
+    display: inline-block; /* Asegura que el ícono se comporte como un elemento independiente */
+    
+}
+
+.password-requirements li.fulfilled {
+    text-decoration: line-through; /* Tacha el texto cuando se cumple */
+    color: green;
+}
+
+.password-requirements li.fulfilled::before {
+    color: green; /* Cambia el color del ícono cuando se cumple */
+    text-decoration: none; /* Asegura que el ícono no se tache */
+    display: inline-block; /* Asegura que el ícono se mantenga independiente */
+}
+
+
+.invalid {
+    border-color: red !important;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight);
+    font-style: var(--font-primary-style);
+    font-size: var(--font-size-small);
+}
