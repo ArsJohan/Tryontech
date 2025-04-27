@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "http": {
+    "TryontechWebAPI": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

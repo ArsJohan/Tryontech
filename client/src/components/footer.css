@@ -1,0 +1,17 @@
+@import '../assets/styles/variables.css';
+
+.cd-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 50px;
+  font-size: var(--font-size-small);
+  gap: 40px;
+  color: #666666;
+  font-family: var(--font-primary);
+  font-weight: var(--font-primary-weight);
+  font-style: var(--font-primary-style);
+  border-top: 1px solid rgba(102, 102, 102, 0.25);
+  padding-top: 10px ;
+  width: 93%;
+}
