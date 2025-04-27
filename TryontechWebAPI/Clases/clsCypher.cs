@@ -15,6 +15,7 @@ namespace TryontechWebAPI.Clases
         private const int HashSize = 32; // 256 bits
         private const int Iterations = 600000;
 
+        // Método para cifrar la contraseña 
         public bool CifrarClave()
         {
             byte[] saltBytes = GenerateSalt();
@@ -23,7 +24,7 @@ namespace TryontechWebAPI.Clases
             return true;
         }
 
-        // Hashing de contraseña seguro
+        // Hashing de contraseña seguro con un salt
         private string HashPassword(string password, byte[] salt)
         {
             using var pbkdf2 = new Rfc2898DeriveBytes(
@@ -36,9 +37,26 @@ namespace TryontechWebAPI.Clases
             return Convert.ToBase64String(hash);
         }
 
+        // Generación de salt aleatorio
         private static byte[] GenerateSalt()
         {
             return RandomNumberGenerator.GetBytes(SaltSize);// asigna numeros aleatorios a la variable salt
+        }
+
+        // Santi: Método para verificar una contraseña ingresada contra un hash almacenado
+        public bool VerifyPassword(string passwordToVerify, string storedHash, string storedSalt)
+        {
+            try
+            {
+                byte[] saltBytes = Convert.FromBase64String(storedSalt);
+                string computedHash = HashPassword(passwordToVerify, saltBytes);
+
+                return computedHash == storedHash;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
