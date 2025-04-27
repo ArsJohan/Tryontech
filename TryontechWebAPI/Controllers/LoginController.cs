@@ -11,7 +11,7 @@ namespace TryontechWebAPI.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/login")]
     public class LoginController : ControllerBase
     {
         private readonly string _jwtSecret = "EstaEsUnaClaveSuperSeguraYMuyLarga1234567890"; // Cambia esto por una clave segura
@@ -27,13 +27,13 @@ namespace TryontechWebAPI.Controllers
         public IActionResult Login([FromBody] LoginRequest request)
         {
             // Validar que los campos no estén vacíos
-            if (string.IsNullOrEmpty(request.Username) || string.IsNullOrEmpty(request.Password))
+            if (string.IsNullOrEmpty(request.Correo) || string.IsNullOrEmpty(request.Password))
             {
                 return BadRequest(new { Message = "El nombre de usuario y la contraseña son obligatorios." });
             }
 
             // Validar las credenciales del usuario
-            if (_clsUsuario.ValidarCredenciales(request.Username, request.Password, out var usuario))
+            if (_clsUsuario.ValidarCredenciales(request.Correo, request.Password, out var usuario))
             {
                 // Generar un token JWT
                 var token = GenerateJwtToken(usuario.Username, usuario.Rol);
@@ -75,7 +75,8 @@ namespace TryontechWebAPI.Controllers
     // Clase para recibir las credenciales de inicio de sesión
     public class LoginRequest
     {
-        public string Username { get; set; }
+        public string Correo { get; set; }
         public string Password { get; set; }
     }
 }
+
