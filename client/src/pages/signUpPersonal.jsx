@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../components/card.jsx";
 import { Header } from "../components/header.jsx";
 import arrowLeft from "../assets/images/arrow-left.svg";
@@ -11,6 +12,8 @@ import Button from "../components/button.jsx";
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import Background from "../components/background.jsx";
+import { crearCuenta } from "../services/userApi.js";
+
 
 export function SignUpPersonal() {
     const [username, setUsername] = useState("");
@@ -94,6 +97,28 @@ export function SignUpPersonal() {
         setBirthdateValue(e.target.value);
     };
     
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log("Hola");
+         // Crear el objeto formData con los valores del formulario
+        const formData = {
+            "Username": username,
+            "Password": password,
+            "Telefono": phoneNumber,
+            "Correo": email,
+            "FechaNacimiento": birthdateValue,
+            "Sexo": selectedSex
+        };
+        try {
+            const response = await crearCuenta(formData);
+            console.log(response.data); 
+            //Navegar a otra página después de crear la cuenta
+            Navigate("/Measures")
+        } catch (error) {
+            console.error("Error creando cuenta", error);
+        }
+    }
+
     return (
         <div className="sg-container">
             <Background elipseTop={"bk-circle-blur-topRight-sq"}
@@ -220,8 +245,9 @@ export function SignUpPersonal() {
                         <Button
                             className={isFormComplete ? "bt-purple" : "bt-disabled"}
                             text={"Next"}
-                            to={isFormComplete ? "/Measures" : "#"}
                             width={"255px"}
+                            onClick={handleSubmit}
+                            disabled={!isFormComplete} // Deshabilitar el botón si el formulario no está completo
                         />
                     </Barstep>
                      

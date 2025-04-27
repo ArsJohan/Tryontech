@@ -6,8 +6,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configurar JWT
-var key = Encoding.UTF8.GetBytes("tryontechlamejoridea"); // clave válida
+// Configurar JWT Sgp
+var key = Encoding.UTF8.GetBytes("EstaEsUnaClaveSuperSeguraYMuyLarga1234567890"); // clave vï¿½lida
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -30,11 +31,15 @@ builder.Services.AddDbContext<TryontechContext>(options =>
 // Agregar controladores
 builder.Services.AddControllers();
 
+
 var app = builder.Build();
 
+app.UseAuthentication(); // Habilitar autenticaciï¿½n Sgp
+// Configure the HTTP request pipeline.
+app.UseCors("FrontendPolicy"); // Use CORS policy
 app.UseRouting();
-// Habilitar autenticación y autorización
-app.UseAuthentication();
+
+
 app.UseAuthorization();
 
 // Mapear controladores
