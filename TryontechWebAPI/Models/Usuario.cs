@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace TryontechWebAPI.Models;
 
@@ -20,6 +21,8 @@ public partial class Usuario
     public bool Estado { get; set; }
 
     public string? Salt { get; set; } = null!;
+
+    [JsonIgnore]
 
     public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
 }
