@@ -52,7 +52,7 @@ namespace TryontechWebAPI.Controllers
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al consultar el cliente: " + ex.Message);
+                throw new Exception("Error fetching client data: " + ex.Message);
             }
         }
     }
