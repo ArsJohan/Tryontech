@@ -5,8 +5,25 @@ namespace TryontechWebAPI.Clases
     public class clsTallajeCliente
     {
         private TryontechContext DBTryOnTech = new TryontechContext();
-        public TallajeCliente tallajeCliente { get; set; }
+        public TallajeClienteDTO tallajeCliente { get; set; }
         public Cliente cliente { get; set; }
+        private TallajeCliente MapToEntity(TallajeClienteDTO dto)
+        {
+            return new TallajeCliente
+            {
+                Id = dto.Id,
+                Hombros = dto.Hombros,
+                Pecho = dto.Pecho,
+                Cintura = dto.Cintura,
+                Cadera = dto.Cadera,
+                LargoPierna = dto.LargoPierna,
+                Cuello = dto.Cuello,
+                LargoBrazo = dto.LargoBrazo,
+                Peso = dto.Peso,
+                Altura = dto.Altura,
+                IdCliente = dto.IdCliente
+            };
+        }
 
         public List<TallajeCliente> ConsultarTodos()
         {
@@ -14,13 +31,16 @@ namespace TryontechWebAPI.Clases
                     .OrderBy(p => p.IdCliente) // Se ordena por el id del cliente
                     .ToList();
         }
-        public string Insertar()
+        public string Insertar(int IdCliente)
         {
             try
             {
-                if(Validar()) // Se valida que los datos sean validos
+                tallajeCliente.IdCliente = IdCliente; // Se asigna el id del cliente al tallaje
+                var tallajeClienteEntidad = MapToEntity(tallajeCliente); // Se mapea el DTO a la entidad
+
+                if (Validar()) // Se valida que los datos sean validos
                 {
-                    DBTryOnTech.TallajeClientes.Add(tallajeCliente); // Se agrega la talla del cliente
+                    DBTryOnTech.TallajeClientes.Add(tallajeClienteEntidad); // Se agrega la talla del cliente
                     DBTryOnTech.SaveChanges();
                     return "Tallaje del cliente agregado correctamente";
                 }
@@ -38,6 +58,7 @@ namespace TryontechWebAPI.Clases
         {
             try
             {
+                var tallajeClienteEntidad = MapToEntity(tallajeCliente); // Se mapea el DTO a la entidad
                 if (Validar()) // Se valida que los datos sean validos
                 {
                     TallajeCliente tallajeCli = Consultar(tallajeCliente.Id); // Se verifica que existe en la base de datos
@@ -45,7 +66,7 @@ namespace TryontechWebAPI.Clases
                     {
                         return "La talla del cliente no existe. No se puede actualizar";
                     }
-                    DBTryOnTech.TallajeClientes.Update(tallajeCliente); // Se actualiza la talla del cliente
+                    DBTryOnTech.TallajeClientes.Update(tallajeClienteEntidad); // Se actualiza la talla del cliente
                     DBTryOnTech.SaveChanges();
                     return "Tallaje del cliente actualizado correctamente";
                 }
@@ -83,12 +104,16 @@ namespace TryontechWebAPI.Clases
         {
             return DBTryOnTech.TallajeClientes.FirstOrDefault(p => p.Id == Id); // Se verifica que existe en la base de datos
         }
-        public string CalcularTipoCuerpo()
+        public string CalcularTipoCuerpo(int IdCliente)
         {
             try
             {
-                clsCliente client = new clsCliente();
-                cliente = client.ConsultarCliente(tallajeCliente.IdCliente); // Se obtiene el cliente del tallaje
+                cliente = DBTryOnTech.Clientes.FirstOrDefault(p => p.Id == IdCliente); // Se obtiene el cliente del tallaje
+
+                if (cliente == null)
+                {
+                    return "Cliente no encontrado"; // Cliente no encontrado
+                }
 
                 if (cliente.Sexo == "Female")
                 {
@@ -157,10 +182,13 @@ namespace TryontechWebAPI.Clases
         {
             try
             {
-                clsCliente client = new clsCliente();
-                cliente = client.ConsultarCliente(tallajeCliente.IdCliente); // Se obtiene el cliente del tallaje
-
+                cliente = DBTryOnTech.Clientes.FirstOrDefault(p => p.Id == tallajeCliente.IdCliente); // Se obtiene el cliente del tallaje
+                if (cliente == null)
+                {
+                    return false; // Cliente no encontrado
+                }
                 string sexo = cliente.Sexo;
+
                 if (ValidarPecho(sexo) && 
                     ValidarBrazo(sexo) && 
                     ValidarCuello(sexo) && 

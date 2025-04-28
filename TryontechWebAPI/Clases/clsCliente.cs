@@ -66,9 +66,17 @@ namespace TryontechWebAPI.Clases
 
             return edad >= 18 && edad <= 100;
         }
-        public Cliente ConsultarCliente(int? Id)
+        public Cliente ConsultarCliente(int Id)
         {
-            return DBTryOnTech.Clientes.FirstOrDefault(p => p.Id == Id); // Se verifica que existe en la base de datos
+            try
+            {
+                var cliente = DBTryOnTech.Clientes.FirstOrDefault(p => p.Id == Id); // Se verifica que existe en la base de datos
+                return cliente;
+            }
+            catch 
+            {
+                return null; // Si no existe, se retorna null
+            }
 
         }
 
@@ -95,5 +103,48 @@ namespace TryontechWebAPI.Clases
             }
         }
 
+        // Método para consultar el cliente por correo
+        public Cliente ConsultarClienteXCorreo(string correo)
+        {
+            try
+            {
+                var usuario = DBTryOnTech.Usuarios.FirstOrDefault(u => u.Correo == correo); // Se busca el usuario por correo
+                if (usuario != null)
+                {
+                    cliente = DBTryOnTech.Clientes.FirstOrDefault(c => c.IdUsuario == usuario.Id); // Se busca el cliente por el IdUsuario
+                    return cliente;
+                }
+                else
+                {
+                    return null; // Usuario no encontrado
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al consultar el cliente por correo: " + ex.Message);
+            }
+        }
+
+        // Método para consultar el IdCliente por correo
+        public int ConsultarIdClienteXCorreo(string correo)
+        {
+            try
+            {
+                var usuario = DBTryOnTech.Usuarios.FirstOrDefault(u => u.Correo == correo); // Se busca el usuario por correo
+                if (usuario != null)
+                {
+                    cliente = DBTryOnTech.Clientes.FirstOrDefault(c => c.IdUsuario == usuario.Id); // Se busca el cliente por el IdUsuario
+                    return cliente.Id; // Se retorna el IdCliente
+                }
+                else
+                {
+                    return 0; // Usuario no encontrado
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al consultar el cliente por correo: " + ex.Message);
+            }
+        }
     }
 }
