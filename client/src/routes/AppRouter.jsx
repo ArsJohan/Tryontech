@@ -5,6 +5,7 @@ import { SignUpPersonal } from '../pages/signUpPersonal.jsx';
 import SignUpMeasures from '../pages/signUpMeasures.jsx';
 import { BodyTypeResultsPage } from '../pages/bodyTypeResultPage.jsx';
 
+
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
 

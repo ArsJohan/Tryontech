@@ -1,23 +1,24 @@
-import React, {useState, useEffect} from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../components/card.jsx";
 import { Header } from "../components/header.jsx";
-import arrowLeft from "../assets/images/arrow-left.svg";
 import Footer from "../components/footer.jsx";
-import Banner from "../components/banner.jsx";
-import "../assets/styles/elements.css";
-import "../assets/styles/pages/signUp.css";
 import Barstep from "../components/Barstep.jsx";
 import Button from "../components/button.jsx";
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import Background from "../components/background.jsx";
 import Title from "../components/title.jsx";
 import { crearCuenta } from "../services/userApi.js";
+import { obtenerIdCliente } from "../services/userApi.js";
 import Popup from "../components/popup.jsx";
+import { AppContext } from "../context/AppUserContext.jsx";
+import arrowLeft from "../assets/images/arrow-left.svg";
 
 
 export function SignUpPersonal() {
+    const { selectedSex, setSelectedSex } = useContext(AppContext);
+    const { idCliente, setIdCliente } = useContext(AppContext); // Obtener el ID del cliente desde el contexto
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [isEmailValid, setIsEmailValid] = useState(false);
@@ -26,7 +27,9 @@ export function SignUpPersonal() {
     const [birthdateType, setBirthdateType] = useState("text");
     const [birthdateValue, setBirthdateValue] = useState("");
     const [password, setPassword] = useState("");
-    const [selectedSex, setSelectedSex] =  useContext(AppContext);
+    console.log("setSelectedSex:", setSelectedSex);
+    const [loading, setLoading] = useState(false); // Estado para el spinner
+    console.log("selectedId:", setIdCliente);
     const [requirements, setRequirements] = useState({
         length: false,
         uppercase: false,
@@ -36,7 +39,6 @@ export function SignUpPersonal() {
     const [isFormComplete, setIsFormComplete] = useState(false);
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState('');
-    const [isSuccess, setIsSuccess] = useState(false); 
     const navigate = useNavigate();
 
     const checkFormCompletion = () => {
@@ -79,11 +81,13 @@ export function SignUpPersonal() {
     const handlePhoneChange = (value) => {
         setPhoneNumber(value); 
 
-        const phoneRegex = /^\d{10,}$/;
+        const phoneRegex = /^\d{10,13}$/;
         setIsPhoneValid(phoneRegex.test(value));
     };
 
-    const handleSexChange = (e) => {
+    const handleSexChange = (e) => { 
+        console.log("Selected sex:", e.target.value);
+
         setSelectedSex(e.target.value);
     };
 
@@ -110,11 +114,8 @@ export function SignUpPersonal() {
         return today.toISOString().split("T")[0]; // Convierte la fecha a formato YYYY-MM-DD
     };
 
-    const handleNavigate = () => {
+    const handleClosePopup = () => {
         setIsPopupVisible(false);
-        if (isSuccess) {
-            navigate("/Measures"); // Navegar a la página siguiente si fue exitoso
-        }
     };
 
     const handleBack = () => {
@@ -123,26 +124,48 @@ export function SignUpPersonal() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-         // Crear el objeto formData con los valores del formulario
+        setLoading(true); // Activa el spinner
+
         const formData = {
             "Username": username,
             "Password": password,
-            "Telefono": phoneNumber.substring(2), // Eliminar el prefijo "+1" de la cadena
+            "Telefono": phoneNumber.substring(2),
             "Correo": email,
             "FechaNacimiento": birthdateValue,
             "Sexo": selectedSex
         };
+
         try {
             const response = await crearCuenta(formData);
-            setIsSuccess(true); // Indicar que la operación falló
+            if (response === "Client saved successfully") {
+                const idResponse = await obtenerIdCliente(email);
+                if (idResponse !== 0) {
+                    setIdCliente(idResponse);
+                    console.log("ID del cliente:", idResponse);
+                    navigate("/Measures");
+                } else {
+                    console.error("No se encontró un ID de cliente válido.");
+                }
+            } else {
+                setPopupMessage(response);
+                setIsPopupVisible(true);
+            }
         } catch (error) {
-            setIsPopupVisible(true); // Mostrar el popup
-            setPopupMessage(response.message); // Mostrar el mensaje de error
-            setIsSuccess(false); // Indicar que la operación falló
+            console.error("Error al crear la cuenta:", error);
+            setPopupMessage("An error occurred. Please try again.");
+            setIsPopupVisible(true);
+        } finally {
+            setLoading(false); // Desactiva el spinner al finalizar
         }
-       
-    }
+    };
 
+    if (loading) {
+        return (
+            <div className="spinner-container">
+                <div className="spinner"></div>
+            </div>
+        );
+    }
     return (
         <div className="sg-container">
             <Background elipseTop={"bk-circle-blur-topRight-sq"}
@@ -160,7 +183,7 @@ export function SignUpPersonal() {
                             <Popup
                         isVisible={isPopupVisible} // Cambia esto según la lógica de tu aplicación
                         message={popupMessage} // Mensaje que deseas mostrar
-                        onClose={handleNavigate} // Función para cerrar el popup
+                        onClose={handleClosePopup} // Función para cerrar el popup
                     /> 
                     <div className="sg-form-input-container">
                         <div className="sg-form-input-group">

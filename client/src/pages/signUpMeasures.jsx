@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import React, {useState, useEffect, useContext} from "react";
+import { useNavigate } from "react-router-dom";
 import '../assets/styles/pages/signUp.css';
 import Card from "../components/card.jsx";
 import { Header } from "../components/header.jsx";
@@ -15,20 +15,27 @@ import fourCircle from "../assets/images/four.svg";
 import Title from "../components/title.jsx";
 import '../assets/styles/elements.css';
 import { AppContext } from "../context/AppUserContext.jsx";
+import MenGuideLeg from "../assets/images/men-guide-leg.png";
+import WomenGuideLeg from "../assets/images/women-guide-leg.png";
+import MenGuideTrunk from "../assets/images/men-guide-trunk.png";
+import WomenGuideTrunk from "../assets/images/women-guide-trunk.png";
+import { crearTallaje } from "../services/tallajeCliApi.js";
 
 
 export function SignUpMeasures() {
+    const {IdCliente} = useContext(AppContext); // Obtiene el ID del cliente del contexto
     const { selectedSex } = useContext(AppContext); // Obtiene el sexo seleccionado del contexto
     const [measurements, setMeasurements] = useState({
-        chest: "",
-        waist: "",
-        shoulder: "",
-        armsLength: "",
-        bottomHip: "",
-        height: "",
-        collar: "",
-        lowerLegLength: "",
-        weight: "",
+        Hombros: "",
+        Pecho: "",
+        Cintura: "",
+        Cadera: "",
+        LargoPierna: "",
+        Cuello: "",
+        LargoBrazo: "",
+        Peso: "",
+        Altura: "",
+        
     });
 
     const [warnings, setWarnings] = useState({
@@ -48,45 +55,47 @@ export function SignUpMeasures() {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const [isLabelTrunk, setLabelTrunk] = useState(true); // Estado para mostrar las etiquetas de trunk o legs
-    const [isSuccess, setIsSuccess] = useState(false); // Estado para mostrar el popup de éxito
+    const [loading, setLoading] = useState(false); // Estado para el spinner
+    const [popupMessage, setPopupMessage] = useState(""); // Estado para el mensaje del popup
+    const [popupMesaageVisible, setPopupMessageVisible] = useState(false); // Estado para el popup
     const navigate = useNavigate();
 
     // Rango de medidas para hombres
     const maleMeasurementRanges = {
-        chest: { min: 71, max: 152 },
-        waist: { min: 60, max: 160 },
-        shoulder: { min: 41, max: 61 },
-        armsLength: { min: 55, max: 85 },
-        bottomHip: { min: 71, max: 152 },
-        height: { min: 150, max: 250 },
-        collar: { min: 33, max: 51 },
-        lowerLegLength: { min: 66, max: 102 },
-        weight: { min: 50, max: 250 },
+        Pecho: { min: 71, max: 152 },
+        Cintura: { min: 60, max: 160 },
+        Hombros: { min: 41, max: 61 },
+        LargoBrazo: { min: 55, max: 85 },
+        Cadera: { min: 71, max: 152 },
+        Altura: { min: 150, max: 250 },
+        Cuello: { min: 33, max: 51 },
+        LargoPierna: { min: 66, max: 102 },
+        Peso: { min: 50, max: 250 },
     };
 
     // Rango de medidas para mujeres
     const femaleMeasurementRanges = {
-        chest: { min: 68, max: 188 },
-        waist: { min: 50, max: 150 },
-        shoulder: { min: 36, max: 56 },
-        armsLength: { min: 50, max: 75 },
-        bottomHip: { min: 56, max: 152 },
-        height: { min: 140, max: 220 },
-        collar: { min: 28, max: 46 },
-        lowerLegLength: { min: 61, max: 97 },
-        weight: { min: 30, max: 200 },
+        Pecho: { min: 68, max: 188 },
+        Cintura: { min: 50, max: 150 },
+        Hombros: { min: 36, max: 56 },
+        LargoBrazo: { min: 50, max: 75 },
+        Cadera: { min: 56, max: 152 },
+        Altura: { min: 140, max: 220 },
+        Cuello: { min: 28, max: 46 },
+        LargoPierna: { min: 61, max: 97 },
+        Peso: { min: 30, max: 200 },
     };
 
     const measurementRanges = selectedSex === "Male" ? maleMeasurementRanges : femaleMeasurementRanges;
 
     const maleImages = {
-        trunk: "path/to/male-trunk-image.png",
-        legs: "path/to/male-legs-image.png",
+        trunk: MenGuideTrunk,
+        legs: MenGuideLeg ,
     };
 
     const femaleImages = {
-        trunk: "path/to/female-trunk-image.png",
-        legs: "path/to/female-legs-image.png",
+        trunk: WomenGuideTrunk,
+        legs: WomenGuideLeg,
     };
 
     const images = selectedSex === "Male" ? maleImages : femaleImages;
@@ -96,27 +105,36 @@ export function SignUpMeasures() {
     const handleMeasurementChange = (e) => {
         const { name, value } = e.target;
 
-        // Actualiza el estado de las medidas
-        setMeasurements((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-
-        // Verifica si el valor está fuera del rango permitido
-        const range = measurementRanges[name];
-        const isSuspicious = isNaN(value) || value < range.min || value > range.max;
-
-        setWarnings((prev) => ({
-            ...prev,
-            [name]: isSuspicious,
-        }));
+        // Filtrar caracteres no numéricos (permite números y un punto decimal)
+        const numericValue = value.replace(/[^0-9.]/g, "");
+    
+        // Actualizar el estado de measurements con el valor filtrado
+        setMeasurements((prev) => ({ ...prev, [name]: numericValue }));
+    
+        // Si no se encuentra un rango, no mostrar advertencias y permitir escribir
+        if (!measurementRanges[name]) {
+            console.warn(`No se encontró un rango para la medida: ${name}`);
+            setWarnings((prev) => ({ ...prev, [name]: false }));
+            return;
+        }
+    
+        const { min, max } = measurementRanges[name];
+    
+        // Validar si el valor está fuera del rango
+        if (numericValue && (parseFloat(numericValue) < min || parseFloat(numericValue) > max)) {
+            setWarnings((prev) => ({ ...prev, [name]: true }));
+        } else {
+            setWarnings((prev) => ({ ...prev, [name]: false }));
+        }
     };
 
     const checkFormCompletion = () => {
-        const allFieldsFilled = Object.values(measurements).every((value) => value.trim() !== "");
-        const noWarnings = Object.values(warnings).every((warning) => !warning);
-
-        setIsFormComplete(allFieldsFilled && noWarnings && isTermsAccepted);
+        const isComplete = Object.keys(measurements).every((key) => {
+            const value = measurements[key];
+            return typeof value === "string" && value.trim() !== "";
+        });
+    
+        setIsFormComplete(isComplete);
     };
 
     useEffect(() => {
@@ -124,12 +142,12 @@ export function SignUpMeasures() {
     }, [measurements, warnings, isTermsAccepted]);
 
     const handleTrunkClick = () => {
-        setCurrentImage(womenTrunk); // Cambia la imagen a womenTrunk
+        setCurrentImage(images.trunk); // Cambia la imagen a womenTrunk
         setLabelTrunk(true); // Cambia el estado para mostrar las etiquetas de trunk    
     };
     
     const handleLegsClick = () => {
-        setCurrentImage(womenLeg); // Cambia la imagen a womenLeg
+        setCurrentImage(images.legs); // Cambia la imagen a womenLeg
         setLabelTrunk(false); // Cambia el estado para mostrar las etiquetas de legs
     };
     const handleClosePopup = () => {
@@ -140,21 +158,41 @@ export function SignUpMeasures() {
         }, 300); // La duración debe coincidir con la animación CSS
     };
 
-    const handleNavigate = () => {
-        if (isSuccess) {
-            navigate("/login"); // Redirige a la página de la sala de prueba
-        }
+    const handleClosePop = () => {
+       setIsPopupVisible(false); // Oculta el popup
     };
 
-    const handleSignUp = () => {
-        if (isFormComplete) {
-            try {
-                handleNavigate(); // Llama a la función de navegación
+    const handleSubmit = async () => {
+        setLoading(true); // Activa el spinner
 
-            }catch (error) {
-                console.error("Error al crear la cuenta:", error);
+        const isValid = Object.keys(measurements).every((key) => {
+            const value = measurements[key];
+            return value && !warnings[key];
+        });
+    
+        if (!isValid) {
+            console.error("Por favor, corrige los errores antes de continuar.");
+            setLoading(false); // Desactiva el spinner si hay errores
+            return;
+        }
+    
+        try {
+            const data = {
+                ...measurements,
+                IdCliente: IdCliente,
+            };
+            const response = await crearTallaje(data);
+            if (response = "Customer measurements successfully added."){
+                
+            }else{
+             setPopupMessage(response);
+             setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
             }
-           
+        } catch (error) {
+            setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
+            setPopupMessage("Error al crear el tallaje:", error);
+        } finally {
+            setLoading(false); // Desactiva el spinner al finalizar
         }
     };
 
@@ -171,6 +209,11 @@ export function SignUpMeasures() {
                 </Header>
                 <Title content={"Create your account"} subtitle={"Customize your experience and find the perfect fit"}/>
                 <div className="sg-form-container">
+                    <Popup
+                        isVisible={isPopupVisible} // Cambia esto según la lógica de tu aplicación
+                        message={popupMessage} // Mensaje que deseas mostrar
+                        onClose={handleClosePop} // Función para cerrar el popup
+                    /> 
                     <div className="sg-form-measures">
                         {Object.keys(measurements).map((key) => (
                                 <div className="sg-form-input-group" key={key}>
@@ -178,7 +221,7 @@ export function SignUpMeasures() {
                                     <input
                                         type="text"
                                         className={`sg-form-input ${warnings[key] ? "invalid" : ""}`}
-                                        placeholder={`Eg. ${key === "height" ? "1.67" : "70"}`}
+                                        placeholder={`Eg. ${key === "Altura" ? "1.67" : "70"}`}
                                         name={key}
                                         value={measurements[key]}
                                         onChange={handleMeasurementChange}
@@ -221,26 +264,26 @@ export function SignUpMeasures() {
                                             <img src={currentImage} alt="Measutement Guide"></img>
                                             <div className="sg-popup-content-guide" style={{ justifyContent: "space-evenly" }}>
                                                 <div
-                                                    className={`divider-h ${currentImage === womenTrunk ? "active" : ""}`}
+                                                    className={`divider-h ${currentImage === images.trunk ? "active" : ""}`}
                                                     style={{ width: "98px", paddingLeft: "10px", paddingTop: "0px", cursor: "pointer" }}
                                                     onClick={handleTrunkClick}
                                                 ></div>
                                                 <div
-                                                    className={`divider-h ${currentImage === womenLeg ? "active" : ""}`}
+                                                    className={`divider-h ${currentImage === images.legs ? "active" : ""}`}
                                                     style={{ width: "98px", paddingLeft: "10px", paddingTop: "0px", cursor: "pointer" }}
                                                     onClick={handleLegsClick}
                                                 ></div>
                                             </div>
                                         <div className="sg-popup-content-guide" style={{ justifyContent: "space-evenly" }}>
                                             <p
-                                                className={`sg-popup-option ${currentImage === womenTrunk ? "active" : ""}`}
+                                                className={`sg-popup-option ${currentImage === images.trunk ? "active" : ""}`}
                                                 onClick={handleTrunkClick}
                                                 style={{ cursor: "pointer" }}
                                             >
                                                 Trunk
                                             </p>
                                             <p
-                                                className={`sg-popup-option ${currentImage === womenLeg ? "active" : ""}`}
+                                                className={`sg-popup-option ${currentImage === images.legs ? "active" : ""}`}
                                                 onClick={handleLegsClick}
                                                 style={{ cursor: "pointer" }}
                                             >
@@ -347,7 +390,7 @@ export function SignUpMeasures() {
                             className={isFormComplete ? "bt-purple" : "bt-disabled"}
                             text={"Sign Up"}
                             width={"255px"}
-                            onClick={handleSignUp}
+                            onClick={handleSubmit}
                         />
                     </div>
                 </Barstep>

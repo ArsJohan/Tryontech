@@ -18,4 +18,4 @@ export async function crearTallaje(data) {
 }
 
 
-export default crearCuenta;
+export default crearTallaje;
