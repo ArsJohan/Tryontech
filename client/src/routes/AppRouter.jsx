@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import Login from '../pages/login.jsx';
 import { SignUpPersonal } from '../pages/signUpPersonal.jsx';
 import SignUpMeasures from '../pages/signUpMeasures.jsx';
+import { BodyTypeResultsPage } from '../pages/bodyTypeResultPage.jsx';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -25,6 +26,7 @@ const AppRouter = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/PersonalInfo" element={<SignUpPersonal/>}/>
         <Route path="/Measures" element={<SignUpMeasures/>}/>
+        <Route path="/bodyType/:bodyType" element={<BodyTypeResultsPage />} />
         {/*<Route path="/" element={
           <ProtectedRoute>
             <FittingRoom />

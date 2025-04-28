@@ -1,11 +1,11 @@
 import React from "react";
+import "./title.css";
 
-export function Title({spaceLeft ,spaceRight, spaceTop, spaceBottom}) {
+export function Title({content, subtitle}){
     return (
-        <div className="title-container" style={{paddingLeft:spaceLeft, paddingRight:spaceRight, paddingTop:spaceTop , paddingBottom:spaceBottom}}>
-            <div className="divider-h"></div>
-            <h1 className="title">TryOnTech</h1>
-            <div className="divider-h"></div>
+        <div className="sg-form-title-container">
+            <h1 className="sg-form-title">{content}</h1>
+            <h2 className="sg-form-subtitle">{subtitle}</h2>
         </div>
     )
 }
