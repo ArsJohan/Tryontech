@@ -11,16 +11,38 @@ namespace TryontechWebAPI.Controllers
     [Route("api/profile")]
     public class ProfileController : Controller
     {
-        [HttpPost("create")]
-        public string CrearCuenta([FromBody] CrearCuentaDto datos)
+        private readonly clsUsuario _clsUsuario;
+
+        // Modificado por Santi para cumplir con la inyección de dependencias
+        public ProfileController(TryontechContext dbContext)
         {
-            clsUsuario clsusuario = new clsUsuario();
-            Usuario nuevoUsuario = clsusuario.CrearUsuario(datos.Username, datos.Password, datos.Telefono, datos.Correo);
-
-            clsCliente cliente = new clsCliente();
-            string resultado = cliente.InsertarCliente(datos.FechaNacimiento, datos.Sexo, nuevoUsuario);
-
-            return resultado;
+            _clsUsuario = new clsUsuario(dbContext);
         }
+        // fin de la modificación
+
+        [HttpPost]
+        [Route("create")]
+        public IActionResult CrearCuenta([FromBody] CreateAccountRequest request)
+        {
+            try
+            {
+                Usuario nuevoUsuario = _clsUsuario.CrearUsuario(request.Username, request.Password, request.Telefono, request.Correo);
+
+                // Crear el cliente y asociarlo al usuario
+                clsCliente cliente = new clsCliente();
+
+                // se modifico para que recibiera los parametros adecuados
+                cliente.InsertarCliente(request.FechaNacimiento, request.Sexo, nuevoUsuario);
+
+                return Ok(new { Message = "Usuario y cliente creados exitosamente." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
     }
 }
+
+

@@ -20,7 +20,7 @@ public partial class Usuario
 
     public bool Estado { get; set; }
 
-    public string Salt { get; set; } = null!;
+    public string? Salt { get; set; } = null!;
 
     [JsonIgnore]
 

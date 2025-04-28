@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configurar JWT Sgp
 var key = Encoding.UTF8.GetBytes("EstaEsUnaClaveSuperSeguraYMuyLarga1234567890"); // clave v�lida
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -32,8 +33,11 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Add services to the container.
+// Registrar el contexto de base de datos con SQL Server
+builder.Services.AddDbContext<TryontechContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Agregar controladores
 builder.Services.AddControllers();
 
 
@@ -47,6 +51,9 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Mapear controladores
 app.MapControllers();
 
+app.UseDeveloperExceptionPage();
 app.Run();
+

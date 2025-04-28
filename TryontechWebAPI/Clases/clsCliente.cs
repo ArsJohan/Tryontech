@@ -7,13 +7,15 @@ namespace TryontechWebAPI.Clases
         private TryontechContext DBTryOnTech = new TryontechContext();
         public Cliente cliente { get; set; }
 
-        public string InsertarCliente(DateOnly fechaNacimiento, string sexo, Usuario usuario )
+        //Modificado para testear
+        public string InsertarCliente(DateOnly fechaNacimiento, string sexo, Usuario usuario)
         {
             try
             {
-                if (ValidarEdad(fechaNacimiento) == false) // Validar la edad
+                // Validar la edad del cliente
+                if (!ValidarEdad(fechaNacimiento))
                 {
-                    // eliminar el usuario si hubo un error al insertar cliente
+                    // Si la edad no es válida, eliminar el usuario creado previamente
                     if (usuario != null)
                     {
                         DBTryOnTech.Usuarios.Remove(usuario);
@@ -23,28 +25,33 @@ namespace TryontechWebAPI.Clases
                     return "La edad no es válida. Debe ser mayor de 18 años y menor de 100 años.";
                 }
 
+                // Crear el cliente asociado al usuario
                 cliente = new Cliente
                 {
                     FechaNacimiento = fechaNacimiento,
                     Sexo = sexo,
                     IdUsuario = usuario.Id,
-                    IdModelo = 1 // se asigna un modelo por defecto
+                    IdModelo = 1 // Se asigna un modelo por defecto
                 };
+
                 DBTryOnTech.Clientes.Add(cliente);
                 DBTryOnTech.SaveChanges();
+
                 return "Cliente ingresado correctamente";
             }
             catch (Exception ex)
             {
-                // eliminar el usuario si hubo un error al insertar el cliente
+                // Si ocurre un error, eliminar el usuario creado previamente
                 if (usuario != null)
                 {
                     DBTryOnTech.Usuarios.Remove(usuario);
                     DBTryOnTech.SaveChanges();
                 }
+
                 return "Error al insertar el cliente: " + ex.Message;
             }
         }
+
 
         public static bool ValidarEdad(DateOnly fechaNacimiento)
         {
