@@ -11,20 +11,51 @@ namespace TryontechWebAPI.Controllers
     [Route("api/profile")]
     public class ProfileController : Controller
     {
+        private readonly clsUsuario _clsUsuario;
+
+        // Modificado por Santi para cumplir con la inyección de dependencias
+        public ProfileController(TryontechContext dbContext)
+        {
+            _clsUsuario = new clsUsuario(dbContext);
+        }
+        // fin de la modificación
+
         [HttpPost]
         [Route("create")]
-        public string CrearCuenta(string username, string password, string telefono, string correo, DateOnly fechaNacimiento, string sexo)
+        public string CrearCuenta([FromBody] CreateAccountRequest request)
         {
-            // primero instanciar la clase usuario
-            clsUsuario usuario = new clsUsuario();
-            // crear el usuario
-            Usuario nuevoUsuario = usuario.CrearUsuario(username, password, telefono, correo);
-            // luego instanciar la clase cliente
-            clsCliente cliente = new clsCliente();
-            // crear el cliente
-            string resultado = cliente.InsertarCliente(fechaNacimiento, sexo, nuevoUsuario);
-            return resultado;
+            try
+            {
+                Usuario nuevoUsuario = _clsUsuario.CrearUsuario(request.Username, request.Password, request.Telefono, request.Correo);
 
+                // Crear el cliente y asociarlo al usuario
+                clsCliente cliente = new clsCliente();
+
+                // se modifico para que recibiera los parametros adecuados
+                string resultado = cliente.InsertarCliente(request.FechaNacimiento, request.Sexo, nuevoUsuario);
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                return "Error" + ex.Message;
+            }
+        }
+        [HttpPost]
+        [Route("ConsultarCliente")]
+        public Cliente ConsultarCliente(int idCliente)
+        {
+            try
+            {
+                clsCliente cliente = new clsCliente();
+                return cliente.ConsultarCliente(idCliente);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error fetching client data: " + ex.Message);
+            }
         }
     }
 }
+
+

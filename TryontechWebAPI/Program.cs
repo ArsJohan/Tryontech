@@ -7,7 +7,8 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configurar JWT Sgp
-var key = Encoding.UTF8.GetBytes("EstaEsUnaClaveSuperSeguraYMuyLarga1234567890"); // clave válida
+var key = Encoding.UTF8.GetBytes("EstaEsUnaClaveSuperSeguraYMuyLarga1234567890"); // clave vï¿½lida
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -23,21 +24,27 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// Add services to the container.
+// Registrar el contexto de base de datos con SQL Server
+builder.Services.AddDbContext<TryontechContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Agregar controladores
 builder.Services.AddControllers();
 
-// Add DBContext
-//builder.Services.AddDbContext<TryontechContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
-app.UseAuthentication(); // Habilitar autenticación Sgp
+app.UseAuthentication(); // Habilitar autenticaciï¿½n Sgp
 // Configure the HTTP request pipeline.
+app.UseCors("FrontendPolicy"); // Use CORS policy
+app.UseRouting();
+
 
 app.UseAuthorization();
 
+// Mapear controladores
 app.MapControllers();
 
+app.UseDeveloperExceptionPage();
 app.Run();
+

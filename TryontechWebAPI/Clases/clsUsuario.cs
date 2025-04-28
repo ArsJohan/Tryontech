@@ -1,25 +1,31 @@
-﻿using Microsoft.Identity.Client;
+﻿using Microsoft.EntityFrameworkCore;
 using TryontechWebAPI.Models;
 
 namespace TryontechWebAPI.Clases
 {
     public class clsUsuario
     {
-        private TryontechContext DBTryOnTech = new TryontechContext(); // instancia de la base de datos
+        // Modificado por Santi para cumplir con la inyección de dependencias
+        private readonly TryontechContext DBTryOnTech; // contexto de la base de datos 
+        public clsUsuario(TryontechContext dbContext)
+        {
+            DBTryOnTech = dbContext;
+        }
+        // fin de la modificación
         public Usuario usuario { get; set; }
         public Usuario CrearUsuario(string username, string password, string telefono, string correo)
         {
             if (ValidarUsername(username)) // validar que el usuario no exista
             {
-                throw new Exception("El usuario ya está registrado");
+                throw new Exception("Username is already in use");
             }
             if (ValidarTelefono(telefono)) // validar que el telefono no exista
             {
-                throw new Exception("El teléfono ya está registrado");
+                throw new Exception("Phone Number is already registered");
             }
             if (ValidarCorreo(correo)) // validar que el correo no exista
             {
-                throw new Exception("El correo ya está registrado");
+                throw new Exception("Email is already registered");
             }
             try
             {
@@ -44,12 +50,12 @@ namespace TryontechWebAPI.Clases
                 }
                 else
                 {
-                    throw new Exception("Error al cifrar la contraseña");
+                    throw new Exception("Error encrypting the password");
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al crear el usuario: " + ex.Message);
+                throw new Exception("Couldn’t save user details:: " + ex.Message);
             }
 
         }
@@ -64,7 +70,7 @@ namespace TryontechWebAPI.Clases
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al validar el usuario: " + ex.Message);
+                throw new Exception("Error validating the user: " + ex.Message);
             }
         }
 
@@ -78,7 +84,7 @@ namespace TryontechWebAPI.Clases
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al validar el teléfono: " + ex.Message);
+                throw new Exception("Error validating phone number " + ex.Message);
             }
         }
 
@@ -92,7 +98,7 @@ namespace TryontechWebAPI.Clases
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al validar el correo: " + ex.Message);
+                throw new Exception("Error validating email: " + ex.Message);
             }
         }
 
@@ -106,17 +112,41 @@ namespace TryontechWebAPI.Clases
                 {
                     DBTryOnTech.Usuarios.Remove(usuario);
                     DBTryOnTech.SaveChanges();
-                    return "Usuario eliminado correctamente";
+                    return "User deleted successfully";
                 }
                 else
                 {
-                    return "Usuario no encontrado";
+                    return "User not found";
                 }
             }
             catch (Exception ex)
             {
-                return "Error al eliminar el usuario: " + ex.Message;
+                return "Error deleting user: " + ex.Message;
             }
         }
+
+        // Añadido por Santi
+
+        // Método para validar las credenciales de un usuario
+        public bool ValidarCredenciales(string correo, string password, out Usuario usuario)
+        {
+            usuario = DBTryOnTech.Usuarios.FirstOrDefault(u => u.Correo == correo);
+            if (usuario == null)
+            {
+                return false; // Usuario no encontrado
+            }
+
+            var passwordHasher = new clsCypher();
+            return passwordHasher.VerifyPassword(password, usuario.Password, usuario.Salt);
+        }
+
+        // Método para obtener un usuario por su ID
+        public Usuario? ObtenerUsuarioPorId(int id)
+        {
+            return DBTryOnTech.Usuarios.FirstOrDefault(u => u.Id == id);
+        }
+
+        // fin de la parte añadida
     }
 }
+
