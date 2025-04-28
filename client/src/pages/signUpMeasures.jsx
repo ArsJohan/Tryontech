@@ -106,11 +106,7 @@ export function SignUpMeasures() {
                         <Title spaceLeft={"127px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
                     </>  
                 </Header>
-                <div className="sg-form-title-container">
-                     <h1 className="sg-form-title">Create an Account</h1>
-                     <h2 className="sg-form-subtitle">Customize your experience and find the perfect fit</h2>
-                </div>
-
+                <Title content={"Create your account"} subtitle={"Customize your experience and find the perfect fit"}/>
                 <div className="sg-form-container">
                     <div className="sg-form-measures">
                         {Object.keys(measurements).map((key) => (

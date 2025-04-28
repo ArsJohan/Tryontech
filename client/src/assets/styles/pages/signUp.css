@@ -120,35 +120,6 @@
     padding-left: 133px;
 }
 
-.sg-form-title-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: auto;
-    height:auto;
-    padding-top: 60px;
-    padding-bottom:34px;
-}
-
-.sg-form-title{
-    font-size: 40px;
-    font-family: var(--font-primary);
-    font-weight: var(--font-primary-weight-bold);
-    font-style: var(--font-primary-style);
-    margin: 0px;
-}
-
-.sg-form-subtitle{
-    font-size: 13px;
-    font-family: var(--font-primary);
-    font-weight: var(--font-primary-weight-bold);
-    font-style: var(--font-primary-style);
-    color: rgba(102, 102, 102, 0.6);
-
-
-}
-
 .sg-form-input-container{
     display: flex;
     flex-direction: row;
