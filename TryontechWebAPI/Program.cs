@@ -1,22 +1,50 @@
 using Microsoft.EntityFrameworkCore;
-//using TryontechWebAPI.Models;
+using TryontechWebAPI.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configurar JWT Sgp
+var key = Encoding.UTF8.GetBytes("EstaEsUnaClaveSuperSeguraYMuyLarga1234567890"); // clave v�lida
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "TryontechWebAPI",
+            ValidAudience = "TryontechWebAPIUsers",
+            IssuerSigningKey = new SymmetricSecurityKey(key)
+        };
+    });
+
+// Registrar el contexto de base de datos con SQL Server
+builder.Services.AddDbContext<TryontechContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Agregar controladores
 builder.Services.AddControllers();
 
-// Add DBContext
-//builder.Services.AddDbContext<TryontechContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
+app.UseAuthentication(); // Habilitar autenticaci�n Sgp
 // Configure the HTTP request pipeline.
+app.UseCors("FrontendPolicy"); // Use CORS policy
+app.UseRouting();
+
 
 app.UseAuthorization();
 
+// Mapear controladores
 app.MapControllers();
 
+app.UseDeveloperExceptionPage();
 app.Run();
+

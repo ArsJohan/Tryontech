@@ -1,12 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace TryontechWebAPI.Controllers
+﻿namespace TryontechWebAPI.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
     }
 }

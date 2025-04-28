@@ -1,11 +1,17 @@
-﻿using Microsoft.Identity.Client;
+﻿using Microsoft.EntityFrameworkCore;
 using TryontechWebAPI.Models;
 
 namespace TryontechWebAPI.Clases
 {
     public class clsUsuario
     {
-        private TryontechContext DBTryOnTech = new TryontechContext(); // instancia de la base de datos
+        // Modificado por Santi para cumplir con la inyección de dependencias
+        private readonly TryontechContext DBTryOnTech; // contexto de la base de datos 
+        public clsUsuario(TryontechContext dbContext)
+        {
+            DBTryOnTech = dbContext;
+        }
+        // fin de la modificación
         public Usuario usuario { get; set; }
         public Usuario CrearUsuario(string username, string password, string telefono, string correo)
         {
@@ -118,5 +124,29 @@ namespace TryontechWebAPI.Clases
                 return "Error al eliminar el usuario: " + ex.Message;
             }
         }
+
+        // Añadido por Santi
+
+        // Método para validar las credenciales de un usuario
+        public bool ValidarCredenciales(string correo, string password, out Usuario usuario)
+        {
+            usuario = DBTryOnTech.Usuarios.FirstOrDefault(u => u.Correo == correo);
+            if (usuario == null)
+            {
+                return false; // Usuario no encontrado
+            }
+
+            var passwordHasher = new clsCypher();
+            return passwordHasher.VerifyPassword(password, usuario.Password, usuario.Salt);
+        }
+
+        // Método para obtener un usuario por su ID
+        public Usuario? ObtenerUsuarioPorId(int id)
+        {
+            return DBTryOnTech.Usuarios.FirstOrDefault(u => u.Id == id);
+        }
+
+        // fin de la parte añadida
     }
 }
+
