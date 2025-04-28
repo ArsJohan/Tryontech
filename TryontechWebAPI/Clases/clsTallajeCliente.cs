@@ -42,16 +42,16 @@ namespace TryontechWebAPI.Clases
                 {
                     DBTryOnTech.TallajeClientes.Add(tallajeClienteEntidad); // Se agrega la talla del cliente
                     DBTryOnTech.SaveChanges();
-                    return "Tallaje del cliente agregado correctamente";
+                    return "Customer measurements successfully added.";
                 }
                 else
                 {
-                    return "Medidas inválidas. Por favor, verifica los valores ingresados.";
+                    return "Incorrect measurements. Please double-check the values.";
                 }
             }
             catch (Exception ex)
             {
-                return "Error al agregar la talla del cliente: " + ex.Message;
+                return "Couldn’t save size details: " + ex.Message;
             }
         }
         public string Actualizar()
@@ -64,20 +64,20 @@ namespace TryontechWebAPI.Clases
                     TallajeCliente tallajeCli = Consultar(tallajeCliente.Id); // Se verifica que existe en la base de datos
                     if (tallajeCli == null)
                     {
-                        return "La talla del cliente no existe. No se puede actualizar";
+                        return "Measurements not found. Update failed.";
                     }
                     DBTryOnTech.TallajeClientes.Update(tallajeClienteEntidad); // Se actualiza la talla del cliente
                     DBTryOnTech.SaveChanges();
-                    return "Tallaje del cliente actualizado correctamente";
+                    return "Client measurements sucessfully updated";
                 }
                 else
                 {
-                    return "Medidas inválidas. Por favor, verifica los valores ingresados.";
+                    return "Incorrect measurements. Please double-check the values.";
                 }
             }
             catch (Exception ex)
             {
-                return "Error al actualizar la talla del cliente: " + ex.Message;
+                return "Update failed: " + ex.Message;
             }
 
         }
@@ -88,15 +88,15 @@ namespace TryontechWebAPI.Clases
                 TallajeCliente tallajeCli = Consultar(Id); // Se verifica que existe en la base de datos
                 if (tallajeCli == null)
                 {
-                    return "La talla del cliente no existe. No se puede eliminar";
+                    return "Measurements not found. Deletion failed.";
                 }
                 DBTryOnTech.TallajeClientes.Remove(tallajeCli); // Se elimina la talla del cliente
                 DBTryOnTech.SaveChanges();
-                return "Tallaje del cliente eliminado correctamente";
+                return "Measurements successfully deleted";
             }
             catch (Exception ex)
             {
-                return "Error al eliminar la talla del cliente: " + ex.Message;
+                return "Couldn't remove client measurements:" + ex.Message;
             }
 
         }
@@ -112,7 +112,7 @@ namespace TryontechWebAPI.Clases
 
                 if (cliente == null)
                 {
-                    return "Cliente no encontrado"; // Cliente no encontrado
+                    return "Client not found"; // Cliente no encontrado
                 }
 
                 if (cliente.Sexo == "Female")
@@ -123,27 +123,27 @@ namespace TryontechWebAPI.Clases
                     if (razonPechoCadera >= 0.9f && razonPechoCadera <= 1.1f &&
                         (tallajeCliente.Pecho / tallajeCliente.Cintura) >= 1.2f && (tallajeCliente.Cadera / tallajeCliente.Cintura) >= 1.2f)
                     {
-                        return "Reloj de arena";
+                        return "Hourglass";
                     }
                     else if ((tallajeCliente.Pecho / tallajeCliente.Cadera) >= 1.05f)
                     {
-                        return "Triángulo invertido";
+                        return "Inverted Triangle";
                     }
                     else if ((tallajeCliente.Cadera / tallajeCliente.Pecho) >= 1.15f)
                     {
-                        return "Triángulo";
+                        return "Triangle";
                     }
                     else if (tallajeCliente.Cintura >= tallajeCliente.Hombros && tallajeCliente.Cintura >= tallajeCliente.Pecho && tallajeCliente.Cintura >= tallajeCliente.Cadera)
                     {
                         float? promedioOtras = (tallajeCliente.Hombros + tallajeCliente.Pecho + tallajeCliente.Cadera) / 3;
                         if ((tallajeCliente.Cintura / promedioOtras) >= 1.10f)
-                            return "Ovalado";
+                            return "Oval";
                         else
-                            return "Rectángulo";
+                            return "Rectangle";
                     }
                     else
                     {
-                        return "Rectángulo";
+                        return "Rectangle";
                     }
                 }
                 else
@@ -152,30 +152,30 @@ namespace TryontechWebAPI.Clases
 
                     if ((tallajeCliente.Pecho / tallajeCliente.Cadera >= 1.12f) && (tallajeCliente.Pecho / tallajeCliente.Cintura >= 1.15f))
                     {
-                        return "Triángulo Invertido";
+                        return "Inverted Triangle";
                     }
                     else if (tallajeCliente.Cadera / tallajeCliente.Pecho >= 1.15f)
                     {
-                        return "Triángulo";
+                        return "Triangle";
                     }
                     else if ((tallajeCliente.Hombros + tallajeCliente.Pecho) / (tallajeCliente.Cadera + tallajeCliente.Cintura) >= 1.10f)
                     {
-                        return "Trapecio";
+                        return "Trapezoid";
                     }
                     else if ((tallajeCliente.Cintura >= tallajeCliente.Hombros && tallajeCliente.Cintura >= tallajeCliente.Pecho && tallajeCliente.Cintura >= tallajeCliente.Cadera) &&
                              (tallajeCliente.Cintura / tallajeCliente.Hombros >= 1.10f && tallajeCliente.Cintura / tallajeCliente.Pecho >= 1.10 && tallajeCliente.Cintura / tallajeCliente.Cadera >= 1.10f))
                     {
-                        return "Ovalado";
+                        return "Oval";
                     }
                     else
                     {
-                        return "Rectángulo";
+                        return "Rectangle";
                     }
                 }
             }
             catch (Exception ex)
             {
-                return "Error al calcular el tipo de cuerpo: " + ex.Message;
+                return "Failed to analyze body shape: " + ex.Message;
             }
         }
         public bool Validar()

@@ -55,7 +55,7 @@ namespace TryontechWebAPI.Clases
             }
             catch (Exception ex)
             {
-                throw new Exception("An error occurred while creating user: " + ex.Message);
+                throw new Exception("Couldn’t save user details:: " + ex.Message);
             }
 
         }
