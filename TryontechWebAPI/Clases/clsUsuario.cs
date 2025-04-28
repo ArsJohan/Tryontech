@@ -17,15 +17,15 @@ namespace TryontechWebAPI.Clases
         {
             if (ValidarUsername(username)) // validar que el usuario no exista
             {
-                throw new Exception("El usuario ya está registrado");
+                throw new Exception("Username is already in use");
             }
             if (ValidarTelefono(telefono)) // validar que el telefono no exista
             {
-                throw new Exception("El teléfono ya está registrado");
+                throw new Exception("Phone Number is already registered");
             }
             if (ValidarCorreo(correo)) // validar que el correo no exista
             {
-                throw new Exception("El correo ya está registrado");
+                throw new Exception("Email is already registered");
             }
             try
             {
@@ -50,12 +50,12 @@ namespace TryontechWebAPI.Clases
                 }
                 else
                 {
-                    throw new Exception("Error al cifrar la contraseña");
+                    throw new Exception("Error encrypting the password");
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al crear el usuario: " + ex.Message);
+                throw new Exception("Couldn’t save user details:: " + ex.Message);
             }
 
         }
@@ -70,7 +70,7 @@ namespace TryontechWebAPI.Clases
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al validar el usuario: " + ex.Message);
+                throw new Exception("Error validating the user: " + ex.Message);
             }
         }
 
@@ -84,7 +84,7 @@ namespace TryontechWebAPI.Clases
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al validar el teléfono: " + ex.Message);
+                throw new Exception("Error validating phone number " + ex.Message);
             }
         }
 
@@ -98,7 +98,7 @@ namespace TryontechWebAPI.Clases
             }
             catch (Exception ex)
             {
-                throw new Exception("Error al validar el correo: " + ex.Message);
+                throw new Exception("Error validating email: " + ex.Message);
             }
         }
 
@@ -112,16 +112,16 @@ namespace TryontechWebAPI.Clases
                 {
                     DBTryOnTech.Usuarios.Remove(usuario);
                     DBTryOnTech.SaveChanges();
-                    return "Usuario eliminado correctamente";
+                    return "User deleted successfully";
                 }
                 else
                 {
-                    return "Usuario no encontrado";
+                    return "User not found";
                 }
             }
             catch (Exception ex)
             {
-                return "Error al eliminar el usuario: " + ex.Message;
+                return "Error deleting user: " + ex.Message;
             }
         }
 

@@ -20,15 +20,15 @@ namespace TryontechWebAPI.Controllers
         }
         [HttpPost]
         [Route("Insertar")]
-        public string Insertar([FromBody] TallajeCliente tallajecliente)
+        public string Insertar([FromBody] TallajeClienteDTO tallajecliente, int idCliente)
         {
             clsTallajeCliente Tallajecliente = new clsTallajeCliente();
             Tallajecliente.tallajeCliente = tallajecliente;
-            return Tallajecliente.Insertar();
+            return Tallajecliente.Insertar(idCliente);
         }
         [HttpPut]
         [Route("Actualizar")]
-        public string Actualizar([FromBody] TallajeCliente tallajecliente)
+        public string Actualizar([FromBody] TallajeClienteDTO tallajecliente)
         {
             clsTallajeCliente Tallajecliente = new clsTallajeCliente();
             Tallajecliente.tallajeCliente = tallajecliente;
@@ -40,6 +40,14 @@ namespace TryontechWebAPI.Controllers
         {
             clsTallajeCliente Producto = new clsTallajeCliente();
             return Producto.Eliminar(Id);
+        }
+        [HttpGet]
+        [Route("CalcularTipoCuerpo")]
+        public string CalcularTipoCuerpo([FromBody] TallajeClienteDTO tallajecliente, int IdCliente)
+        {
+            clsTallajeCliente Tallajecliente = new clsTallajeCliente();
+            Tallajecliente.tallajeCliente = tallajecliente;
+            return Tallajecliente.CalcularTipoCuerpo(IdCliente);
         }
     }
     

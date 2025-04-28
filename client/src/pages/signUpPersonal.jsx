@@ -4,7 +4,7 @@ import Card from "../components/card.jsx";
 import { Header } from "../components/header.jsx";
 import arrowLeft from "../assets/images/arrow-left.svg";
 import Footer from "../components/footer.jsx";
-import Title from "../components/title.jsx";
+import Banner from "../components/banner.jsx";
 import "../assets/styles/elements.css";
 import "../assets/styles/pages/signUp.css";
 import Barstep from "../components/Barstep.jsx";
@@ -12,6 +12,7 @@ import Button from "../components/button.jsx";
 import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import Background from "../components/background.jsx";
+import Title from "../components/title.jsx";
 import { crearCuenta } from "../services/userApi.js";
 import Popup from "../components/popup.jsx";
 
@@ -154,10 +155,7 @@ export function SignUpPersonal() {
                         <Title spaceLeft={"127px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
                     </>  
                 </Header>
-                <div className="sg-form-title-container">
-                        <h1 className="sg-form-title">Create an Account</h1>
-                        <h2 className="sg-form-subtitle">Customize your experience and find the perfect fit</h2>
-                    </div>
+                <Title content={"Create your account"} subtitle={"Customize your experience and find the perfect fit"}/>
                 <div className="sg-form-container">
                             <Popup
                         isVisible={isPopupVisible} // Cambia esto según la lógica de tu aplicación

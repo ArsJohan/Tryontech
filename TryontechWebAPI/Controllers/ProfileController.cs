@@ -22,7 +22,7 @@ namespace TryontechWebAPI.Controllers
 
         [HttpPost]
         [Route("create")]
-        public IActionResult CrearCuenta([FromBody] CreateAccountRequest request)
+        public string CrearCuenta([FromBody] CreateAccountRequest request)
         {
             try
             {
@@ -32,16 +32,29 @@ namespace TryontechWebAPI.Controllers
                 clsCliente cliente = new clsCliente();
 
                 // se modifico para que recibiera los parametros adecuados
-                cliente.InsertarCliente(request.FechaNacimiento, request.Sexo, nuevoUsuario);
+                string resultado = cliente.InsertarCliente(request.FechaNacimiento, request.Sexo, nuevoUsuario);
 
-                return Ok(new { Message = "Usuario y cliente creados exitosamente." });
+                return resultado;
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Message = ex.Message });
+                return "Error" + ex.Message;
             }
         }
-
+        [HttpPost]
+        [Route("ConsultarCliente")]
+        public Cliente ConsultarCliente(int idCliente)
+        {
+            try
+            {
+                clsCliente cliente = new clsCliente();
+                return cliente.ConsultarCliente(idCliente);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error fetching client data: " + ex.Message);
+            }
+        }
     }
 }
 
