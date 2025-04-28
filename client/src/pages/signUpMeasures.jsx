@@ -18,6 +18,7 @@ import { AppContext } from "../context/AppUserContext.jsx";
 
 
 export function SignUpMeasures() {
+    const { selectedSex } = useContext(AppContext); // Obtiene el sexo seleccionado del contexto
     const [measurements, setMeasurements] = useState({
         chest: "",
         waist: "",
@@ -50,27 +51,29 @@ export function SignUpMeasures() {
     const [isSuccess, setIsSuccess] = useState(false); // Estado para mostrar el popup de éxito
     const navigate = useNavigate();
 
+    // Rango de medidas para hombres
     const maleMeasurementRanges = {
-        chest: { min: 80, max: 160 },
-        waist: { min: 60, max: 130 },
-        shoulder: { min: 40, max: 70 },
-        armsLength: { min: 50, max: 90 },
-        bottomHip: { min: 80, max: 160 },
+        chest: { min: 71, max: 152 },
+        waist: { min: 60, max: 160 },
+        shoulder: { min: 41, max: 61 },
+        armsLength: { min: 55, max: 85 },
+        bottomHip: { min: 71, max: 152 },
         height: { min: 150, max: 250 },
-        collar: { min: 35, max: 55 },
-        lowerLegLength: { min: 60, max: 130 },
+        collar: { min: 33, max: 51 },
+        lowerLegLength: { min: 66, max: 102 },
         weight: { min: 50, max: 250 },
     };
 
+    // Rango de medidas para mujeres
     const femaleMeasurementRanges = {
-        chest: { min: 70, max: 150 },
-        waist: { min: 50, max: 120 },
-        shoulder: { min: 30, max: 60 },
-        armsLength: { min: 40, max: 80 },
-        bottomHip: { min: 70, max: 150 },
+        chest: { min: 68, max: 188 },
+        waist: { min: 50, max: 150 },
+        shoulder: { min: 36, max: 56 },
+        armsLength: { min: 50, max: 75 },
+        bottomHip: { min: 56, max: 152 },
         height: { min: 140, max: 220 },
-        collar: { min: 30, max: 50 },
-        lowerLegLength: { min: 50, max: 120 },
+        collar: { min: 28, max: 46 },
+        lowerLegLength: { min: 61, max: 97 },
         weight: { min: 30, max: 200 },
     };
 
