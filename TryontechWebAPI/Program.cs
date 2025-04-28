@@ -22,6 +22,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(key)
         };
     });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") // SIN SLASH al final
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 // Add services to the container.
 

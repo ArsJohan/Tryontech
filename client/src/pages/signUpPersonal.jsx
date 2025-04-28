@@ -71,7 +71,7 @@ export function SignUpPersonal() {
     };
 
     const handlePhoneChange = (value) => {
-        setPhoneNumber(value);
+        setPhoneNumber(value); 
 
         const phoneRegex = /^\d{10,}$/;
         setIsPhoneValid(phoneRegex.test(value));
@@ -104,7 +104,7 @@ export function SignUpPersonal() {
         const formData = {
             "Username": username,
             "Password": password,
-            "Telefono": phoneNumber,
+            "Telefono": phoneNumber.substring(2), // Eliminar el prefijo "+1" de la cadena
             "Correo": email,
             "FechaNacimiento": birthdateValue,
             "Sexo": selectedSex
