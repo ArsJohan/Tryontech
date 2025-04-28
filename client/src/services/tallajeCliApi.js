@@ -2,9 +2,9 @@ import axios from 'axios';
 
 const API_BASE_URL = 'http://localhost:5177/api'; //API base URL here
 
-export async function crearCuenta(data) {
+export async function crearTallaje(data) {
   try {
-      const response = await axios.post(`${API_BASE_URL}/profile/create`, data);
+      const response = await axios.post(`${API_BASE_URL}/TallajeCliente/Insertar`, data);
       return response.data; // Retorna los datos de la respuesta si es exitosa
   } catch (error) {
 

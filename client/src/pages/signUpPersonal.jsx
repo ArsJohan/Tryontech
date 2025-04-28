@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Card from "../components/card.jsx";
 import { Header } from "../components/header.jsx";
 import arrowLeft from "../assets/images/arrow-left.svg";
@@ -13,6 +13,7 @@ import PhoneInput from 'react-phone-input-2'
 import 'react-phone-input-2/lib/style.css'
 import Background from "../components/background.jsx";
 import { crearCuenta } from "../services/userApi.js";
+import Popup from "../components/popup.jsx";
 
 
 export function SignUpPersonal() {
@@ -24,7 +25,7 @@ export function SignUpPersonal() {
     const [birthdateType, setBirthdateType] = useState("text");
     const [birthdateValue, setBirthdateValue] = useState("");
     const [password, setPassword] = useState("");
-    const [selectedSex, setSelectedSex] = useState("");
+    const [selectedSex, setSelectedSex] =  useContext(AppContext);
     const [requirements, setRequirements] = useState({
         length: false,
         uppercase: false,
@@ -32,6 +33,10 @@ export function SignUpPersonal() {
         specialChar: false,
     });
     const [isFormComplete, setIsFormComplete] = useState(false);
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const [popupMessage, setPopupMessage] = useState('');
+    const [isSuccess, setIsSuccess] = useState(false); 
+    const navigate = useNavigate();
 
     const checkFormCompletion = () => {
         if (
@@ -96,10 +101,27 @@ export function SignUpPersonal() {
     const handleBirthdateChange = (e) => {
         setBirthdateValue(e.target.value);
     };
-    
+
+        // Calcula la fecha máxima permitida para que el usuario tenga al menos 18 años
+    const getMaxDateFor18YearsOld = () => {
+        const today = new Date();
+        today.setFullYear(today.getFullYear() - 18); // Resta 18 años de la fecha actual
+        return today.toISOString().split("T")[0]; // Convierte la fecha a formato YYYY-MM-DD
+    };
+
+    const handleNavigate = () => {
+        setIsPopupVisible(false);
+        if (isSuccess) {
+            navigate("/Measures"); // Navegar a la página siguiente si fue exitoso
+        }
+    };
+
+    const handleBack = () => {
+        navigate("/login"); // Navegar a la página de inicio de sesión
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Hola");
          // Crear el objeto formData con los valores del formulario
         const formData = {
             "Username": username,
@@ -111,12 +133,13 @@ export function SignUpPersonal() {
         };
         try {
             const response = await crearCuenta(formData);
-            console.log(response.data); 
-            //Navegar a otra página después de crear la cuenta
-            Navigate("/Measures")
+            setIsSuccess(true); // Indicar que la operación falló
         } catch (error) {
-            console.error("Error creando cuenta", error);
+            setIsPopupVisible(true); // Mostrar el popup
+            setPopupMessage(response.message); // Mostrar el mensaje de error
+            setIsSuccess(false); // Indicar que la operación falló
         }
+       
     }
 
     return (
@@ -127,7 +150,7 @@ export function SignUpPersonal() {
             <Card width={"1100px"} height={"1130px"}>
                 <Header classN={"sg-header"}>
                     <>
-                        <img src={arrowLeft} alt="arrow-left" className="sg-icon"/>
+                        <img src={arrowLeft} alt="arrow-left" className="sg-icon" onClick={handleBack}/>
                         <Title spaceLeft={"127px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
                     </>  
                 </Header>
@@ -136,7 +159,11 @@ export function SignUpPersonal() {
                         <h2 className="sg-form-subtitle">Customize your experience and find the perfect fit</h2>
                     </div>
                 <div className="sg-form-container">
-                    
+                            <Popup
+                        isVisible={isPopupVisible} // Cambia esto según la lógica de tu aplicación
+                        message={popupMessage} // Mensaje que deseas mostrar
+                        onClose={handleNavigate} // Función para cerrar el popup
+                    /> 
                     <div className="sg-form-input-container">
                         <div className="sg-form-input-group">
                             <label htmlFor="Username" className="sg-form-lb">Username</label>
@@ -161,9 +188,10 @@ export function SignUpPersonal() {
                                 onChange={handleBirthdateChange}
                                 onFocus={() => setBirthdateType("date")}
                                 onBlur={() => {
-                                if (!birthdateValue) setBirthdateType("text");
+                                    if (!birthdateValue) setBirthdateType("text");
                                 }}
-                                style={{width:"316px"}}
+                                max={getMaxDateFor18YearsOld()} // Establece la fecha máxima permitida
+                                style={{ width: "316px" }}
                             />
                         </div>
                         <div className="sg-form-input-group">

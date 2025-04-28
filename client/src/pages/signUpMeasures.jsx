@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import '../assets/styles/pages/signUp.css';
 import Card from "../components/card.jsx";
 import { Header } from "../components/header.jsx";
@@ -6,16 +7,14 @@ import Footer from "../components/footer.jsx";
 import Background from "../components/background.jsx";
 import Button from "../components/button.jsx";
 import Barstep from  "../components/Barstep.jsx";
-import arrowLeft from "../assets/images/arrow-left.svg";
 import rowUp from "../assets/images/row-up.svg";
 import oneCircle from "../assets/images/one.svg";
 import twoCircle from "../assets/images/two.svg";
 import threeCircle from "../assets/images/three.svg";
 import fourCircle from "../assets/images/four.svg";
-import womenLeg from "../assets/images/women-guide-leg.png";
-import womenTrunk from "../assets/images/women-guide-trunk.png";
 import Title from "../components/title.jsx";
 import '../assets/styles/elements.css';
+import { AppContext } from "../context/AppUserContext.jsx";
 
 
 export function SignUpMeasures() {
@@ -47,8 +46,49 @@ export function SignUpMeasures() {
     const [isTermsAccepted, setIsTermsAccepted] = useState(false);
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
-    const [currentImage, setCurrentImage] = useState(womenTrunk);
     const [isLabelTrunk, setLabelTrunk] = useState(true); // Estado para mostrar las etiquetas de trunk o legs
+    const [isSuccess, setIsSuccess] = useState(false); // Estado para mostrar el popup de éxito
+    const navigate = useNavigate();
+
+    const maleMeasurementRanges = {
+        chest: { min: 80, max: 160 },
+        waist: { min: 60, max: 130 },
+        shoulder: { min: 40, max: 70 },
+        armsLength: { min: 50, max: 90 },
+        bottomHip: { min: 80, max: 160 },
+        height: { min: 150, max: 250 },
+        collar: { min: 35, max: 55 },
+        lowerLegLength: { min: 60, max: 130 },
+        weight: { min: 50, max: 250 },
+    };
+
+    const femaleMeasurementRanges = {
+        chest: { min: 70, max: 150 },
+        waist: { min: 50, max: 120 },
+        shoulder: { min: 30, max: 60 },
+        armsLength: { min: 40, max: 80 },
+        bottomHip: { min: 70, max: 150 },
+        height: { min: 140, max: 220 },
+        collar: { min: 30, max: 50 },
+        lowerLegLength: { min: 50, max: 120 },
+        weight: { min: 30, max: 200 },
+    };
+
+    const measurementRanges = selectedSex === "Male" ? maleMeasurementRanges : femaleMeasurementRanges;
+
+    const maleImages = {
+        trunk: "path/to/male-trunk-image.png",
+        legs: "path/to/male-legs-image.png",
+    };
+
+    const femaleImages = {
+        trunk: "path/to/female-trunk-image.png",
+        legs: "path/to/female-legs-image.png",
+    };
+
+    const images = selectedSex === "Male" ? maleImages : femaleImages;
+
+    const [currentImage, setCurrentImage] = useState(images.trunk);
 
     const handleMeasurementChange = (e) => {
         const { name, value } = e.target;
@@ -59,8 +99,10 @@ export function SignUpMeasures() {
             [name]: value,
         }));
 
-        // Verifica si el valor es sospechoso
-        const isSuspicious = isNaN(value) || value <= 0 || value > 200; // Ejemplo de rango razonable
+        // Verifica si el valor está fuera del rango permitido
+        const range = measurementRanges[name];
+        const isSuspicious = isNaN(value) || value < range.min || value > range.max;
+
         setWarnings((prev) => ({
             ...prev,
             [name]: isSuspicious,
@@ -94,6 +136,25 @@ export function SignUpMeasures() {
             setIsClosing(false); // Resetea el estado de cierre
         }, 300); // La duración debe coincidir con la animación CSS
     };
+
+    const handleNavigate = () => {
+        if (isSuccess) {
+            navigate("/login"); // Redirige a la página de la sala de prueba
+        }
+    };
+
+    const handleSignUp = () => {
+        if (isFormComplete) {
+            try {
+                handleNavigate(); // Llama a la función de navegación
+
+            }catch (error) {
+                console.error("Error al crear la cuenta:", error);
+            }
+           
+        }
+    };
+
     return (
         <div className="sg-container">
               <Background elipseTop={"bk-circle-blur-topRight-sq"}
@@ -102,7 +163,6 @@ export function SignUpMeasures() {
             <Card width={"1100px"} height={"1130px"}>
                 <Header classN={"sg-header"}>
                     <>
-                        <img src={arrowLeft} alt="arrow-left" className="sg-icon"/>
                         <Title spaceLeft={"127px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
                     </>  
                 </Header>
@@ -124,7 +184,11 @@ export function SignUpMeasures() {
                                         value={measurements[key]}
                                         onChange={handleMeasurementChange}
                                     />
-                                    {warnings[key] && <span className="error-message">Suspicious</span>}
+                                    {warnings[key] && (
+                                        <span className="error-message">
+                                            Value must be between {measurementRanges[key].min} and {measurementRanges[key].max}.
+                                        </span>
+                                    )}
                                     <label className="sg-form-lb-bottom">Measurements are in centimeters (cm).</label>
                                 </div>
                             ))}
@@ -283,8 +347,8 @@ export function SignUpMeasures() {
                         <Button
                             className={isFormComplete ? "bt-purple" : "bt-disabled"}
                             text={"Sign Up"}
-                            to={isFormComplete ? "/bodyType" : "#"}
                             width={"255px"}
+                            onClick={handleSignUp}
                         />
                     </div>
                 </Barstep>

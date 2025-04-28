@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Navigate, useNavigate } from "react-router-dom";
 import Card  from '../components/card.jsx';
 import {Button} from '../components/button.jsx';
 import { Footer } from '../components/footer.jsx';
@@ -14,9 +15,18 @@ import visible from '../assets/images/visible.png';
 
 export function Login() {
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
+    };
+
+    const handleSignIn = () => {
+        // Aquí puedes manejar la lógica de inicio de sesión, como validar el formulario y enviar una solicitud al servidor.
+        console.log("Iniciar sesión");
+    }
+    const handleSignUp = () => {
+        navigate("/PersonalInfo")
     };
     return (
         
@@ -54,8 +64,8 @@ export function Login() {
                     <Link to="forgot" className="lg-form-forgot">Forgot your password?</Link>
                     <div className="lg-form-btn-container">
                        
-                        <Button className={"bt-purple"} text={"Sign in" } to="/" position={"relative"} zindex={"2"} right={"-40px"}></Button>
-                        <Button className={"bt-transparent"} text={"Sign up" } to="/PersonalInfo" position={"absolute"} zindex={"1"}></Button>
+                        <Button className={"bt-purple"} text={"Sign in" }  position={"relative"} zindex={"2"} right={"-40px"} onClick={handleSignIn}></Button>
+                        <Button className={"bt-transparent"} text={"Sign up" }  position={"absolute"} zindex={"1"} onClick={handleSignUp}></Button>
                       
                     </div>
                 </div>
