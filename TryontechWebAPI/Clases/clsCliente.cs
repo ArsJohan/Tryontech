@@ -22,7 +22,7 @@ namespace TryontechWebAPI.Clases
                         DBTryOnTech.SaveChanges();
                     }
 
-                    return "La edad no es válida. Debe ser mayor de 18 años y menor de 100 años.";
+                    return "The age is invalid. You must be over 18 and under 100 years old.";
                 }
 
                 // Crear el cliente asociado al usuario
@@ -37,7 +37,7 @@ namespace TryontechWebAPI.Clases
                 DBTryOnTech.Clientes.Add(cliente);
                 DBTryOnTech.SaveChanges();
 
-                return "Cliente ingresado correctamente";
+                return "Client saved successfully";
             }
             catch (Exception ex)
             {
@@ -48,7 +48,7 @@ namespace TryontechWebAPI.Clases
                     DBTryOnTech.SaveChanges();
                 }
 
-                return "Error al insertar el cliente: " + ex.Message;
+                return "Error saving client: " + ex.Message;
             }
         }
 

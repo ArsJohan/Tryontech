@@ -29,7 +29,7 @@ namespace TryontechWebAPI.Controllers
             // Validar que los campos no estén vacíos
             if (string.IsNullOrEmpty(request.Correo) || string.IsNullOrEmpty(request.Password))
             {
-                return BadRequest(new { Message = "El nombre de usuario y la contraseña son obligatorios." });
+                return BadRequest(new { Message = "Email and password are required." });
             }
 
             // Validar las credenciales del usuario
@@ -37,16 +37,16 @@ namespace TryontechWebAPI.Controllers
             {
                 // Generar un token JWT
                 var token = GenerateJwtToken(usuario.Username, usuario.Rol);
-                return Ok(new { Message = "Login exitoso", Token = token });
+                return Ok(new { Message = "Login successful!", Token = token });
             }
 
-            return Unauthorized(new { Message = "Credenciales inválidas." });
+            return Unauthorized(new { Message = "Invalid Credentials" });
         }
 
         [HttpGet("protected")]
         public IActionResult ProtectedEndpoint()
         {
-            return Ok(new { Message = "Este es un endpoint protegido", User = User.Identity.Name });
+            return Ok(new { Message = "This is a protected endpoint", User = User.Identity.Name });
         }
 
         // Método para generar un token JWT
