@@ -42,7 +42,7 @@ builder.Services.AddControllers();
 
 
 var app = builder.Build();
-
+app.UseStaticFiles(); // Esto hace que wwwroot funcione
 app.UseAuthentication(); // Habilitar autenticaci�n Sgp
 // Configure the HTTP request pipeline.
 app.UseCors("FrontendPolicy"); // Use CORS policy
