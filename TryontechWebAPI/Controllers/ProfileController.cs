@@ -20,6 +20,17 @@ namespace TryontechWebAPI.Controllers
         }
         // fin de la modificación
 
+        [HttpGet]
+        [Route("getIdCliente")]
+        public int ConsultarIdClienteXCorreo(string correo)
+        {
+            clsCliente cliente = new clsCliente();
+            return cliente.ConsultarIdClienteXCorreo(correo);
+
+        }
+
+
+
         [HttpPost]
         [Route("create")]
         public string CrearCuenta([FromBody] CreateAccountRequest request)
@@ -38,7 +49,7 @@ namespace TryontechWebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return "Error" + ex.Message;
+                return "Error " + ex.Message;
             }
         }
         [HttpPost]

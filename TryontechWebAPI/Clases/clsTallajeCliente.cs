@@ -31,11 +31,10 @@ namespace TryontechWebAPI.Clases
                     .OrderBy(p => p.IdCliente) // Se ordena por el id del cliente
                     .ToList();
         }
-        public string Insertar(int IdCliente)
+        public string Insertar()
         {
             try
             {
-                tallajeCliente.IdCliente = IdCliente; // Se asigna el id del cliente al tallaje
                 var tallajeClienteEntidad = MapToEntity(tallajeCliente); // Se mapea el DTO a la entidad
 
                 if (Validar()) // Se valida que los datos sean validos

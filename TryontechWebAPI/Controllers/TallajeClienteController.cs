@@ -20,11 +20,11 @@ namespace TryontechWebAPI.Controllers
         }
         [HttpPost]
         [Route("Insertar")]
-        public string Insertar([FromBody] TallajeClienteDTO tallajecliente, int idCliente)
+        public string Insertar([FromBody] TallajeClienteDTO tallajecliente)
         {
             clsTallajeCliente Tallajecliente = new clsTallajeCliente();
             Tallajecliente.tallajeCliente = tallajecliente;
-            return Tallajecliente.Insertar(idCliente);
+            return Tallajecliente.Insertar();
         }
         [HttpPut]
         [Route("Actualizar")]
