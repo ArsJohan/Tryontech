@@ -165,10 +165,64 @@
    width: fit-content;
 }
 
+@keyframes slideUp {
+  0% {
+      opacity: 0;
+      transform: translateY(20px); /* Comienza desde abajo */
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0); /* Termina en su posición original */
+  }
+}
+.lg-form-error-message {
+  background-color: #f8d7da; /* Fondo rojo claro */
+  color: #721c24; /* Texto negro/oscuro */
+  border: 1px solid #f5c6cb; /* Borde rojo claro */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 10px 15px; /* Espaciado interno */
+  margin-top: 15px; /* Separación superior */
+  text-align: center; /* Centrar el texto */
+  font-size: var(--font-size-body); /* Tamaño de fuente */
+  font-family: var(--font-primary);
+  font-weight: var(--font-primary-weight-bold); /* Texto en negrita */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para un efecto saliente */
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out; /* Duración y suavidad de la animación */
+}
 
 
 
+/* Animación de aparición hacia abajo */
+@keyframes slideDown {
+  0% {
+      opacity: 0;
+      transform: translateY(-20px); /* Comienza desde arriba */
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0); /* Termina en su posición original */
+  }
+}
 
+/* Estilo del mensaje de éxito */
+.lg-form-success-message {
+  background-color: #d4edda; /* Fondo verde claro */
+  color: #155724; /* Texto verde oscuro */
+  border: 1px solid #f5c6cb; /* Borde rojo claro */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 10px 15px; /* Espaciado interno */
+  margin-top: 15px; /* Separación superior */
+  text-align: center; /* Centrar el texto */
+  font-size: var(--font-size-body); /* Tamaño de fuente */
+  font-family: var(--font-primary);
+  font-weight: var(--font-primary-weight-bold); /* Texto en negrita */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para un efecto saliente */
+}
 
-
-
+/* Aplica la animación al mensaje de éxito */
+.animate-slide-down {
+  animation: slideDown 0.5s ease-out; /* Duración y suavidad de la animación */
+}

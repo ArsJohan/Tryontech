@@ -9,11 +9,16 @@ import {Background} from '../components/background.jsx';
 import logoBackground from '../assets/images/logo-background.png';
 import '../assets/styles/elements.css';
 import { Link } from 'react-router-dom';
-import Title from '../components/title.jsx';
+import { Banner } from '../components/banner.jsx';
 import hide from '../assets/images/hide.png';
 import visible from '../assets/images/visible.png';
+import iniciarSesion  from '../services/loginApi.js';
 
 export function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState(""); 
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
@@ -21,9 +26,22 @@ export function Login() {
         setShowPassword(!showPassword);
     };
 
-    const handleSignIn = () => {
-        // Aquí puedes manejar la lógica de inicio de sesión, como validar el formulario y enviar una solicitud al servidor.
-        console.log("Iniciar sesión");
+    const handleSignIn = async (e) => {
+        e.preventDefault();
+
+        const loginData = {
+            Correo: email,
+            Password: password,
+        };
+
+        try {
+            const response = await iniciarSesion(loginData);
+            console.log("Inicio de sesión exitoso:", response);
+            setSuccessMessage("Inicio de sesión exitoso: "+response.message);
+        } catch (error) {
+            console.error("Error al iniciar sesión:", error);
+            setErrorMessage("Error al iniciar sesión: Correo o contraseña incorrectos");
+        }
     }
     const handleSignUp = () => {
         navigate("/PersonalInfo")
@@ -44,13 +62,13 @@ export function Login() {
                     <Link to="" className="logout">
                         <img src={logout} alt="Logout" className="icon"/>
                     </Link>
-                    <Title spaceRight={"90px"} spaceLeft={"0px"} />
+                    <Banner spaceRight={"90px"} spaceLeft={"0px"} />
                 </header>
                 
                 <div className="lg-form-container">
                     <h1 className="lg-form-title">Sign in</h1>
                     <label htmlFor="Email" className="lg-form-lb-user">Email</label>
-                    <input type="email" id="Email" className="lg-form-username" placeholder="Example@gmail.com"/>
+                    <input type="email" id="Email" className="lg-form-username" placeholder="Example@gmail.com" onChange={(e) => setEmail(e.target.value)}/>
                         
                         <div className="lg-form-password-container" onClick={togglePasswordVisibility}>
                             <label htmlFor="Password" className="lg-form-lb-password">Password</label>
@@ -60,7 +78,7 @@ export function Login() {
                             
                             </div>
                     </div>
-                    <input type={showPassword ? "text" : "password"} id="Password" className="lg-form-password" placeholder="*****"/>
+                    <input type={showPassword ? "text" : "password"} id="Password" className="lg-form-password" placeholder="*****" onChange={(e) => setPassword(e.target.value)}/>
                     <Link to="forgot" className="lg-form-forgot">Forgot your password?</Link>
                     <div className="lg-form-btn-container">
                        
@@ -68,7 +86,16 @@ export function Login() {
                         <Button className={"bt-transparent"} text={"Sign up" }  position={"absolute"} zindex={"1"} onClick={handleSignUp}></Button>
                       
                     </div>
-                </div>
+                        {errorMessage ? (
+                            <div className="lg-form-error-message animate-slide-up">
+                                <p>{errorMessage}</p>
+                            </div>
+                            ) : successMessage && (
+                            <div className="lg-form-success-message animate-slide-down">
+                                <p>{successMessage}</p>
+                            </div>
+                        )}
+                    </div>
                 <Footer/>
             </Card>
         </div>

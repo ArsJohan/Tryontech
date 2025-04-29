@@ -20,6 +20,8 @@ import WomenGuideLeg from "../assets/images/women-guide-leg.png";
 import MenGuideTrunk from "../assets/images/men-guide-trunk.png";
 import WomenGuideTrunk from "../assets/images/women-guide-trunk.png";
 import { crearTallaje } from "../services/tallajeCliApi.js";
+import Popup from "../components/popup.jsx";
+import Banner from "../components/banner.jsx";
 
 
 export function SignUpMeasures() {
@@ -159,7 +161,7 @@ export function SignUpMeasures() {
     };
 
     const handleClosePop = () => {
-       setIsPopupVisible(false); // Oculta el popup
+       setPopupMessageVisible(false); // Oculta el popup
     };
 
     const handleSubmit = async () => {
@@ -183,7 +185,7 @@ export function SignUpMeasures() {
             };
             const response = await crearTallaje(data);
             if (response = "Customer measurements successfully added."){
-                
+                navigate("/login");
             }else{
              setPopupMessage(response);
              setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
@@ -204,20 +206,23 @@ export function SignUpMeasures() {
             <Card width={"1100px"} height={"1130px"}>
                 <Header classN={"sg-header"}>
                     <>
-                        <Title spaceLeft={"127px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
+                        <Banner spaceLeft={"127px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
                     </>  
                 </Header>
                 <Title content={"Create your account"} subtitle={"Customize your experience and find the perfect fit"}/>
                 <div className="sg-form-container">
                     <Popup
-                        isVisible={isPopupVisible} // Cambia esto según la lógica de tu aplicación
+                        isVisible={popupMesaageVisible} // Cambia esto según la lógica de tu aplicación
                         message={popupMessage} // Mensaje que deseas mostrar
                         onClose={handleClosePop} // Función para cerrar el popup
                     /> 
                     <div className="sg-form-measures">
                         {Object.keys(measurements).map((key) => (
                                 <div className="sg-form-input-group" key={key}>
-                                    <label className="sg-form-lb">*{key.charAt(0).toUpperCase() + key.slice(1)}</label>
+                                    <label className="sg-form-lb">
+                                        <span className="required-asterisk">*</span>
+                                        {key.charAt(0).toUpperCase() + key.slice(1)}
+                                    </label>
                                     <input
                                         type="text"
                                         className={`sg-form-input ${warnings[key] ? "invalid" : ""}`}
@@ -261,7 +266,7 @@ export function SignUpMeasures() {
                                 </div>
                                 <div className="sg-popup-body">
                                     <div className="sg-popup-content-img">
-                                            <img src={currentImage} alt="Measutement Guide"></img>
+                                            <img src={currentImage} alt="Measutement Guide" className="sg-img-guide"></img>
                                             <div className="sg-popup-content-guide" style={{ justifyContent: "space-evenly" }}>
                                                 <div
                                                     className={`divider-h ${currentImage === images.trunk ? "active" : ""}`}

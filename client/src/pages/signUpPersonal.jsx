@@ -14,6 +14,7 @@ import { obtenerIdCliente } from "../services/userApi.js";
 import Popup from "../components/popup.jsx";
 import { AppContext } from "../context/AppUserContext.jsx";
 import arrowLeft from "../assets/images/arrow-left.svg";
+import {Banner} from "../components/banner.jsx";
 
 
 export function SignUpPersonal() {
@@ -27,9 +28,7 @@ export function SignUpPersonal() {
     const [birthdateType, setBirthdateType] = useState("text");
     const [birthdateValue, setBirthdateValue] = useState("");
     const [password, setPassword] = useState("");
-    console.log("setSelectedSex:", setSelectedSex);
     const [loading, setLoading] = useState(false); // Estado para el spinner
-    console.log("selectedId:", setIdCliente);
     const [requirements, setRequirements] = useState({
         length: false,
         uppercase: false,
@@ -175,7 +174,7 @@ export function SignUpPersonal() {
                 <Header classN={"sg-header"}>
                     <>
                         <img src={arrowLeft} alt="arrow-left" className="sg-icon" onClick={handleBack}/>
-                        <Title spaceLeft={"127px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
+                        <Banner spaceLeft={"127px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
                     </>  
                 </Header>
                 <Title content={"Create your account"} subtitle={"Customize your experience and find the perfect fit"}/>
