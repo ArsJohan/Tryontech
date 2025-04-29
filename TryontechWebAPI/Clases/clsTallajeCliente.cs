@@ -27,6 +27,7 @@ namespace TryontechWebAPI.Clases
 
         public List<TallajeCliente> ConsultarTodos()
         {
+
             return DBTryOnTech.TallajeClientes
                     .OrderBy(p => p.IdCliente) // Se ordena por el id del cliente
                     .ToList();
@@ -46,6 +47,7 @@ namespace TryontechWebAPI.Clases
                 else
                 {
                     return "Incorrect measurements. Please double-check the values.";
+
                 }
             }
             catch (Exception ex)
