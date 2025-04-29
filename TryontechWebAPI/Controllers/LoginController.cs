@@ -23,7 +23,7 @@ namespace TryontechWebAPI.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("login")]
+        [HttpPost("Ingresar")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
             // Validar que los campos no estén vacíos
