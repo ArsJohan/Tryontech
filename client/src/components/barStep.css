@@ -1,0 +1,89 @@
+@import "../assets/styles/variables.css";
+
+
+.bs-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    width: 100%;
+    margin: auto 0 0 0;
+    padding: 0 20px;
+    position: relative;
+}
+
+.bs-bar-step-container {
+    display: flex;
+    align-items: start;
+    max-width: 600px;
+    padding: 43px 0 60px 0;
+    position: relative;
+    right: 11px;
+    z-index: 1;
+}
+
+.bs-bar-step {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    text-align: center;
+    color: #666666; /* Color de texto por defecto */
+    transition: color 0.3s ease;
+    z-index: 2;
+    margin: 0 0 0 54px;
+    right: 60px;
+    position: relative;
+
+
+}
+
+.bs-circle-bar-step {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    color: #666666;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.bs-bar-step.active .bs-circle-bar-step {
+    background-color: #6710E0;
+    color: #ffffff;
+}
+.bs-bar-line {
+    flex-grow: 1;
+    height: 5px;
+    background-color: rgba(102, 102, 102, 0.25); /* Color de la línea */
+    margin: 0 10px; /* Espaciado entre los pasos */
+    transition: background-color 0.3s ease;
+    z-index: 2;
+    position: absolute;
+    left: -2px;
+    top: 49px;
+    width: 192px;
+}
+
+.bs-bar-line.active {
+    background-color: #6710E0; /* Color de la línea activa */
+    transition: background-color 0.3s ease;
+}
+.bs-bar-step.active {
+    color: #6710E0; /* Color del paso activo */
+    font-weight: bold;
+}
+
+
+
+.bs-bar-step-label {
+    margin-top: 10px;
+    font-size: 14px;
+    font-family: var(--font-primary);
+    font-weight: normal;
+    color: inherit; /* Hereda el color del contenedor */
+    transition: color 0.3s ease;
+    position: relative;
+    z-index: 2;
+    left: -60px;
+    width: max-content;
+}
