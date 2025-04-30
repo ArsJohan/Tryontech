@@ -1,6 +1,6 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import BodyTypeResult from "./bodyTypeResult.jsx";
+import { useParams } from "react-router-dom";
 
 export function BodyTypeResultsPage() {
     const bodyTypeData = {
@@ -31,7 +31,7 @@ export function BodyTypeResultsPage() {
                 "Smaller upper body.",
             ],
         },
-        Hourglass: {
+        HourglassFemale: {
             title: "Hourglass",
             recommendations: [
                 "Wear fitted clothing to highlight your curves.",
@@ -124,7 +124,7 @@ export function BodyTypeResultsPage() {
                 "Less defined waistline.",
             ],
         },
-        Trapezoid: {
+        TrapezoidMale: {
             title: "Trapezoid",
             recommendations: [
                 "Wear fitted shirts to highlight your shoulders.",
@@ -139,11 +139,11 @@ export function BodyTypeResultsPage() {
         },
     };
 
-    // Obtén el tipo de cuerpo desde la URL
-    const { bodyType } = useParams();
+    //Obtenemos el tipo de cuerpo desde la api
+    const bodyType = useParams();
 
     // Obtén los datos correspondientes al tipo de cuerpo
-    const data = bodyTypeData[bodyType] || {
+    const data = bodyTypeData[bodyType.bodyType] || {
         title: "Unknown",
         recommendations: ["No recommendations available."],
         characteristics: ["No characteristics available."],

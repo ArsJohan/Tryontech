@@ -19,14 +19,16 @@ import MenGuideLeg from "../assets/images/men-guide-leg.png";
 import WomenGuideLeg from "../assets/images/women-guide-leg.png";
 import MenGuideTrunk from "../assets/images/men-guide-trunk.png";
 import WomenGuideTrunk from "../assets/images/women-guide-trunk.png";
-import { crearTallaje } from "../services/tallajeCliApi.js";
+import { calcularTipoCuerpo, crearTallaje } from "../services/tallajeCliApi.js";
+import { asignarModelo } from "../services/modelApi.js";
 import Popup from "../components/popup.jsx";
 import Banner from "../components/banner.jsx";
 
 
 export function SignUpMeasures() {
     const {IdCliente} = useContext(AppContext); // Obtiene el ID del cliente del contexto
-    const { selectedSex } = useContext(AppContext); // Obtiene el sexo seleccionado del contexto
+    const {selectedSex} = useContext(AppContext); // Obtiene el sexo seleccionado del contexto
+    const {setImageUrl} = useContext(AppContext); // Obtiene la URL de la imagen del contexto
     const [measurements, setMeasurements] = useState({
         Hombros: "",
         Pecho: "",
@@ -36,7 +38,7 @@ export function SignUpMeasures() {
         Cuello: "",
         LargoBrazo: "",
         Peso: "",
-        Altura: "",
+        Altura: ""
         
     });
 
@@ -57,7 +59,6 @@ export function SignUpMeasures() {
     const [isPopupVisible, setIsPopupVisible] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
     const [isLabelTrunk, setLabelTrunk] = useState(true); // Estado para mostrar las etiquetas de trunk o legs
-    const [loading, setLoading] = useState(false); // Estado para el spinner
     const [popupMessage, setPopupMessage] = useState(""); // Estado para el mensaje del popup
     const [popupMesaageVisible, setPopupMessageVisible] = useState(false); // Estado para el popup
     const navigate = useNavigate();
@@ -133,10 +134,14 @@ export function SignUpMeasures() {
     const checkFormCompletion = () => {
         const isComplete = Object.keys(measurements).every((key) => {
             const value = measurements[key];
-            return typeof value === "string" && value.trim() !== "";
+            return (
+                typeof value === "string" &&
+                value.trim() !== "" &&
+                !warnings[key] // Asegúrate de que no haya advertencias activas
+            );
         });
     
-        setIsFormComplete(isComplete);
+        setIsFormComplete(isComplete && isTermsAccepted); // Considera también el checkbox
     };
 
     useEffect(() => {
@@ -164,8 +169,67 @@ export function SignUpMeasures() {
        setPopupMessageVisible(false); // Oculta el popup
     };
 
+
+    const resultModelo = async (bodyType) => {
+        try {
+            const data = {
+                ClienteId: IdCliente,
+                TipoCuerpo: bodyType,
+                Sexo: selectedSex,
+            };
+            console.log("Datos para asignar modelo:", data);
+            const modeloResult = await asignarModelo(data);
+            console.log("Modelo asignado:", modeloResult);
+            // Guarda la URL de la imagen y el tipo de cuerpo en el contexto
+            setImageUrl(modeloResult.imagenUrl);
+            const newBodyType = modeloResult.tipoCuerpo + modeloResult.sexo; // Construye el nuevo valor
+            console.log("Tipo de cuerpo calculado:", newBodyType);
+
+            // Usa el valor directamente en lugar de depender del estado
+            navigate(`/bodyType/${newBodyType}`); // Redirige a la página de resultados del tipo de cuerpo
+        }
+        catch (error) {
+            // Captura el mensaje del error
+            const errorMessage = error.response?.data?.message || error.message || "Error desconocido";
+    
+            // Muestra el mensaje en el popup
+            setPopupMessage(`Error al asignar el modelo: ${errorMessage}`);
+            setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
+        }
+    
+    };
+
+    const tipoCuerpoApi = async () => {
+    
+        // Convierte las medidas a números flotantes
+        const numericMeasurements = Object.keys(measurements).reduce((acc, key) => {
+            acc[key] = parseFloat(measurements[key]) || 0; // Convierte a float o usa 0 si no es válido
+            return acc;
+        }, {});
+    
+        const data = {
+            ...numericMeasurements,
+            IdCliente: IdCliente,
+        };
+    
+        console.log(data);
+    
+        try {
+            const bodyType = await calcularTipoCuerpo(data, 1);
+            console.log("Tipo de cuerpo calculado:", bodyType);
+            return bodyType; // Devuelve el tipo de cuerpo calculado
+        } catch (error) {
+            // Captura el mensaje del error
+            const errorMessage = error.response?.data?.message || error.message || "Error desconocido";
+    
+            // Muestra el mensaje en el popup
+            setPopupMessage(`Error al asignar el modelo: ${errorMessage}`);
+            setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
+        }
+    };
+
+
     const handleSubmit = async () => {
-        setLoading(true); // Activa el spinner
 
         const isValid = Object.keys(measurements).every((key) => {
             const value = measurements[key];
@@ -184,20 +248,24 @@ export function SignUpMeasures() {
                 IdCliente: IdCliente,
             };
             const response = await crearTallaje(data);
-            if (response = "Customer measurements successfully added."){
-                navigate("/login");
+            if (response){
+                // Llama a la API para calcular el tipo de cuerpo
+                const bodyType = await tipoCuerpoApi();
+                // Verifica si bodyType está definido antes de llamar a resultModelo
+                
+                await resultModelo(bodyType); // Llama a resultModelo solo si bodyType está definido
+               
             }else{
              setPopupMessage(response);
              setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
             }
         } catch (error) {
+            // Captura el mensaje del error
+            const errorMessage = error.response?.data?.message || error.message || "Error desconocido";
             setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
-            setPopupMessage("Error al crear el tallaje:", error);
-        } finally {
-            setLoading(false); // Desactiva el spinner al finalizar
-        }
+            setPopupMessage("Error al crear el tallaje:", errorMessage);
+        } 
     };
-
     return (
         <div className="sg-container">
               <Background elipseTop={"bk-circle-blur-topRight-sq"}
@@ -396,6 +464,7 @@ export function SignUpMeasures() {
                             text={"Sign Up"}
                             width={"255px"}
                             onClick={handleSubmit}
+                            disabled={!isFormComplete || !isTermsAccepted} // Deshabilita el botón si el formulario no está completo o si está en proceso de envío
                         />
                     </div>
                 </Barstep>

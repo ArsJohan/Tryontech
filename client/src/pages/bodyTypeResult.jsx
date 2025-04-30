@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/card.jsx";
 import { Header } from "../components/header.jsx";
@@ -14,9 +14,13 @@ import RectangleIcon from "../assets/images/bodyType/Icons/Rectangle.png";
 import HourglassIcon from "../assets/images/bodyType/Icons/Hourglass.png";
 import TrapezoidIcon from "../assets/images/bodyType/Icons/Trapezoid.png";
 import Button from "../components/button.jsx";
+import { AppContext } from "../context/AppUserContext.jsx";
+
 
 export default function BodyTypeResult({ data }) {
     const [openSection, setOpenSection] = useState(null); // Estado para controlar el acordeón
+    const { imageUrl} = useContext(AppContext); // Obtener la URL de la imagen desde el contexto
+
     const toggleSection = (section) => {
         setOpenSection(openSection === section ? null : section)
     };
@@ -48,7 +52,7 @@ export default function BodyTypeResult({ data }) {
                         <div className="body-type-result-icon">
                             <img src={icons[data.title.trim()]} alt="Body Type Result" />
                         </div>
-                        <img src={"../assets/images/cancel.png"} alt="Body Type Result" />
+                        <img src={imageUrl} alt="Body Type Result" className="img-bodyType"/>
                     </div>
                     <div className="body-type-result-text">
                         <p className="body-type-result-text-title">Your body type:</p>

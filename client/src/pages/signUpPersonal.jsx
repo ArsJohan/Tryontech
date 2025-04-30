@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import '../assets/styles/pages/signUp.css';
 import Card from "../components/card.jsx";
 import { Header } from "../components/header.jsx";
 import Footer from "../components/footer.jsx";
@@ -19,7 +20,7 @@ import {Banner} from "../components/banner.jsx";
 
 export function SignUpPersonal() {
     const { selectedSex, setSelectedSex } = useContext(AppContext);
-    const { idCliente, setIdCliente } = useContext(AppContext); // Obtener el ID del cliente desde el contexto
+    const { IdCliente, setIdCliente } = useContext(AppContext); // Obtener el ID del cliente desde el contexto
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [isEmailValid, setIsEmailValid] = useState(false);
@@ -143,15 +144,18 @@ export function SignUpPersonal() {
                     console.log("ID del cliente:", idResponse);
                     navigate("/Measures");
                 } else {
-                    console.error("No se encontró un ID de cliente válido.");
+                    setPopupMessage("No se encontró un ID de cliente válido.");
+                    setIsPopupVisible(true);
                 }
             } else {
+                
                 setPopupMessage(response);
                 setIsPopupVisible(true);
             }
         } catch (error) {
-            console.error("Error al crear la cuenta:", error);
-            setPopupMessage("An error occurred. Please try again.");
+             // Captura el mensaje del error
+             const errorMessage = error.response?.data?.message || error.message || "Error desconocido";
+            setPopupMessage("An error occurred. Please try again. ", errorMessage);
             setIsPopupVisible(true);
         } finally {
             setLoading(false); // Desactiva el spinner al finalizar
@@ -160,8 +164,8 @@ export function SignUpPersonal() {
 
     if (loading) {
         return (
-            <div className="spinner-container">
-                <div className="spinner"></div>
+            <div className="sg-loading-container">
+                <div className="sg-loading-spinner"></div>
             </div>
         );
     }

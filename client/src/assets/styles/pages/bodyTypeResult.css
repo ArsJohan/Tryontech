@@ -24,6 +24,19 @@
   border: 3px solid #6710E0;
   border-radius: 9px;
   margin-bottom: 30px;
+  position: relative; /* Permite que los elementos hijos se posicionen dentro del contenedor */
+  overflow: visible; /* Permite que los elementos hijos se sobrepongan */
+  display: flex; /* Centra los elementos hijos si es necesario */
+
+}
+
+.img-bodyType{
+  position: absolute; /* Permite que la imagen se posicione libremente dentro del contenedor */
+  left: 50%; /* Centra horizontalmente */
+  top: 48%; /* Centra verticalmente */
+  transform: translate(-50%, -50%) scale(1.5); /* Ajusta la posición y escala */
+  z-index: 1; /* Asegúrate de que la imagen esté por encima de otros elementos */
+
 }
 
 .body-type-result-text {
@@ -32,6 +45,7 @@
   justify-content: center;
   font-family: var(--font-primary);
   font-style: var(--font-primary-style);
+  padding-left: 80px;
 }
 
 .body-type-result-button{

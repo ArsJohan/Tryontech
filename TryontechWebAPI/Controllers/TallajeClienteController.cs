@@ -41,7 +41,7 @@ namespace TryontechWebAPI.Controllers
             clsTallajeCliente Producto = new clsTallajeCliente();
             return Producto.Eliminar(Id);
         }
-        [HttpGet]
+        [HttpPost]
         [Route("CalcularTipoCuerpo")]
         public string CalcularTipoCuerpo([FromBody] TallajeClienteDTO tallajecliente, int IdCliente)
         {
