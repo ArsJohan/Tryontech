@@ -17,9 +17,7 @@ export const AppProvider = ({ children }) => {
                 IdCliente,
                 setIdCliente,
                 imageUrl,
-                setImageUrl,
-                bodyType,
-                setBodyType,
+                setImageUrl
             }}
         >
             {children}

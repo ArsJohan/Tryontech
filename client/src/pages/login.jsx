@@ -38,8 +38,10 @@ export function Login() {
             const response = await iniciarSesion(loginData);
             console.log("Inicio de sesión exitoso:", response);
             setSuccessMessage("Inicio de sesión exitoso: "+response.message);
+            setErrorMessage("");
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
+            setSuccessMessage("");
             setErrorMessage("Error al iniciar sesión: Correo o contraseña incorrectos");
         }
     }
