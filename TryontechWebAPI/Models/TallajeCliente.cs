@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace TryontechWebAPI.Models;
 
@@ -27,5 +28,7 @@ public partial class TallajeCliente
 
     public int IdCliente { get; set; }
 
+    [JsonIgnore]
     public virtual Cliente IdClienteNavigation { get; set; } = null!;
+  
 }

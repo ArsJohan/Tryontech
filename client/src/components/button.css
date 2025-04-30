@@ -1,0 +1,68 @@
+@import '../assets/styles/variables.css';
+
+
+.bt-purple {
+    background-color: var(--color-purple);
+    color:#FFFFFF;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight);
+    font-size: var(--font-size-body);
+    justify-content: center;
+    border-radius: 32px;
+    width: 304px;
+    height: 64px;
+    border-color: var(--color-purple);
+    transition: background-color 0.3s ease;
+    
+}
+
+.bt-purple:hover {
+    background-color: #873eee;
+    color: #FFFFFF;
+    border-color: #6710E0;
+    cursor: pointer;
+}
+
+
+.bt-transparent {
+    background-color: transparent;
+    color:black;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight);
+    font-size: var(--font-size-body);
+    justify-content: center;
+    border-radius: 32px;
+    width: 304px;
+    height: 64px;
+    border-color: var(--color-purple);
+}
+
+.bt-transparent:hover {
+    background-color: #eee1f9e3;
+    color: #000000;
+    border-color: #6710E0;
+    cursor: pointer;
+}
+
+
+
+.bt-disabled {
+    background-color:rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight);
+    font-size: var(--font-size-body);
+    justify-content: center;
+    border-radius: 32px;
+    width: 304px;
+    height: 64px;
+    border-color:rgba(0, 0, 0, 0.25);
+}
+
+.bt-disabled:hover {
+    background-color:rgba(0, 0, 0, 0.25);
+    color: #FFFFFF;
+    border-color:rgba(0, 0, 0, 0.25);
+    cursor: not-allowed;
+}
+
