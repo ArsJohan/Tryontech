@@ -81,7 +81,7 @@ export function Login() {
                             </div>
                     </div>
                     <input type={showPassword ? "text" : "password"} id="Password" className="lg-form-password" placeholder="*****" onChange={(e) => setPassword(e.target.value)}/>
-                    <Link to="forgot" className="lg-form-forgot">Forgot your password?</Link>
+                    <Link to="/forgotPassword" className="lg-form-forgot">Forgot your password?</Link>
                     <div className="lg-form-btn-container">
                        
                         <Button className={"bt-purple"} text={"Sign in" }  position={"relative"} zindex={"2"} right={"-40px"} onClick={handleSignIn}></Button>

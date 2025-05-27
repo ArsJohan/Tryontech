@@ -118,9 +118,7 @@ export function SignUpPersonal() {
         setIsPopupVisible(false);
     };
 
-    const handleBack = () => {
-        navigate("/login"); // Navegar a la página de inicio de sesión
-    }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -177,7 +175,9 @@ export function SignUpPersonal() {
             <Card width={"1100px"} height={"1130px"}>
                 <Header classN={"sg-header"}>
                     <>
-                        <img src={arrowLeft} alt="arrow-left" className="sg-icon" onClick={handleBack}/>
+                        <Link to="/Login">
+                            <img src={arrowLeft} alt="arrow-left" className="sg-icon"/>
+                        </Link>
                         <Banner spaceLeft={"127px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
                     </>  
                 </Header>
