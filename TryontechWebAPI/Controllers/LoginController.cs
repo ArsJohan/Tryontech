@@ -43,13 +43,70 @@ namespace TryontechWebAPI.Controllers
             return Unauthorized(new { Message = "Invalid Credentials" });
         }
 
+        // Verificación del código de usuario
+        [AllowAnonymous]
+        [HttpPost("verifyCode")]
+        public IActionResult VerifyCode([FromBody] VerifyCodeRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Code))
+            {
+                return BadRequest(new { message = "El código es obligatorio." });
+            }
+
+            var usuario = _clsUsuario.ObtenerUsuarioPorId(request.UserId); // Usamos el `UserId` recibido del frontend
+
+            if (usuario == null)
+            {
+                return NotFound(new { message = "Usuario no encontrado." });
+            }
+
+            if (usuario.Code != request.Code)
+            {
+                return Unauthorized(new { message = "El código ingresado es incorrecto." });
+            }
+
+            return Ok(new { message = "Código verificado exitosamente." });
+        }
+
+        //Cambio de la contraseña y cifrado
+        [AllowAnonymous]
+        [HttpPost("changePassword")]
+        public IActionResult ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            if (string.IsNullOrEmpty(request.NewPassword))
+            {
+                return BadRequest(new { message = "La nueva contraseña es obligatoria." });
+            }
+
+            var usuario = _clsUsuario.ObtenerUsuarioPorId(request.UserId); // Usamos el `UserId` recibido del frontend
+
+            if (usuario == null)
+            {
+                return NotFound(new { message = "Usuario no encontrado." });
+            }
+
+            var cypher = new clsCypher();
+            cypher.Password = request.NewPassword;
+
+            if (!cypher.CifrarClave())
+            {
+                return StatusCode(500, new { message = "Error al cifrar la nueva contraseña." });
+            }
+
+            usuario.Password = cypher.PasswordCifrado;
+            usuario.Salt = cypher.Salt;
+
+            _clsUsuario.ActualizarUsuario(usuario);
+
+            return Ok(new { message = "Contraseña actualizada exitosamente." });
+        }
+
         [HttpGet("protected")]
         public IActionResult ProtectedEndpoint()
         {
             return Ok(new { Message = "This is a protected endpoint", User = User.Identity.Name });
         }
 
-        // Método para generar un token JWT
         private string GenerateJwtToken(string username, string role)
         {
             var claims = new[]
@@ -72,11 +129,21 @@ namespace TryontechWebAPI.Controllers
         }
     }
 
-    // Clase para recibir las credenciales de inicio de sesión
+    //clases para las solicitudes de login, verificación de código y cambio de contraseña
     public class LoginRequest
     {
         public string Correo { get; set; }
         public string Password { get; set; }
     }
-}
 
+    public class VerifyCodeRequest
+    {
+        public int UserId { get; set; } //Se maneja internamente no se recibe desde el cliente
+        public string Code { get; set; }
+    }
+    public class ChangePasswordRequest
+    {
+        public int UserId { get; set; } //Se maneja internamente no se recibe desde el cliente
+        public string NewPassword { get; set; }
+    } 
+}

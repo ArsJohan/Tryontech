@@ -11,6 +11,18 @@ namespace TryontechWebAPI.Clases
         {
             DBTryOnTech = dbContext;
         }
+
+        // Agregado por santi para la verificación del código de usuario
+        public Usuario? GetUserByCode(string code)
+        {
+            return DBTryOnTech.Usuarios.FirstOrDefault(u => u.Code == code);
+        }
+        // Agregado por Santi para actualizar un usuario (para contraseña)
+        public void ActualizarUsuario(Usuario usuario)
+        {
+            DBTryOnTech.Usuarios.Update(usuario);
+            DBTryOnTech.SaveChanges();
+        }
         // fin de la modificación
         public Usuario usuario { get; set; }
         public Usuario CrearUsuario(string username, string password, string telefono, string correo)
