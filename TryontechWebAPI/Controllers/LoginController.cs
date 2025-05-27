@@ -49,7 +49,6 @@ namespace TryontechWebAPI.Controllers
             return Ok(new { Message = "Este es un endpoint protegido", User = User.Identity.Name });
         }
 
-        // Método para generar un token JWT
         private string GenerateJwtToken(string username, string role)
         {
             var claims = new[]
