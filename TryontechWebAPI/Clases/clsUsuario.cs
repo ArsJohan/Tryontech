@@ -152,6 +152,7 @@ namespace TryontechWebAPI.Clases
             return passwordHasher.VerifyPassword(password, usuario.Password, usuario.Salt);
         }
 
+
         // Método para obtener un usuario por su ID
         public Usuario? ObtenerUsuarioPorId(int id)
         {
@@ -159,6 +160,9 @@ namespace TryontechWebAPI.Clases
         }
 
         // fin de la parte añadida
+
+      
+
     }
 }
 

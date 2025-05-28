@@ -1,6 +1,7 @@
 ﻿using global::TryontechWebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using TryontechWebAPI.Clases;
 using TryontechWebAPI.Models;
 
 namespace TryontechWebAPI.Controllers
@@ -44,6 +45,9 @@ namespace TryontechWebAPI.Controllers
                 ? Ok(new { exists = true, message = "Número de teléfono registrado." })
                 : NotFound(new { exists = false, message = "El número de teléfono no está registrado." });
         }
+
+
+      
 
     }
 }

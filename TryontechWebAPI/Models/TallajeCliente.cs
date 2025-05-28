@@ -30,5 +30,4 @@ public partial class TallajeCliente
 
     [JsonIgnore]
     public virtual Cliente IdClienteNavigation { get; set; } = null!;
-  
 }

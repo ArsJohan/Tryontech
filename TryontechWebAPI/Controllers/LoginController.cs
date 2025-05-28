@@ -29,7 +29,7 @@ namespace TryontechWebAPI.Controllers
             // Validar que los campos no estén vacíos
             if (string.IsNullOrEmpty(request.Correo) || string.IsNullOrEmpty(request.Password))
             {
-                return BadRequest(new { Message = "Email and password are required." });
+                return BadRequest(new { message = "Email and password are required." });
             }
 
             // Validar las credenciales del usuario
@@ -37,10 +37,10 @@ namespace TryontechWebAPI.Controllers
             {
                 // Generar un token JWT
                 var token = GenerateJwtToken(usuario.Username, usuario.Rol);
-                return Ok(new { Message = "Login successful!", Token = token });
+                return Ok(new { message = "Login successful!", Token = token });
             }
 
-            return Unauthorized(new { Message = "Invalid Credentials" });
+            return Unauthorized(new { message = "Invalid Credentials" });
         }
 
         // Verificación del código de usuario
@@ -65,11 +65,18 @@ namespace TryontechWebAPI.Controllers
                 return Unauthorized(new { message = "El código ingresado es incorrecto." });
             }
 
-            return Ok(new { message = "Código verificado exitosamente." });
+            // Código correcto: se invalida el código en la base de datos
+            usuario.Code = null;
+            _clsUsuario.ActualizarUsuario(usuario);
+
+            // Generar un token temporal solo para cambio de contraseña
+            var token = GeneratePasswordResetToken(usuario.Id);
+
+            return Ok(new { message = "Código verificado exitosamente.", Token = token });
         }
 
         //Cambio de la contraseña y cifrado
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost("changePassword")]
         public IActionResult ChangePassword([FromBody] ChangePasswordRequest request)
         {
@@ -104,7 +111,29 @@ namespace TryontechWebAPI.Controllers
         [HttpGet("protected")]
         public IActionResult ProtectedEndpoint()
         {
-            return Ok(new { Message = "This is a protected endpoint", User = User.Identity.Name });
+            return Ok(new { message = "This is a protected endpoint", User = User.Identity.Name });
+        }
+
+        // Genera un token solo para cambio de contraseña
+        private string GeneratePasswordResetToken(int userId)
+        {
+            var claims = new[]
+            {
+                new Claim("UserId", userId.ToString()),
+                new Claim("PasswordReset", "true")
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: "TryontechWebAPI",
+                audience: "TryontechWebAPIUsers",
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(15), // Token temporal
+                signingCredentials: creds);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         private string GenerateJwtToken(string username, string role)

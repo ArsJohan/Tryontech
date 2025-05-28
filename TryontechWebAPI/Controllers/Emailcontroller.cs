@@ -28,7 +28,7 @@ namespace TryontechWebAPI.Controllers
             bool emailSent = await _emailService.SendEmail(model.Correo);
             return emailSent
                 ? Ok(new { message = "Código enviado con éxito" })
-                : BadRequest(new { message = "Error al enviar código" });
+                : BadRequest(new { message = "Error al enviar código, verifica el email" });
         }
 
         public class EmailRequestModel

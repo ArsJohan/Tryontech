@@ -28,7 +28,7 @@ namespace TryontechWebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new { message = "Ocurrió un error al asignar el modelo. Por favor, verifica los datos enviados e inténtalo nuevamente. Detalle: " + ex.Message });
             }
         }
     }
