@@ -46,11 +46,11 @@ namespace TryontechWebAPI.Controllers
                 // se modifico para que recibiera los parametros adecuados
                 string resultado = cliente.InsertarCliente(request.FechaNacimiento, request.Sexo, nuevoUsuario);
 
-                return Ok(new { message =resultado });
+                return Ok(new { sucess = true, message =resultado });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = "Ocurrió un error al crear el usuario. Por favor, verifica los datos enviados e inténtalo nuevamente. Detalle: " + ex.Message });
+                return BadRequest(new { sucess = false,message = "Ocurrió un error al crear el usuario. Por favor, verifica los datos enviados e inténtalo nuevamente. Detalle: " + ex.Message });
             }
         }
         [HttpPost]
