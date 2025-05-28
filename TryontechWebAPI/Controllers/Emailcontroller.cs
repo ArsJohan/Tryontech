@@ -22,14 +22,14 @@ namespace TryontechWebAPI.Controllers
         {
             if (string.IsNullOrWhiteSpace(model.Correo))
             {
-                return BadRequest(new { sucess = false, message = "El campo 'Correo' es obligatorio." });
+                return BadRequest(new { success = false, message = "El campo 'Correo' es obligatorio." });
             }
 
             int? usuarioId = await _emailService.SendEmail(model.Correo);
             if (usuarioId != null)
                 return Ok(new { sucess = true, message = "Código enviado con éxito", userId=usuarioId});
             else
-                return BadRequest(new { sucess = false, message = "Error al enviar código, verifica el email" });
+                return BadRequest(new { success = false, message = "Error al enviar código, verifica el email" });
         }
 
         public class EmailRequestModel
