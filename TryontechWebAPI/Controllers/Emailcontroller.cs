@@ -25,10 +25,11 @@ namespace TryontechWebAPI.Controllers
                 return BadRequest(new { message = "El campo 'Correo' es obligatorio." });
             }
 
-            bool emailSent = await _emailService.SendEmail(model.Correo);
-            return emailSent
-                ? Ok(new { message = "Código enviado con éxito" })
-                : BadRequest(new { message = "Error al enviar código, verifica el email" });
+            int? usuarioId = await _emailService.SendEmail(model.Correo);
+            if (usuarioId != null)
+                return Ok(new { message = "Código enviado con éxito", userId=usuarioId});
+            else
+                return BadRequest(new { message = "Error al enviar código, verifica el email" });
         }
 
         public class EmailRequestModel

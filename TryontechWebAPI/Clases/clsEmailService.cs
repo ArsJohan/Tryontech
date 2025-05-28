@@ -27,7 +27,7 @@ namespace TryontechWebAPI.Clases
             return random.Next(1000, 9999).ToString();
         }
 
-        public async Task<bool> SendEmail(string toEmail)
+        public async Task<int?> SendEmail(string toEmail)
         {
             string code = GenerateVerificationCode();
 
@@ -46,27 +46,37 @@ namespace TryontechWebAPI.Clases
                 EnableSsl = true
             };
 
-            var mailMessage = new MailMessage
+            try
             {
-                From = new MailAddress(fromEmail),
-                Subject = "Código de recuperación",
-                Body = $@"
-                        <div style='font-family: Arial, sans-serif; padding: 20px; border-radius: 5px; background-color: #EADBFE;'>
-                            <h2 style='color: #CCA8FD;'>TryOnTech - Recuperación de Cuenta</h2>
-                            <p style='color: #262626;'>Hola,</p>
-                            <p style='color: #262626;'>Tu código de verificación es:</p>
-                            <h1 style='color: #C18BF0;'>{code}</h1>
-                            <p style='color: #262626;'>Ingresa este código en la aplicación para restablecer tu contraseña.</p>
-                            <hr style='border-color: #CCA8FD;'>
-                            <p style='font-size: 12px; color: #262626;'>Si no solicitaste este código, puedes ignorar este mensaje.</p>
-                        </div>",
-                IsBodyHtml = true
-            };
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress(fromEmail),
+                    Subject = "Código de recuperación",
+                    Body = $@"
+                            <div style='font-family: Arial, sans-serif; padding: 20px; border-radius: 5px; background-color: #EADBFE;'>
+                                <h2 style='color: #CCA8FD;'>TryOnTech - Recuperación de Cuenta</h2>
+                                <p style='color: #262626;'>Hola,</p>
+                                <p style='color: #262626;'>Tu código de verificación es:</p>
+                                <h1 style='color: #C18BF0;'>{code}</h1>
+                                <p style='color: #262626;'>Ingresa este código en la aplicación para restablecer tu contraseña.</p>
+                                <hr style='border-color: #CCA8FD;'>
+                                <p style='font-size: 12px; color: #262626;'>Si no solicitaste este código, puedes ignorar este mensaje.</p>
+                            </div>",
+                    IsBodyHtml = true
+                };
 
-            mailMessage.To.Add(toEmail);
+                mailMessage.To.Add(toEmail);
 
-            await client.SendMailAsync(mailMessage);
-            return true;
+                await client.SendMailAsync(mailMessage);
+                return usuario.Id;
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores: podrías registrar el error o lanzar una excepción personalizada
+
+                return null; // Retorna null si hubo un error al enviar el correo
+            }
+
         }
     }
 }

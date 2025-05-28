@@ -28,14 +28,14 @@ namespace TryontechWebAPI.Clases
         }
 
 
-        public async Task<bool> EnviarCodigoPorTelefonoAsync(int usuarioId, string telefonoDestino)
+        public async Task<int?> EnviarCodigoPorTelefonoAsync( string telefonoDestino)
         {
             // 1. Generar código aleatorio de 4 dígitos
             var codigo = new Random().Next(1000, 9999).ToString();
 
             // 2. Guardar código en base de datos para el usuario
-            var usuario = await _dbContext.Usuarios.FindAsync(usuarioId);
-            if (usuario == null) return false;
+            var usuario = _dbContext.Usuarios.FirstOrDefault(u => u.Telefono == telefonoDestino);
+            if (usuario == null) return null;
 
             usuario.Code = codigo;
             await _dbContext.SaveChangesAsync();
@@ -49,11 +49,11 @@ namespace TryontechWebAPI.Clases
                     to: new Twilio.Types.PhoneNumber(telefonoDestino)
                 );
 
-                return message.ErrorCode == null; // true si no hubo error
+                return usuario.Id; // true si no hubo error
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
         }
     }
