@@ -46,11 +46,11 @@ export default function BodyTypeResult({ data }) {
                         <Banner spaceLeft={"127px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"} />
                     </>
                 </Header>
-                <Title content={"Your fit is ready"} subtitle={"Try on your clothes now"} />
+                <Title content={"Your fit is ready"} subtitle={"Try on your clothes now"} paddingLeft="120px"/>
                 <div className="body-type-result-content">
                     <div className="body-type-result-image">
                         <div className="body-type-result-icon">
-                            <img src={icons[data.title.trim()]} alt="Body Type Result" />
+                            <img src={icons[data.title.replace(/ /g, "")]} alt="Body Type Result" />
                         </div>
                         <img src={imageUrl} alt="Body Type Result" className="img-bodyType"/>
                     </div>

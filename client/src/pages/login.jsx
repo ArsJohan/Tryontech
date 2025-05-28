@@ -36,13 +36,14 @@ export function Login() {
 
         try {
             const response = await iniciarSesion(loginData);
-            console.log("Inicio de sesión exitoso:", response);
+            // Si la respuesta es exitosa, redirige al usuario a la página de inicio
             setSuccessMessage("Inicio de sesión exitoso: "+response.message);
             setErrorMessage("");
         } catch (error) {
-            console.error("Error al iniciar sesión:", error);
             setSuccessMessage("");
-            setErrorMessage("Error al iniciar sesión: Correo o contraseña incorrectos");
+             // Intenta obtener el mensaje de error de la respuesta de la API
+            const apiMessage = error.response?.message;
+            setErrorMessage(apiMessage ? apiMessage : "Error al iniciar sesión: Correo o contraseña incorrectos");
         }
     }
     const handleSignUp = () => {
@@ -81,7 +82,7 @@ export function Login() {
                             </div>
                     </div>
                     <input type={showPassword ? "text" : "password"} id="Password" className="lg-form-password" placeholder="*****" onChange={(e) => setPassword(e.target.value)}/>
-                    <Link to="forgot" className="lg-form-forgot">Forgot your password?</Link>
+                    <Link to="/forgotPassword" className="lg-form-forgot">Forgot your password?</Link>
                     <div className="lg-form-btn-container">
                        
                         <Button className={"bt-purple"} text={"Sign in" }  position={"relative"} zindex={"2"} right={"-40px"} onClick={handleSignIn}></Button>
