@@ -18,6 +18,7 @@ import arrowLeft from "../assets/images/arrow-left.svg";
 import {Banner} from "../components/banner.jsx";
 
 
+
 export function SignUpPersonal() {
     const { selectedSex, setSelectedSex } = useContext(AppContext);
     const { IdCliente, setIdCliente } = useContext(AppContext); // Obtener el ID del cliente desde el contexto
@@ -173,12 +174,10 @@ export function SignUpPersonal() {
             elipseBottom={"bk-circle-blur-bottomLeft-medium"} width={"400px"} height={"1130px"}>
             </Background>
             <Card width={"1100px"} height={"1130px"}>
-                <Header classN={"sg-header"}>
+                <Header classN={"sg-header"} flexDirection={"row"} alignItems={"center"}>
                     <>
-                        <Link to="/Login">
-                            <img src={arrowLeft} alt="arrow-left" className="sg-icon"/>
-                        </Link>
-                        <Banner spaceLeft={"127px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
+                        <img src={arrowLeft} alt="arrow-left" className="sg-icon" onClick={() => navigate("/Login")}/>
+                        <Banner spaceLeft={"188px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
                     </>  
                 </Header>
                 <Title content={"Create your account"} subtitle={"Customize your experience and find the perfect fit"}/>

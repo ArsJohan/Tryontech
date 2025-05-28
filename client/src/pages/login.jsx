@@ -36,13 +36,14 @@ export function Login() {
 
         try {
             const response = await iniciarSesion(loginData);
-            console.log("Inicio de sesión exitoso:", response);
+            // Si la respuesta es exitosa, redirige al usuario a la página de inicio
             setSuccessMessage("Inicio de sesión exitoso: "+response.message);
             setErrorMessage("");
         } catch (error) {
-            console.error("Error al iniciar sesión:", error);
             setSuccessMessage("");
-            setErrorMessage("Error al iniciar sesión: Correo o contraseña incorrectos");
+             // Intenta obtener el mensaje de error de la respuesta de la API
+            const apiMessage = error.response?.message;
+            setErrorMessage(apiMessage ? apiMessage : "Error al iniciar sesión: Correo o contraseña incorrectos");
         }
     }
     const handleSignUp = () => {

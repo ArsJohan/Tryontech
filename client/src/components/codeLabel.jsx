@@ -1,20 +1,20 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import "./codeLabel.css";
+import { AppContext } from "../context/AppUserContext.jsx";
 
-export function CodeLabel({ onComplete }) {
+export function CodeLabel() {
     const inputRefs = useRef([]);
+    const {setCode} = useContext(AppContext);
 
     const handleChange = (e, idx) => {
         const value = e.target.value.replace(/[^0-9]/g, "");
         e.target.value = value;
-        if (value && idx < 5) {
+        if (value && idx < 3) {
             inputRefs.current[idx + 1].focus();
         }
         // Llama a onComplete si todos los inputs están llenos
         const code = inputRefs.current.map(input => input?.value).join("");
-        if (onComplete && code.length === 4 && !code.includes("")) {
-            onComplete(code);
-        }
+        setCode(code);
     };
 
     const handleKeyDown = (e, idx) => {

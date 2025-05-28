@@ -116,7 +116,6 @@ export function SignUpMeasures() {
     
         // Si no se encuentra un rango, no mostrar advertencias y permitir escribir
         if (!measurementRanges[name]) {
-            console.warn(`No se encontró un rango para la medida: ${name}`);
             setWarnings((prev) => ({ ...prev, [name]: false }));
             return;
         }
@@ -177,13 +176,12 @@ export function SignUpMeasures() {
                 TipoCuerpo: bodyType,
                 Sexo: selectedSex,
             };
-            console.log("Datos para asignar modelo:", data);
+            setLoading(true); 
             const modeloResult = await asignarModelo(data);
-            console.log("Modelo asignado:", modeloResult);
             // Guarda la URL de la imagen y el tipo de cuerpo en el contexto
             setImageUrl(modeloResult.imagenUrl);
             const newBodyType = modeloResult.tipoCuerpo + modeloResult.sexo; // Construye el nuevo valor
-            console.log("Tipo de cuerpo calculado:", newBodyType);
+            
 
             // Usa el valor directamente en lugar de depender del estado
             navigate(`/bodyType/${newBodyType}`); // Redirige a la página de resultados del tipo de cuerpo
@@ -212,12 +210,11 @@ export function SignUpMeasures() {
             IdCliente: IdCliente,
         };
     
-        console.log(data);
     
         try {
             const bodyType = await calcularTipoCuerpo(data, 1);
-            console.log("Tipo de cuerpo calculado:", bodyType);
-            return bodyType; // Devuelve el tipo de cuerpo calculado
+            const type = bodyType.replace(/ /g, ""); // Elimina espacios en blanco del tipo de cuerpo
+            return type; // Devuelve el tipo de cuerpo calculado
         } catch (error) {
             // Captura el mensaje del error
             const errorMessage = error.response?.data?.message || error.message || "Error desconocido";
@@ -237,7 +234,8 @@ export function SignUpMeasures() {
         });
     
         if (!isValid) {
-            console.error("Por favor, corrige los errores antes de continuar.");
+            setPopupMessage("Por favor, corrige los errores antes de continuar.");
+            setPopupMessageVisible(true);
             setLoading(false); // Desactiva el spinner si hay errores
             return;
         }
@@ -266,6 +264,13 @@ export function SignUpMeasures() {
             setPopupMessage("Error al crear el tallaje:", errorMessage);
         } 
     };
+    if (loading) {
+        return (
+            <div className="sg-loading-container">
+                <div className="sg-loading-spinner"></div>
+            </div>
+        );
+    }
     return (
         <div className="sg-container">
               <Background elipseTop={"bk-circle-blur-topRight-sq"}
@@ -274,7 +279,7 @@ export function SignUpMeasures() {
             <Card width={"1100px"} height={"1130px"}>
                 <Header classN={"sg-header"}>
                     <>
-                        <Banner spaceLeft={"127px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
+                        <Banner spaceLeft={"188px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
                     </>  
                 </Header>
                 <Title content={"Create your account"} subtitle={"Customize your experience and find the perfect fit"}/>
