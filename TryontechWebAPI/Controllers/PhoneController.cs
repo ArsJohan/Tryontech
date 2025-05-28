@@ -17,19 +17,19 @@ namespace TryontechWebAPI.Controllers
             _phoneServices = phoneService;
         }
 
-        // POST: api/Phone/enviarCodigo
-        [HttpPost("enviarCodigo")]
+        // POST: api/Phone/
+        [HttpPost("requestCode")]
         public async Task<IActionResult> EnviarCodigo([FromBody] EnviarCodigoRequestDTO request)
         {
-            if (request == null || string.IsNullOrEmpty(request.Telefono) || request.UsuarioId <= 0)
-                return BadRequest("Datos inválidos.");
+            if (request == null || string.IsNullOrEmpty(request.Telefono))
+                return BadRequest(new { message = "Datos inválidos." });
 
-            bool resultado = await _phoneServices.EnviarCodigoPorTelefonoAsync(request.UsuarioId, request.Telefono);
+            int? usuarioId = await _phoneServices.EnviarCodigoPorTelefonoAsync(request.Telefono);
 
-            if (resultado)
-                return Ok(new { message = "Código enviado correctamente." });
+            if (usuarioId != null)
+                return Ok(new { message = "Código enviado correctamente.", userId = usuarioId });
             else
-                return StatusCode(500, "Error al enviar el código.");
+                return BadRequest(new { message = "Error al enviar el código." });
         }
     }
 }
