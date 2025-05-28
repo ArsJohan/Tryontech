@@ -29,7 +29,7 @@ namespace TryontechWebAPI.Controllers
             // Validar que los campos no estén vacíos
             if (string.IsNullOrEmpty(request.Correo) || string.IsNullOrEmpty(request.Password))
             {
-                return BadRequest(new { sucess = true,message = "Email and password are required." });
+                return BadRequest(new { sucess = false,message = "Email and password are required." });
             }
 
             // Validar las credenciales del usuario
@@ -40,7 +40,7 @@ namespace TryontechWebAPI.Controllers
                 return Ok(new { sucess = true,message = "Login successful!", Token = token });
             }
 
-            return Unauthorized(new { sucess = false, message = "Invalid Credentials" });
+            return Unauthorized(new { sucess = false, message = "Error al iniciar sesión. Por favor, inténtalo de nuevo." });
         }
 
         // Verificación del código de usuario

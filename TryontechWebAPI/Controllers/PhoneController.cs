@@ -22,14 +22,14 @@ namespace TryontechWebAPI.Controllers
         public async Task<IActionResult> EnviarCodigo([FromBody] EnviarCodigoRequestDTO request)
         {
             if (request == null || string.IsNullOrEmpty(request.Telefono))
-                return BadRequest(new { sucess = false, message = "Datos inválidos." });
+                return BadRequest(new { success = false, message = "Datos inválidos." });
 
             int? usuarioId = await _phoneServices.EnviarCodigoPorTelefonoAsync(request.Telefono);
 
             if (usuarioId != null)
                 return Ok(new { sucess=true,message = "Código enviado correctamente.", userId = usuarioId });
             else
-                return BadRequest(new { sucess=false,message = "Error al enviar el código." });
+                return BadRequest(new { success=false,message = "Error al enviar el código." });
         }
     }
 }
