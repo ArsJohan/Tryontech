@@ -28,21 +28,18 @@ export function Login() {
 
     const handleSignIn = async (e) => {
         e.preventDefault();
-
         const loginData = {
             Correo: email,
             Password: password,
         };
 
-        try {
-            const response = await iniciarSesion(loginData);
-            console.log("Inicio de sesión exitoso:", response);
-            setSuccessMessage("Inicio de sesión exitoso: "+response.message);
+        const response = await iniciarSesion(loginData);
+        if (response.success) {
+            setSuccessMessage(response.message);
             setErrorMessage("");
-        } catch (error) {
-            console.error("Error al iniciar sesión:", error);
+        } else {
             setSuccessMessage("");
-            setErrorMessage("Error al iniciar sesión: Correo o contraseña incorrectos");
+            setErrorMessage(response.message);
         }
     }
     const handleSignUp = () => {
@@ -81,7 +78,7 @@ export function Login() {
                             </div>
                     </div>
                     <input type={showPassword ? "text" : "password"} id="Password" className="lg-form-password" placeholder="*****" onChange={(e) => setPassword(e.target.value)}/>
-                    <Link to="forgot" className="lg-form-forgot">Forgot your password?</Link>
+                    <Link to="/forgotPassword" className="lg-form-forgot">Forgot your password?</Link>
                     <div className="lg-form-btn-container">
                        
                         <Button className={"bt-purple"} text={"Sign in" }  position={"relative"} zindex={"2"} right={"-40px"} onClick={handleSignIn}></Button>

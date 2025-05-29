@@ -18,6 +18,7 @@ import arrowLeft from "../assets/images/arrow-left.svg";
 import {Banner} from "../components/banner.jsx";
 
 
+
 export function SignUpPersonal() {
     const { selectedSex, setSelectedSex } = useContext(AppContext);
     const { IdCliente, setIdCliente } = useContext(AppContext); // Obtener el ID del cliente desde el contexto
@@ -118,9 +119,7 @@ export function SignUpPersonal() {
         setIsPopupVisible(false);
     };
 
-    const handleBack = () => {
-        navigate("/login"); // Navegar a la página de inicio de sesión
-    }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -129,37 +128,31 @@ export function SignUpPersonal() {
         const formData = {
             "Username": username,
             "Password": password,
-            "Telefono": phoneNumber.substring(2),
+            "Telefono": "+"+phoneNumber,
             "Correo": email,
             "FechaNacimiento": birthdateValue,
             "Sexo": selectedSex
         };
-
-        try {
-            const response = await crearCuenta(formData);
-            if (response === "Client saved successfully") {
-                const idResponse = await obtenerIdCliente(email);
-                if (idResponse !== 0) {
-                    setIdCliente(idResponse);
-                    console.log("ID del cliente:", idResponse);
-                    navigate("/Measures");
-                } else {
-                    setPopupMessage("No se encontró un ID de cliente válido.");
-                    setIsPopupVisible(true);
-                }
-            } else {
-                
-                setPopupMessage(response);
-                setIsPopupVisible(true);
-            }
-        } catch (error) {
-             // Captura el mensaje del error
-             const errorMessage = error.response?.data?.message || error.message || "Error desconocido";
-            setPopupMessage("An error occurred. Please try again. ", errorMessage);
+        const response = await crearCuenta(formData);
+        if (!response.success) {
+            setPopupMessage(response.message);
             setIsPopupVisible(true);
-        } finally {
-            setLoading(false); // Desactiva el spinner al finalizar
+            setLoading(false); // Desactiva el spinner
+            return; // Detén la función aquí si hay un error
+        } 
+        const idResponse = await obtenerIdCliente(email);
+        if (!idResponse.success) {
+            setPopupMessage(idResponse.message);
+            setIsPopupVisible(true);
+            setLoading(false); // Desactiva el spinner
+            return; // Detén la función aquí si hay un error
         }
+        setLoading(false); // Desactiva el spinner
+        setIdCliente(idResponse.idCliente);
+        navigate("/Measures");
+        
+
+    
     };
 
     if (loading) {
@@ -175,10 +168,10 @@ export function SignUpPersonal() {
             elipseBottom={"bk-circle-blur-bottomLeft-medium"} width={"400px"} height={"1130px"}>
             </Background>
             <Card width={"1100px"} height={"1130px"}>
-                <Header classN={"sg-header"}>
+                <Header classN={"sg-header"} flexDirection={"row"} alignItems={"center"}>
                     <>
-                        <img src={arrowLeft} alt="arrow-left" className="sg-icon" onClick={handleBack}/>
-                        <Banner spaceLeft={"127px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
+                        <img src={arrowLeft} alt="arrow-left" className="sg-icon" onClick={() => navigate("/Login")}/>
+                        <Banner spaceLeft={"188px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
                     </>  
                 </Header>
                 <Title content={"Create your account"} subtitle={"Customize your experience and find the perfect fit"}/>
@@ -202,7 +195,7 @@ export function SignUpPersonal() {
                             />
                         </div>
                         <div className="sg-form-input-group">
-                            <label htmlFor="Birthdate" className="sg-form-lb">What's your date of borth?</label>
+                            <label htmlFor="Birthdate" className="sg-form-lb">Date of birth</label>
                             <input
                                 type={birthdateType}
                                 id="Birthdate"

@@ -20,8 +20,9 @@ public partial class Usuario
 
     public bool Estado { get; set; }
 
-    public string? Salt { get; set; } = null!;
+    public string? Salt { get; set; }
 
+    public string? Code { get; set; }
     [JsonIgnore]
 
     public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();

@@ -29,17 +29,17 @@ export function SignUpMeasures() {
     const {IdCliente} = useContext(AppContext); // Obtiene el ID del cliente del contexto
     const {selectedSex} = useContext(AppContext); // Obtiene el sexo seleccionado del contexto
     const {setImageUrl} = useContext(AppContext); // Obtiene la URL de la imagen del contexto
+    const [loading, setLoading] = useState(false); // Estado para manejar el loading
     const [measurements, setMeasurements] = useState({
-        Hombros: "",
-        Pecho: "",
-        Cintura: "",
-        Cadera: "",
-        LargoPierna: "",
-        Cuello: "",
-        LargoBrazo: "",
-        Peso: "",
-        Altura: ""
-        
+        Shoulders: "",
+        Chest: "",
+        Waist: "",
+        Hips: "",
+        LegLength: "",
+        Neck: "",
+        ArmLength: "",
+        Weight: "",
+        Height: ""
     });
 
     const [warnings, setWarnings] = useState({
@@ -65,28 +65,28 @@ export function SignUpMeasures() {
 
     // Rango de medidas para hombres
     const maleMeasurementRanges = {
-        Pecho: { min: 71, max: 152 },
-        Cintura: { min: 60, max: 160 },
-        Hombros: { min: 41, max: 61 },
-        LargoBrazo: { min: 55, max: 85 },
-        Cadera: { min: 71, max: 152 },
-        Altura: { min: 150, max: 250 },
-        Cuello: { min: 33, max: 51 },
-        LargoPierna: { min: 66, max: 102 },
-        Peso: { min: 50, max: 250 },
+        Chest: { min: 71, max: 152 },
+        Waist: { min: 60, max: 160 },
+        Shoulders: { min: 41, max: 61 },
+        ArmLength: { min: 55, max: 85 },
+        Hips: { min: 71, max: 152 },
+        Height: { min: 150, max: 250 },
+        Neck: { min: 33, max: 51 },
+        LegLength: { min: 66, max: 102 },
+        Weight: { min: 50, max: 250 },
     };
 
     // Rango de medidas para mujeres
     const femaleMeasurementRanges = {
-        Pecho: { min: 68, max: 188 },
-        Cintura: { min: 50, max: 150 },
-        Hombros: { min: 36, max: 56 },
-        LargoBrazo: { min: 50, max: 75 },
-        Cadera: { min: 56, max: 152 },
-        Altura: { min: 140, max: 220 },
-        Cuello: { min: 28, max: 46 },
-        LargoPierna: { min: 61, max: 97 },
-        Peso: { min: 30, max: 200 },
+        Chest: { min: 68, max: 188 },
+        Waist: { min: 50, max: 150 },
+        Shoulders: { min: 36, max: 56 },
+        ArmLength: { min: 50, max: 75 },
+        Hips: { min: 56, max: 152 },
+        Height: { min: 140, max: 220 },
+        Neck: { min: 28, max: 46 },
+        LegLength: { min: 61, max: 97 },
+        Weight: { min: 30, max: 200 },
     };
 
     const measurementRanges = selectedSex === "Male" ? maleMeasurementRanges : femaleMeasurementRanges;
@@ -116,7 +116,6 @@ export function SignUpMeasures() {
     
         // Si no se encuentra un rango, no mostrar advertencias y permitir escribir
         if (!measurementRanges[name]) {
-            console.warn(`No se encontró un rango para la medida: ${name}`);
             setWarnings((prev) => ({ ...prev, [name]: false }));
             return;
         }
@@ -171,101 +170,91 @@ export function SignUpMeasures() {
 
 
     const resultModelo = async (bodyType) => {
-        try {
-            const data = {
-                ClienteId: IdCliente,
-                TipoCuerpo: bodyType,
-                Sexo: selectedSex,
-            };
-            console.log("Datos para asignar modelo:", data);
-            const modeloResult = await asignarModelo(data);
-            console.log("Modelo asignado:", modeloResult);
-            // Guarda la URL de la imagen y el tipo de cuerpo en el contexto
+        const data = {
+            ClienteId: IdCliente,
+            TipoCuerpo: bodyType,
+            Sexo: selectedSex,
+        };
+        const modeloResult = await asignarModelo(data);
+        console.log(modeloResult);
+        if (modeloResult.success) {
             setImageUrl(modeloResult.imagenUrl);
-            const newBodyType = modeloResult.tipoCuerpo + modeloResult.sexo; // Construye el nuevo valor
-            console.log("Tipo de cuerpo calculado:", newBodyType);
-
-            // Usa el valor directamente en lugar de depender del estado
-            navigate(`/bodyType/${newBodyType}`); // Redirige a la página de resultados del tipo de cuerpo
+            const newBodyType = modeloResult.tipoCuerpo + modeloResult.sexo;
+            setLoading(false);
+            navigate(`/bodyType/${newBodyType}`);
+            return;
+        } else {
+            setLoading(false);
+            setPopupMessage(`Error al asignar el modelo: ${modeloResult.message || "Error desconocido"}`);
+            setPopupMessageVisible(true);
+            return;
         }
-        catch (error) {
-            // Captura el mensaje del error
-            const errorMessage = error.response?.data?.message || error.message || "Error desconocido";
-    
-            // Muestra el mensaje en el popup
-            setPopupMessage(`Error al asignar el modelo: ${errorMessage}`);
-            setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
-        }
-    
     };
 
     const tipoCuerpoApi = async () => {
-    
         // Convierte las medidas a números flotantes
         const numericMeasurements = Object.keys(measurements).reduce((acc, key) => {
-            acc[key] = parseFloat(measurements[key]) || 0; // Convierte a float o usa 0 si no es válido
+            acc[key] = parseFloat(measurements[key]) || 0;
             return acc;
         }, {});
-    
+
         const data = {
             ...numericMeasurements,
             IdCliente: IdCliente,
         };
-    
-        console.log(data);
-    
-        try {
-            const bodyType = await calcularTipoCuerpo(data, 1);
-            console.log("Tipo de cuerpo calculado:", bodyType);
-            return bodyType; // Devuelve el tipo de cuerpo calculado
-        } catch (error) {
-            // Captura el mensaje del error
-            const errorMessage = error.response?.data?.message || error.message || "Error desconocido";
-    
-            // Muestra el mensaje en el popup
-            setPopupMessage(`Error al asignar el modelo: ${errorMessage}`);
-            setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
+
+        const response = await calcularTipoCuerpo(data, IdCliente);
+        console.log("Respuesta de calcularTipoCuerpo:", response); // Para depuración
+        if (response.success && response.tipoCuerpo) {
+            const type = response.tipoCuerpo.replace(/ /g, ""); // Elimina espacios en blanco
+            return type;
+        } else {
+            setPopupMessage(`Error al calcular el tipo de cuerpo: ${response.message || "Error desconocido"}`);
+            setPopupMessageVisible(true);
+            return null;
         }
     };
 
-
     const handleSubmit = async () => {
-
         const isValid = Object.keys(measurements).every((key) => {
             const value = measurements[key];
             return value && !warnings[key];
         });
-    
+
         if (!isValid) {
-            console.error("Por favor, corrige los errores antes de continuar.");
-            setLoading(false); // Desactiva el spinner si hay errores
+            setPopupMessage("Por favor, corrige los errores antes de continuar.");
+            setPopupMessageVisible(true);
+            setLoading(false);
             return;
         }
-    
-        try {
-            const data = {
-                ...measurements,
-                IdCliente: IdCliente,
-            };
-            const response = await crearTallaje(data);
-            if (response){
-                // Llama a la API para calcular el tipo de cuerpo
-                const bodyType = await tipoCuerpoApi();
-                // Verifica si bodyType está definido antes de llamar a resultModelo
-                
-                await resultModelo(bodyType); // Llama a resultModelo solo si bodyType está definido
-               
-            }else{
-             setPopupMessage(response);
-             setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
-            }
-        } catch (error) {
-            // Captura el mensaje del error
-            const errorMessage = error.response?.data?.message || error.message || "Error desconocido";
-            setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
-            setPopupMessage("Error al crear el tallaje:", errorMessage);
+
+        setLoading(true);
+        const data = {
+            ...measurements,
+            IdCliente: IdCliente,
+        };
+        console.log("Datos enviados:", data); // Para depuración
+        const response = await crearTallaje(data);
+
+        if (!response.success) {
+            setPopupMessage(response.message || "No fue posible crear el tallaje. Por favor, intentalo de nuevo.");
+            setPopupMessageVisible(true);
+            setLoading(false);
+            return;
         } 
+        const bodyType = await tipoCuerpoApi();
+        if (bodyType) {
+            console.log(await resultModelo(bodyType));
+            return;
+        }
     };
+    if (loading) {
+        return (
+            <div className="sg-loading-container">
+                <div className="sg-loading-spinner"></div>
+            </div>
+        );
+    }
     return (
         <div className="sg-container">
               <Background elipseTop={"bk-circle-blur-topRight-sq"}
@@ -274,7 +263,7 @@ export function SignUpMeasures() {
             <Card width={"1100px"} height={"1130px"}>
                 <Header classN={"sg-header"}>
                     <>
-                        <Banner spaceLeft={"127px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
+                        <Banner spaceLeft={"188px"} spaceBottom={"0px"} spaceRight={"0px"} spaceTop={"0px"}/>
                     </>  
                 </Header>
                 <Title content={"Create your account"} subtitle={"Customize your experience and find the perfect fit"}/>
@@ -294,7 +283,7 @@ export function SignUpMeasures() {
                                     <input
                                         type="text"
                                         className={`sg-form-input ${warnings[key] ? "invalid" : ""}`}
-                                        placeholder={`Eg. ${key === "Altura" ? "1.67" : "70"}`}
+                                        placeholder={`Eg. ${key === "Height" ? "167" : key === "Weight" ? "70" : "90"}`}
                                         name={key}
                                         value={measurements[key]}
                                         onChange={handleMeasurementChange}
@@ -304,7 +293,13 @@ export function SignUpMeasures() {
                                             Value must be between {measurementRanges[key].min} and {measurementRanges[key].max}.
                                         </span>
                                     )}
-                                    <label className="sg-form-lb-bottom">Measurements are in centimeters (cm).</label>
+                                    <label className="sg-form-lb-bottom">
+                                        {key === "Height"
+                                            ? "Height is in centimeters (cm)."
+                                            : key === "Weight"
+                                            ? "Weight is in kilograms (kg)."
+                                            : "Measurements are in centimeters (cm)."}
+                                    </label>
                                 </div>
                             ))}
                            
@@ -449,12 +444,12 @@ export function SignUpMeasures() {
                         />
                         <label htmlFor="termsCheckbox" className="sg-form-lb" style={{ paddingLeft: "8px" }}>
                             By creating an account, you agree to our{" "}
-                            <a href="/terms" style={{ textDecoration: "underline", color: "#6710E0" }}>
+                            <a  style={{ textDecoration: "underline", color: "#6710E0" }}>
                                 Terms of Use
                             </a>{" "}
                             and
                             <br />
-                            <a href="/privacy" style={{ textDecoration: "underline", color: "#6710E0" }}>
+                            <a style={{ textDecoration: "underline", color: "#6710E0" }}>
                                 Privacy Policy
                             </a>.
                         </label>

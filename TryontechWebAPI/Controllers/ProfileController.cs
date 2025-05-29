@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Schema;
 using TryontechWebAPI.Clases;
@@ -33,7 +34,7 @@ namespace TryontechWebAPI.Controllers
 
         [HttpPost]
         [Route("create")]
-        public string CrearCuenta([FromBody] CreateAccountRequest request)
+        public IActionResult CrearCuenta([FromBody] CreateAccountRequest request)
         {
             try
             {
@@ -45,11 +46,11 @@ namespace TryontechWebAPI.Controllers
                 // se modifico para que recibiera los parametros adecuados
                 string resultado = cliente.InsertarCliente(request.FechaNacimiento, request.Sexo, nuevoUsuario);
 
-                return resultado;
+                return Ok(new { success = true, message =resultado });
             }
             catch (Exception ex)
             {
-                return "Error " + ex.Message;
+                return BadRequest(new { success = false,message = "Ocurrió un error al crear el usuario. Por favor, verifica los datos enviados e inténtalo nuevamente. Detalle: " + ex.Message });
             }
         }
         [HttpPost]

@@ -29,7 +29,7 @@ namespace TryontechWebAPI.Controllers
             // Validar que los campos no estén vacíos
             if (string.IsNullOrEmpty(request.Correo) || string.IsNullOrEmpty(request.Password))
             {
-                return BadRequest(new { Message = "Email and password are required." });
+                return BadRequest(new { success = false,message = "Email and password are required." });
             }
 
             // Validar las credenciales del usuario
@@ -37,19 +37,105 @@ namespace TryontechWebAPI.Controllers
             {
                 // Generar un token JWT
                 var token = GenerateJwtToken(usuario.Username, usuario.Rol);
-                return Ok(new { Message = "Login successful!", Token = token });
+                return Ok(new { success = true,message = "Login successful!", Token = token });
             }
 
-            return Unauthorized(new { Message = "Invalid Credentials" });
+            return Unauthorized(new { success = false, message = "Error al iniciar sesión. Por favor, inténtalo de nuevo." });
+        }
+
+        // Verificación del código de usuario
+        [AllowAnonymous]
+        [HttpPost("verifyCode")]
+        public IActionResult VerifyCode([FromBody] VerifyCodeRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Code))
+            {
+                return BadRequest(new { success = false, message = "El código es obligatorio." });
+            }
+
+            var usuario = _clsUsuario.ObtenerUsuarioPorId(request.UserId); // Usamos el `UserId` recibido del frontend
+
+            if (usuario == null)
+            {
+                return NotFound(new { success = false, message = "Usuario no encontrado." });
+            }
+
+            if (usuario.Code != request.Code)
+            {
+                return Unauthorized(new { success = false, message = "El código ingresado es incorrecto." });
+            }
+
+            // Código correcto: se invalida el código en la base de datos
+            usuario.Code = null;
+            _clsUsuario.ActualizarUsuario(usuario);
+
+            // Generar un token temporal solo para cambio de contraseña
+            var token = GeneratePasswordResetToken(usuario.Id);
+
+            return Ok(new { success = true,message = "Código verificado exitosamente.", Token = token });
+        }
+
+        //Cambio de la contraseña y cifrado
+        [Authorize]
+        [HttpPost("changePassword")]
+        public IActionResult ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            if (string.IsNullOrEmpty(request.NewPassword))
+            {
+                return BadRequest(new { success = false, message = "La nueva contraseña es obligatoria." });
+            }
+
+            var usuario = _clsUsuario.ObtenerUsuarioPorId(request.UserId); // Usamos el `UserId` recibido del frontend
+
+            if (usuario == null)
+            {
+                return NotFound(new { success = false, message = "Usuario no encontrado." });
+            }
+
+            var cypher = new clsCypher();
+            cypher.Password = request.NewPassword;
+
+            if (!cypher.CifrarClave())
+            {
+                return StatusCode(500, new { success = false, message = "Error al cifrar la nueva contraseña." });
+            }
+
+            usuario.Password = cypher.PasswordCifrado;
+            usuario.Salt = cypher.Salt;
+
+            _clsUsuario.ActualizarUsuario(usuario);
+
+            return Ok(new { success = true, message = "Contraseña actualizada exitosamente." });
         }
 
         [HttpGet("protected")]
         public IActionResult ProtectedEndpoint()
         {
-            return Ok(new { Message = "This is a protected endpoint", User = User.Identity.Name });
+            return Ok(new { success = true, message = "This is a protected endpoint", User = User.Identity.Name });
         }
 
-        // Método para generar un token JWT
+        // Genera un token solo para cambio de contraseña
+        private string GeneratePasswordResetToken(int userId)
+        {
+            var claims = new[]
+            {
+                new Claim("UserId", userId.ToString()),
+                new Claim("PasswordReset", "true")
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: "TryontechWebAPI",
+                audience: "TryontechWebAPIUsers",
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(15), // Token temporal
+                signingCredentials: creds);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
         private string GenerateJwtToken(string username, string role)
         {
             var claims = new[]
@@ -72,11 +158,21 @@ namespace TryontechWebAPI.Controllers
         }
     }
 
-    // Clase para recibir las credenciales de inicio de sesión
+    //clases para las solicitudes de login, verificación de código y cambio de contraseña
     public class LoginRequest
     {
         public string Correo { get; set; }
         public string Password { get; set; }
     }
-}
 
+    public class VerifyCodeRequest
+    {
+        public int UserId { get; set; } //Se maneja internamente no se recibe desde el cliente
+        public string Code { get; set; }
+    }
+    public class ChangePasswordRequest
+    {
+        public int UserId { get; set; } //Se maneja internamente no se recibe desde el cliente
+        public string NewPassword { get; set; }
+    } 
+}

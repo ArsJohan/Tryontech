@@ -3,6 +3,7 @@ using TryontechWebAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TryontechWebAPI.Clases;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,19 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
+});
+
+builder.Services.AddScoped<clsPhoneService>(sp =>
+{
+    var context = sp.GetRequiredService<TryontechContext>();
+    var config = sp.GetRequiredService<IConfiguration>();
+
+    return new clsPhoneService(
+        context,
+        config["Twilio:AccountSid"],
+        config["Twilio:AuthToken"],
+        config["Twilio:FromPhoneNumber"]
+    );
 });
 
 // Registrar el contexto de base de datos con SQL Server

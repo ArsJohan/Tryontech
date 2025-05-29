@@ -1,0 +1,49 @@
+
+.code-verification-container {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    min-height: 64px; /* igual a la altura del input */
+    align-items: center;
+}
+
+.code-input {
+    width: 87px;
+    height: 87px;
+    border: 2px solid transparent;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #f3f3f3 60%, #e0dfff 100%);
+    box-shadow: 0 4px 18px rgba(103, 16, 224, 0.10), 0 1.5px 6px rgba(103, 16, 224, 0.07);
+    font-size: 2.5rem;
+    color: #6710E0;
+    text-align: center;
+    outline: none;
+    transition: box-shadow 0.2s, border 0.2s;
+    font-family: var(--font-primary);
+    font-weight: var(--font-primary-weight-bold);
+    font-style: var(--font-primary-style);
+    letter-spacing: 2px;
+    box-sizing: border-box;
+}
+
+.code-input:focus {
+    box-shadow: 0 0 0 3px #cbb6f7, 0 4px 18px rgba(103, 16, 224, 0.10);
+    background: linear-gradient(135deg, #e9e4ff 60%, #f3f3f3 100%);
+    border: 2px solid #6710E0;
+}
+
+
+/* codeLabel.css */
+.code-input-error {
+    border: 2px solid #e74c3c !important;
+    animation: shake 0.4s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-8px); }
+    80% { transform: translateX(8px); }
+    100% { transform: translateX(0); }
+}

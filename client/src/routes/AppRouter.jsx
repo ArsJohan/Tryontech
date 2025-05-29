@@ -1,8 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
-import Login from '../pages/login.jsx';
+import {Login} from '../pages/login.jsx';
 import { SignUpPersonal } from '../pages/signUpPersonal.jsx';
-import SignUpMeasures from '../pages/signUpMeasures.jsx';
+import {SignUpMeasures} from '../pages/signUpMeasures.jsx';
 import { BodyTypeResultsPage } from '../pages/bodyTypeResultPage.jsx';
+import { ForgotPassword } from '../pages/forgotPassword.jsx';
+import { CodeVerification } from '../pages/CodeVerification.jsx';
+import { CreateNewPassword } from '../pages/createNewPassword.jsx';
 
 
 const ProtectedRoute = ({ children }) => {
@@ -26,6 +29,9 @@ const AppRouter = () => {
         <Route path="/PersonalInfo" element={<SignUpPersonal/>}/>
         <Route path="/Measures" element={<SignUpMeasures/>}/>
         <Route path="/bodyType/:bodyType" element={<BodyTypeResultsPage />} />
+        <Route path='/forgotPassword' element={<ForgotPassword/>}/>
+        <Route path="/forgotPassword/code" element={<CodeVerification />} />
+        <Route path='/newPassword' element={<CreateNewPassword/>}/>
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
