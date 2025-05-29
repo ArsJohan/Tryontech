@@ -170,7 +170,7 @@ function ForgotPasswordPhone({onEmailClick, onVerifyCodePhone}) {
     const [isPhoneValid, setIsPhoneValid] = useState(false);
 
     const handlePhoneChange = (value) => {
-        setPhoneNumber("+"+value); 
+        setPhoneNumber(value); 
 
         const phoneRegex = /^\d{10,13}$/;
         setIsPhoneValid(phoneRegex.test(value));
@@ -194,7 +194,7 @@ function ForgotPasswordPhone({onEmailClick, onVerifyCodePhone}) {
                 )}
             </div>
             <div className="fg-container-buttons">
-                <Button className={"bt-purple"} text={"Send Code"} onClick={(e) => onVerifyCodePhone(e, phoneNumber)}/>
+                <Button className={"bt-purple"} text={"Send Code"} onClick={(e) => onVerifyCodePhone(e,"+"+phoneNumber)}/>
                 <Button className={"bt-transparent"} text={"Use Email"} onClick={onEmailClick}/>
 
             </div>

@@ -31,3 +31,19 @@
     background: linear-gradient(135deg, #e9e4ff 60%, #f3f3f3 100%);
     border: 2px solid #6710E0;
 }
+
+
+/* codeLabel.css */
+.code-input-error {
+    border: 2px solid #e74c3c !important;
+    animation: shake 0.4s;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-8px); }
+    80% { transform: translateX(8px); }
+    100% { transform: translateX(0); }
+}

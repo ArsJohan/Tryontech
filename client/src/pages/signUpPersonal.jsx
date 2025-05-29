@@ -195,7 +195,7 @@ export function SignUpPersonal() {
                             />
                         </div>
                         <div className="sg-form-input-group">
-                            <label htmlFor="Birthdate" className="sg-form-lb">What's your date of borth?</label>
+                            <label htmlFor="Birthdate" className="sg-form-lb">Date of birth</label>
                             <input
                                 type={birthdateType}
                                 id="Birthdate"
