@@ -31,16 +31,15 @@ export function SignUpMeasures() {
     const {setImageUrl} = useContext(AppContext); // Obtiene la URL de la imagen del contexto
     const [loading, setLoading] = useState(false); // Estado para manejar el loading
     const [measurements, setMeasurements] = useState({
-        Hombros: "",
-        Pecho: "",
-        Cintura: "",
-        Cadera: "",
-        LargoPierna: "",
-        Cuello: "",
-        LargoBrazo: "",
-        Peso: "",
-        Altura: ""
-        
+        Shoulders: "",
+        Chest: "",
+        Waist: "",
+        Hips: "",
+        LegLength: "",
+        Neck: "",
+        ArmLength: "",
+        Weight: "",
+        Height: ""
     });
 
     const [warnings, setWarnings] = useState({
@@ -66,28 +65,28 @@ export function SignUpMeasures() {
 
     // Rango de medidas para hombres
     const maleMeasurementRanges = {
-        Pecho: { min: 71, max: 152 },
-        Cintura: { min: 60, max: 160 },
-        Hombros: { min: 41, max: 61 },
-        LargoBrazo: { min: 55, max: 85 },
-        Cadera: { min: 71, max: 152 },
-        Altura: { min: 150, max: 250 },
-        Cuello: { min: 33, max: 51 },
-        LargoPierna: { min: 66, max: 102 },
-        Peso: { min: 50, max: 250 },
+        Chest: { min: 71, max: 152 },
+        Waist: { min: 60, max: 160 },
+        Shoulders: { min: 41, max: 61 },
+        ArmLength: { min: 55, max: 85 },
+        Hips: { min: 71, max: 152 },
+        Height: { min: 150, max: 250 },
+        Neck: { min: 33, max: 51 },
+        LegLength: { min: 66, max: 102 },
+        Weight: { min: 50, max: 250 },
     };
 
     // Rango de medidas para mujeres
     const femaleMeasurementRanges = {
-        Pecho: { min: 68, max: 188 },
-        Cintura: { min: 50, max: 150 },
-        Hombros: { min: 36, max: 56 },
-        LargoBrazo: { min: 50, max: 75 },
-        Cadera: { min: 56, max: 152 },
-        Altura: { min: 140, max: 220 },
-        Cuello: { min: 28, max: 46 },
-        LargoPierna: { min: 61, max: 97 },
-        Peso: { min: 30, max: 200 },
+        Chest: { min: 68, max: 188 },
+        Waist: { min: 50, max: 150 },
+        Shoulders: { min: 36, max: 56 },
+        ArmLength: { min: 50, max: 75 },
+        Hips: { min: 56, max: 152 },
+        Height: { min: 140, max: 220 },
+        Neck: { min: 28, max: 46 },
+        LegLength: { min: 61, max: 97 },
+        Weight: { min: 30, max: 200 },
     };
 
     const measurementRanges = selectedSex === "Male" ? maleMeasurementRanges : femaleMeasurementRanges;
@@ -177,7 +176,7 @@ export function SignUpMeasures() {
             Sexo: selectedSex,
         };
         const modeloResult = await asignarModelo(data);
-        
+        console.log(modeloResult);
         if (modeloResult.success) {
             setImageUrl(modeloResult.imagenUrl);
             const newBodyType = modeloResult.tipoCuerpo + modeloResult.sexo;
@@ -205,6 +204,7 @@ export function SignUpMeasures() {
         };
 
         const response = await calcularTipoCuerpo(data, IdCliente);
+        console.log("Respuesta de calcularTipoCuerpo:", response); // Para depuración
         if (response.success && response.tipoCuerpo) {
             const type = response.tipoCuerpo.replace(/ /g, ""); // Elimina espacios en blanco
             return type;
@@ -244,7 +244,7 @@ export function SignUpMeasures() {
         } 
         const bodyType = await tipoCuerpoApi();
         if (bodyType) {
-            await resultModelo(bodyType);
+            console.log(await resultModelo(bodyType));
             return;
         }
     };
@@ -283,7 +283,7 @@ export function SignUpMeasures() {
                                     <input
                                         type="text"
                                         className={`sg-form-input ${warnings[key] ? "invalid" : ""}`}
-                                        placeholder={`Eg. ${key === "Altura" ? "1.67" : "70"}`}
+                                        placeholder={`Eg. ${key === "Height" ? "167" : key === "Weight" ? "70" : "90"}`}
                                         name={key}
                                         value={measurements[key]}
                                         onChange={handleMeasurementChange}
@@ -293,7 +293,13 @@ export function SignUpMeasures() {
                                             Value must be between {measurementRanges[key].min} and {measurementRanges[key].max}.
                                         </span>
                                     )}
-                                    <label className="sg-form-lb-bottom">Measurements are in centimeters (cm).</label>
+                                    <label className="sg-form-lb-bottom">
+                                        {key === "Height"
+                                            ? "Height is in centimeters (cm)."
+                                            : key === "Weight"
+                                            ? "Weight is in kilograms (kg)."
+                                            : "Measurements are in centimeters (cm)."}
+                                    </label>
                                 </div>
                             ))}
                            
@@ -438,12 +444,12 @@ export function SignUpMeasures() {
                         />
                         <label htmlFor="termsCheckbox" className="sg-form-lb" style={{ paddingLeft: "8px" }}>
                             By creating an account, you agree to our{" "}
-                            <a href="/terms" style={{ textDecoration: "underline", color: "#6710E0" }}>
+                            <a  style={{ textDecoration: "underline", color: "#6710E0" }}>
                                 Terms of Use
                             </a>{" "}
                             and
                             <br />
-                            <a href="/privacy" style={{ textDecoration: "underline", color: "#6710E0" }}>
+                            <a style={{ textDecoration: "underline", color: "#6710E0" }}>
                                 Privacy Policy
                             </a>.
                         </label>
