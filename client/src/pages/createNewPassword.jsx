@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/card";
 import Button from "../components/button";
@@ -10,6 +10,9 @@ import arrowLeft from "../assets/images/arrow-left.svg";
 import { Background } from "../components/background";
 import logoBackground from "../assets/images/logo-background.png";
 import "../assets/styles/pages/signUp.css";
+import { AppContext } from "../context/AppUserContext";
+import { cambiarContrasena } from "../services/loginApi";
+
 
 
 export function CreateNewPassword() {
@@ -23,6 +26,9 @@ export function CreateNewPassword() {
         specialChar: false,
     });
     const [error, setError] = useState("");
+    const { userId } = useContext(AppContext); // Obtiene el userId del contexto
+    const { token } = useContext(AppContext); // Obtiene la función setToken del contexto
+    const [errorMessage, setErrorMessage] = useState("");
 
     const validatePassword = (pwd) => {
         setRequirements({
@@ -44,7 +50,7 @@ export function CreateNewPassword() {
     };
 
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (password !== confirmPassword) {
             setError("Passwords do not match");
             return;
@@ -53,7 +59,16 @@ export function CreateNewPassword() {
             setError("Password does not meet requirements");
             return;
         }
-        useNavigate("/Login");
+        const newPasswordData = {
+            userId: userId, // Usa el userId del contexto
+            NewPassword: password,
+        };
+        const reponserNewPassword = await cambiarContrasena(newPasswordData, token);
+        if (!reponserNewPassword.success) {
+            setErrorMessage(reponserNewPassword.message);
+            return;
+        }
+        navigate("/Login");
     }
 
     return (
@@ -112,6 +127,11 @@ export function CreateNewPassword() {
                             </div>
                                     
                      </div>
+                     {errorMessage &&(       
+                            <div className="lg-form-error-message animate-slide-up">
+                                <p>{errorMessage}</p>
+                            </div>
+                    )}
                       
                 </div>
                 <Footer/>

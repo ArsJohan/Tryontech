@@ -1,6 +1,6 @@
 import React, {useContext, useState, useEffect} from "react";
 import  {CodeLabel}  from "../components/codeLabel";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../components/button";
 import Title from "../components/title";
 import Banner from "../components/banner";
@@ -13,6 +13,7 @@ import logoBackground from "../assets/images/logo-background.png";
 import "../assets/styles/pages/signUp.css";
 import "../assets/styles/pages/forgotPassword.css";
 import { AppContext } from "../context/AppUserContext.jsx";
+import { verificarCodigo } from "../services/loginApi.js";
 
 
 
@@ -21,6 +22,10 @@ export function CodeVerification() {
     const navigate = useNavigate();
 
     const {code} = useContext(AppContext);
+    const [codeError, setCodeError] = useState(false);
+    const {userId} = useContext(AppContext); // Obtiene el userId de los parámetros de la URL
+    const {setToken} = useContext(AppContext); // Obtiene la función setToken del contexto
+    const [errorMessage, setErrorMessage] = useState("");
 
       // Estado para el contador (5 minutos = 300 segundos)
     const [secondsLeft, setSecondsLeft] = useState(300);
@@ -33,13 +38,31 @@ export function CodeVerification() {
         return () => clearInterval(interval);
     }, [secondsLeft]);
     
-    const handleVerifyCode = () => {
-        // Aquí puedes manejar la lógica para verificar el código
-        console.log("Código ingresado:", code);
-    }
-     const handleResendCode = () => {
+    const handleVerifyCode = async (e) => {
+        e.preventDefault();
+
+        const verificar = await verificarCodigo(
+            {   userId: userId, // Usa el userId del contexto
+                Code:code
+            }
+        );
+        if (!verificar.success) {
+            setCodeError(true); // Activa el error
+            setTimeout(() => setCodeError(false), 800); // Quita el error después de la animación
+            setErrorMessage(verificar.message);
+            
+            return;
+        }
+        setToken(verificar.token); // Guarda el token en el contexto
+        navigate("/newPassword");
+    };
+    const handleResendCode = () => {
         // Aquí va la lógica para reenviar el código
-        setSecondsLeft(300); // Reinicia el contador
+        if (secondsLeft === 0) {
+        // Aquí va la lógica para reenviar el código
+            navigate("/forgotPassword")
+        };
+        
     };
 
      // Formatea el tiempo mm:ss
@@ -68,7 +91,7 @@ export function CodeVerification() {
                     subtitle={"We sent you a four digit code, please enter the code to verify is you. If you didn’t receive a code, click in get a new code."}
                     paddingRight= "200px"/>
                     <div className="sg-form-input-group" style={{paddingLeft: "50px"}}>
-                        <CodeLabel />
+                        <CodeLabel codeError={codeError}/>
                         {secondsLeft > 0 && (
                             <div style={{ marginTop: "10px", color: "#888", justifyContent: "center", display: "flex", alignItems: "center" }}>
                                 You can resend the code in
@@ -87,6 +110,11 @@ export function CodeVerification() {
                             />
                             
                         </div>
+                        {errorMessage &&(       
+                            <div className="lg-form-error-message animate-slide-up">
+                                <p>{errorMessage}</p>
+                            </div>
+                        )}
                        
                     </div>
                      

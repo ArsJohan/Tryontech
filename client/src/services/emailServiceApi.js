@@ -1,11 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_BASE_URL = 'http://localhost:5177/api'; //API base URL here
+const API_BASE_URL = "http://localhost:5177/api"; 
 
-
-export async function asignarModelo(data) {
+export async function enviarEmail(data) {
     try {
-        const response = await axios.post(`${API_BASE_URL}/Modelo/AsignarModelo`, data);
+        const response = await axios.post(`${API_BASE_URL}/account/requestCode`, data);
         return { success: true, ...response.data };
     } catch (error) {
         if (error.response && error.response.data) {
@@ -14,8 +13,8 @@ export async function asignarModelo(data) {
         // Si no hay respuesta del servidor, retorna un mensaje genérico
         return {
             success: false,
-            message: 'Error al conectar con el servidor. Por favor, inténtalo de nuevo.'
+            message: "Error al conectar con el servidor. Por favor, inténtalo de nuevo."
         };
     }
+
 }
-export default asignarModelo;

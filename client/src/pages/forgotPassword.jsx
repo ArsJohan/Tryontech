@@ -1,4 +1,8 @@
-import React, {useState} from "react";
+import "react-phone-input-2/lib/style.css";
+import "../assets/styles/pages/signUp.css";
+import "../assets/styles/pages/forgotPassword.css";
+import "../assets/styles/pages/login.css";
+import React, {useContext, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/button";
 import Title from "../components/title";
@@ -10,12 +14,116 @@ import PhoneInput from "react-phone-input-2";
 import  Card  from "../components/card.jsx";
 import { Background } from "../components/background";
 import logoBackground from "../assets/images/logo-background.png";
-import "react-phone-input-2/lib/style.css";
-import "../assets/styles/pages/signUp.css";
-import "../assets/styles/pages/forgotPassword.css";
+import { verificarEmail, verificarTelefono } from "../services/userApi.js";
+import { enviarSms } from "../services/phoneServiceApi.js";
+import { enviarEmail } from "../services/emailServiceApi.js";
+import { AppContext } from "../context/AppUserContext.jsx";
+
+export function ForgotPassword() {
+    const navigate = useNavigate();
+    const {setUserId} = useContext(AppContext);
+    const [step, setStep] = useState("email"); 
+    const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const handlePhoneClick = () => {
+        setStep("phone");
+    };
+    const handleEmailClick = () => {
+        setStep("email");
+    };
+
+    const handleVerifyCodePhone = async (e,phoneNumber) => {
+        e.preventDefault();
+        setLoading(true);
+        const verificar = await verificarTelefono({Telefono:phoneNumber});
+        if (!verificar.exists) {
+            setErrorMessage(verificar.message);   
+            setLoading(false); // Desactiva el spinner si hay error
+            return; // Detén la función aquí
+        }
+       
+        const enviarSmsResponse = await enviarSms({Telefono:phoneNumber});
+        if (enviarSmsResponse.success) {
+            setUserId(enviarSmsResponse.userId); // Guarda el userId en el contexto
+            navigate("/forgotPassword/code");
+        } else {
+            setErrorMessage(enviarSmsResponse.message);
+            setLoading(false); // Desactiva el spinner si hay error
+            return;
+        }
+
+    };
+    const handleVerifyCodeEmail = async (e,email) => {
+        e.preventDefault();
+        setLoading(true);
+        const verificar = await verificarEmail({Correo:email});
+        if (!verificar.exists) {
+            setErrorMessage(verificar.message);
+            return;
+        } 
+        const enviarEmailResponse = await enviarEmail({Correo:email});
+        
+        if (enviarEmailResponse.success) { 
+            setUserId(enviarEmailResponse.userId); // Guarda el userId en el contexto
+            navigate("/forgotPassword/code"); 
+        }else {
+            setErrorMessage(enviarEmailResponse.message); 
+        } 
+        setLoading(verificar.exists || enviarEmailResponse.success);
+       
+    }
+
+    if (loading) {
+        return (
+            <div className="sg-loading-container">
+                <div className="sg-loading-spinner"></div>
+            </div>
+        );
+    }
+    return (
+        <div className="sg-container"> 
+            <Background elipseTop={"bk-circle-blur-topRight-md"} 
+                        elipseBottom={"bk-circle-blur-bottomLeft-big"} width= {"800px"}
+                        height={"1080px"}>
+                            <h1 className="bk-title">“A new way <br/> to measure yourself ”</h1>
+                            <img src={logoBackground} alt="Background" className="bk-image"/>
+            </Background>
+            <Card width={ "874px"} height={ "1080px"}>
+                <Header classN={"sg-header"}>
+                    <>
+                       
+                        <img src={arrowLeft} alt="arrow-left" className="sg-icon" onClick={() => navigate("/Login")}/>
+                        <Banner spaceRight={"0px"} spaceLeft={"50px"} />
+                    </>
+                </Header>
+                <div className="fg-form-container">
+                    <Title content={"Reset your password"} 
+                    subtitle={"Did you forget your password? Don’t worry, we got you ;) We will send you a code via email to reset your password. If you don’t have access to your email, select use phone number."}
+                    paddingRight= "200px"/>
+                    <div>
+                        {step === "email" && (
+                                <ForgotPasswordEmail onPhoneClick={handlePhoneClick} onVerifyCodeEmail={handleVerifyCodeEmail} />
+                            )}
+                            {step === "phone" && (
+                                <ForgotPasswordPhone onEmailClick={handleEmailClick} onVerifyCodePhone={handleVerifyCodePhone}/>
+                            )}
+                    </div>
+
+                    {errorMessage &&(       
+                            <div className="lg-form-error-message animate-slide-up">
+                                <p>{errorMessage}</p>
+                            </div>
+                    )}
+                </div>
+                <Footer/>
+            </Card>
+            
+        </div>
+    );
+}
 
 
-function ForgotPasswordEmail({onPhoneClick}) {
+function ForgotPasswordEmail({onPhoneClick, onVerifyCodeEmail}) {
     const [email, setEmail] = useState("");
     const [isEmailValid, setIsEmailValid] = useState(false);
 
@@ -45,7 +153,7 @@ function ForgotPasswordEmail({onPhoneClick}) {
                 )}
             </div> 
             <div className="fg-container-buttons">
-                <Button className={"bt-purple"} text={"Send Code"}/>
+                <Button className={"bt-purple"} text={"Send Code"} onClick={(e) => onVerifyCodeEmail(e, email)}/>
                 <Button className={"bt-transparent"} text={"Use Phone Number"} onClick={onPhoneClick}/>
             </div>
         </div>
@@ -57,15 +165,16 @@ function ForgotPasswordEmail({onPhoneClick}) {
 
 
 
-function ForgotPasswordPhone({onEmailClick}) {
+function ForgotPasswordPhone({onEmailClick, onVerifyCodePhone}) {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [isPhoneValid, setIsPhoneValid] = useState(false);
 
     const handlePhoneChange = (value) => {
-        setPhoneNumber(value); 
+        setPhoneNumber("+"+value); 
 
         const phoneRegex = /^\d{10,13}$/;
         setIsPhoneValid(phoneRegex.test(value));
+        
     };
     return (
         <div>
@@ -85,7 +194,7 @@ function ForgotPasswordPhone({onEmailClick}) {
                 )}
             </div>
             <div className="fg-container-buttons">
-                <Button className={"bt-purple"} text={"Send Code"}/>
+                <Button className={"bt-purple"} text={"Send Code"} onClick={(e) => onVerifyCodePhone(e, phoneNumber)}/>
                 <Button className={"bt-transparent"} text={"Use Email"} onClick={onEmailClick}/>
 
             </div>
@@ -93,54 +202,5 @@ function ForgotPasswordPhone({onEmailClick}) {
 
     )
 
-}
-
-
-
-
-export function ForgotPassword() {
-    const navigate = useNavigate();
-    const [step, setStep] = useState("email"); 
-    const handlePhoneClick = () => {
-        setStep("phone");
-    };
-    const handleEmailClick = () => {
-        setStep("email");
-    };
-
-    return (
-        <div className="sg-container"> 
-            <Background elipseTop={"bk-circle-blur-topRight-md"} 
-                        elipseBottom={"bk-circle-blur-bottomLeft-big"} width= {"800px"}
-                        height={"1080px"}>
-                            <h1 className="bk-title">“A new way <br/> to measure yourself ”</h1>
-                            <img src={logoBackground} alt="Background" className="bk-image"/>
-            </Background>
-            <Card width={ "874px"} height={ "1080px"}>
-                <Header classN={"sg-header"}>
-                    <>
-                       
-                        <img src={arrowLeft} alt="arrow-left" className="sg-icon" onClick={() => navigate("/Login")}/>
-                        <Banner spaceRight={"0px"} spaceLeft={"50px"} />
-                    </>
-                </Header>
-                <div className="fg-form-container">
-                    <Title content={"Reset your password"} 
-                    subtitle={"Did you forget your password? Don’t worry, we got you ;) We will send you a code via email to reset your password. If you don’t have access to your email, select use phone number."}
-                    paddingRight= "200px"/>
-                    <div>
-                        {step === "email" && (
-                                <ForgotPasswordEmail onPhoneClick={handlePhoneClick} />
-                            )}
-                            {step === "phone" && (
-                                <ForgotPasswordPhone onEmailClick={handleEmailClick}/>
-                            )}
-                    </div>
-                </div>
-                <Footer/>
-            </Card>
-            
-        </div>
-    );
 }
 
