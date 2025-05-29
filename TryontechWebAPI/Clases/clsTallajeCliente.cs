@@ -44,16 +44,16 @@ namespace TryontechWebAPI.Clases
                 {
                     DBTryOnTech.TallajeClientes.Add(tallajeClienteEntidad); // Se agrega la talla del cliente
                     DBTryOnTech.SaveChanges();
-                    return new OkObjectResult(new { sucess = true, message = "Customer measurements successfully added." }); // Se utiliza OkObjectResult correctamente
+                    return new OkObjectResult(new { success = true, message = "Customer measurements successfully added." }); // Se utiliza OkObjectResult correctamente
                 }
                 else
                 {
-                    return new BadRequestObjectResult(new { sucess = false, message = "Incorrect measurements. Please double-check the values." }); // Se utiliza BadRequestObjectResult correctamente
+                    return new BadRequestObjectResult(new { success = false, message = "Incorrect measurements. Please double-check the values." }); // Se utiliza BadRequestObjectResult correctamente
                 }
             }
             catch (Exception ex)
             {
-                return new BadRequestObjectResult(new { sucess = false, message = "Couldn’t save size details: " + ex.Message }); // Se utiliza ObjectResult con código de estado
+                return new BadRequestObjectResult(new { success = false, message = "Couldn’t save size details: " + ex.Message }); // Se utiliza ObjectResult con código de estado
             }
         }
         public IActionResult Actualizar()
@@ -66,20 +66,20 @@ namespace TryontechWebAPI.Clases
                     TallajeCliente tallajeCli = Consultar(tallajeCliente.Id); // Se verifica que existe en la base de datos
                     if (tallajeCli == null)
                     {
-                        return new BadRequestObjectResult(new { sucess = false,message = "Measurements not found. Update failed." }); // Se corrige el uso de BadRequest
+                        return new BadRequestObjectResult(new { success = false,message = "Measurements not found. Update failed." }); // Se corrige el uso de BadRequest
                     }
                     DBTryOnTech.TallajeClientes.Update(tallajeClienteEntidad); // Se actualiza la talla del cliente
                     DBTryOnTech.SaveChanges();
-                    return new OkObjectResult(new { sucess = true, message = "Client measurements successfully updated" }); // Se utiliza OkObjectResult correctamente
+                    return new OkObjectResult(new { success = true, message = "Client measurements successfully updated" }); // Se utiliza OkObjectResult correctamente
                 }
                 else
                 {
-                    return new BadRequestObjectResult(new { sucess = false,message = "Incorrect measurements. Please double-check the values." }); // Se utiliza BadRequestObjectResult correctamente
+                    return new BadRequestObjectResult(new { success = false,message = "Incorrect measurements. Please double-check the values." }); // Se utiliza BadRequestObjectResult correctamente
                 }
             }
             catch (Exception ex)
             {
-                return new BadRequestObjectResult(new { sucess = false,message = "Update failed: " + ex.Message }); // Se utiliza ObjectResult con código de estado
+                return new BadRequestObjectResult(new { success = false,message = "Update failed: " + ex.Message }); // Se utiliza ObjectResult con código de estado
             }
         }
         public IActionResult Eliminar(int Id)
@@ -89,15 +89,15 @@ namespace TryontechWebAPI.Clases
                 TallajeCliente tallajeCli = Consultar(Id); // Se verifica que existe en la base de datos
                 if (tallajeCli == null)
                 {
-                    return new BadRequestObjectResult(new { sucess = false, message = "Measurements not found. Deletion failed." }); // Se corrige el uso de BadRequestObjectResult
+                    return new BadRequestObjectResult(new { success = false, message = "Measurements not found. Deletion failed." }); // Se corrige el uso de BadRequestObjectResult
                 }
                 DBTryOnTech.TallajeClientes.Remove(tallajeCli); // Se elimina la talla del cliente
                 DBTryOnTech.SaveChanges();
-                return new OkObjectResult(new { sucess = true, message = "Measurements successfully deleted" }); // Se utiliza OkObjectResult correctamente
+                return new OkObjectResult(new { success = true, message = "Measurements successfully deleted" }); // Se utiliza OkObjectResult correctamente
             }
             catch (Exception ex)
             {
-                return new BadRequestObjectResult(new { sucess = false,message = "Couldn't remove client measurements: " + ex.Message }); // Se utiliza ObjectResult con código de estado
+                return new BadRequestObjectResult(new { success = false,message = "Couldn't remove client measurements: " + ex.Message }); // Se utiliza ObjectResult con código de estado
             }
         }
         public TallajeCliente Consultar(int Id)

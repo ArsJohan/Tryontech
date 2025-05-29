@@ -29,7 +29,7 @@ namespace TryontechWebAPI.Controllers
             // Validar que los campos no estén vacíos
             if (string.IsNullOrEmpty(request.Correo) || string.IsNullOrEmpty(request.Password))
             {
-                return BadRequest(new { sucess = true,message = "Email and password are required." });
+                return BadRequest(new { success = false,message = "Email and password are required." });
             }
 
             // Validar las credenciales del usuario
@@ -37,10 +37,10 @@ namespace TryontechWebAPI.Controllers
             {
                 // Generar un token JWT
                 var token = GenerateJwtToken(usuario.Username, usuario.Rol);
-                return Ok(new { sucess = true,message = "Login successful!", Token = token });
+                return Ok(new { success = true,message = "Login successful!", Token = token });
             }
 
-            return Unauthorized(new { sucess = false, message = "Invalid Credentials" });
+            return Unauthorized(new { success = false, message = "Error al iniciar sesión. Por favor, inténtalo de nuevo." });
         }
 
         // Verificación del código de usuario
@@ -50,19 +50,19 @@ namespace TryontechWebAPI.Controllers
         {
             if (string.IsNullOrEmpty(request.Code))
             {
-                return BadRequest(new { sucess = false, message = "El código es obligatorio." });
+                return BadRequest(new { success = false, message = "El código es obligatorio." });
             }
 
             var usuario = _clsUsuario.ObtenerUsuarioPorId(request.UserId); // Usamos el `UserId` recibido del frontend
 
             if (usuario == null)
             {
-                return NotFound(new { sucess = false, message = "Usuario no encontrado." });
+                return NotFound(new { success = false, message = "Usuario no encontrado." });
             }
 
             if (usuario.Code != request.Code)
             {
-                return Unauthorized(new { sucess = false, message = "El código ingresado es incorrecto." });
+                return Unauthorized(new { success = false, message = "El código ingresado es incorrecto." });
             }
 
             // Código correcto: se invalida el código en la base de datos
@@ -72,7 +72,7 @@ namespace TryontechWebAPI.Controllers
             // Generar un token temporal solo para cambio de contraseña
             var token = GeneratePasswordResetToken(usuario.Id);
 
-            return Ok(new { sucess = true,message = "Código verificado exitosamente.", Token = token });
+            return Ok(new { success = true,message = "Código verificado exitosamente.", Token = token });
         }
 
         //Cambio de la contraseña y cifrado
@@ -82,14 +82,14 @@ namespace TryontechWebAPI.Controllers
         {
             if (string.IsNullOrEmpty(request.NewPassword))
             {
-                return BadRequest(new { sucess = false, message = "La nueva contraseña es obligatoria." });
+                return BadRequest(new { success = false, message = "La nueva contraseña es obligatoria." });
             }
 
             var usuario = _clsUsuario.ObtenerUsuarioPorId(request.UserId); // Usamos el `UserId` recibido del frontend
 
             if (usuario == null)
             {
-                return NotFound(new { sucess = false, message = "Usuario no encontrado." });
+                return NotFound(new { success = false, message = "Usuario no encontrado." });
             }
 
             var cypher = new clsCypher();
@@ -97,7 +97,7 @@ namespace TryontechWebAPI.Controllers
 
             if (!cypher.CifrarClave())
             {
-                return StatusCode(500, new { sucess = false, message = "Error al cifrar la nueva contraseña." });
+                return StatusCode(500, new { success = false, message = "Error al cifrar la nueva contraseña." });
             }
 
             usuario.Password = cypher.PasswordCifrado;
@@ -105,13 +105,13 @@ namespace TryontechWebAPI.Controllers
 
             _clsUsuario.ActualizarUsuario(usuario);
 
-            return Ok(new { sucess = true, message = "Contraseña actualizada exitosamente." });
+            return Ok(new { success = true, message = "Contraseña actualizada exitosamente." });
         }
 
         [HttpGet("protected")]
         public IActionResult ProtectedEndpoint()
         {
-            return Ok(new { sucess = true, message = "This is a protected endpoint", User = User.Identity.Name });
+            return Ok(new { success = true, message = "This is a protected endpoint", User = User.Identity.Name });
         }
 
         // Genera un token solo para cambio de contraseña

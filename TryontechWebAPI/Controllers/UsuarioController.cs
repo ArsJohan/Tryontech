@@ -16,30 +16,30 @@ namespace TryontechWebAPI.Controllers
         {
             _dbContext = dbContext;
         }
-        [HttpGet("verifyEmail")]
-        public IActionResult VerifyEmail([FromQuery] string email)
+        [HttpPost("verifyEmail")]
+        public IActionResult VerifyEmail([FromBody]EmailRequestModel emailRequest)
         {
-            if (string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(emailRequest.Correo))
             {
                 return BadRequest(new { message = "El correo es obligatorio." });
             }
 
-            var usuarioExiste = _dbContext.Usuarios.Any(u => u.Correo == email);
+            var usuarioExiste = _dbContext.Usuarios.Any(u => u.Correo == emailRequest.Correo);
 
             return usuarioExiste
                 ? Ok(new { exists = true, message = "Usuario encontrado." })
                 : NotFound(new { exists = false, message = "El correo no ha sido registrado." });
         }
 
-        [HttpGet("verifyPhone")]
-        public IActionResult VerifyPhone([FromQuery] string phone)
+        [HttpPost("verifyPhone")]
+        public IActionResult VerifyPhone([FromBody]EnviarCodigoRequestDTO requestDTO)
         {
-            if (string.IsNullOrEmpty(phone))
+            if (string.IsNullOrEmpty(requestDTO.Telefono))
             {
                 return BadRequest(new { message = "El número de teléfono es obligatorio." });
             }
 
-            var usuarioExiste = _dbContext.Usuarios.Any(u => u.Telefono == phone);
+            var usuarioExiste = _dbContext.Usuarios.Any(u => u.Telefono == requestDTO.Telefono);
 
             return usuarioExiste
                 ? Ok(new { exists = true, message = "Número de teléfono registrado." })
