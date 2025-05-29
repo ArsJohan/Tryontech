@@ -9,6 +9,8 @@ export const AppProvider = ({ children }) => {
     const [IdCliente, setIdCliente] = useState(null); // ID del cliente
     const [imageUrl, setImageUrl] = useState(""); // URL de la imagen
     const [code, setCode] = useState(""); // Código de verificación
+    const [userId, setUserId] = useState(null); // ID del usuario
+    const [token, setToken] = useState(""); // Token de autenticación
 
     return (
         <AppContext.Provider
@@ -20,7 +22,11 @@ export const AppProvider = ({ children }) => {
                 imageUrl,
                 setImageUrl,
                 code,
-                setCode
+                setCode,
+                userId,
+                setUserId,
+                token,
+                setToken
             }}
         >
             {children}

@@ -128,37 +128,31 @@ export function SignUpPersonal() {
         const formData = {
             "Username": username,
             "Password": password,
-            "Telefono": phoneNumber.substring(2),
+            "Telefono": "+"+phoneNumber,
             "Correo": email,
             "FechaNacimiento": birthdateValue,
             "Sexo": selectedSex
         };
-
-        try {
-            const response = await crearCuenta(formData);
-            if (response === "Client saved successfully") {
-                const idResponse = await obtenerIdCliente(email);
-                if (idResponse !== 0) {
-                    setIdCliente(idResponse);
-                    console.log("ID del cliente:", idResponse);
-                    navigate("/Measures");
-                } else {
-                    setPopupMessage("No se encontró un ID de cliente válido.");
-                    setIsPopupVisible(true);
-                }
-            } else {
-                
-                setPopupMessage(response);
-                setIsPopupVisible(true);
-            }
-        } catch (error) {
-             // Captura el mensaje del error
-             const errorMessage = error.response?.data?.message || error.message || "Error desconocido";
-            setPopupMessage("An error occurred. Please try again. ", errorMessage);
+        const response = await crearCuenta(formData);
+        if (!response.success) {
+            setPopupMessage(response.message);
             setIsPopupVisible(true);
-        } finally {
-            setLoading(false); // Desactiva el spinner al finalizar
+            setLoading(false); // Desactiva el spinner
+            return; // Detén la función aquí si hay un error
+        } 
+        const idResponse = await obtenerIdCliente(email);
+        if (!idResponse.success) {
+            setPopupMessage(idResponse.message);
+            setIsPopupVisible(true);
+            setLoading(false); // Desactiva el spinner
+            return; // Detén la función aquí si hay un error
         }
+        setLoading(false); // Desactiva el spinner
+        setIdCliente(idResponse.idCliente);
+        navigate("/Measures");
+        
+
+    
     };
 
     if (loading) {

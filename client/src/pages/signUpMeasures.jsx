@@ -29,6 +29,7 @@ export function SignUpMeasures() {
     const {IdCliente} = useContext(AppContext); // Obtiene el ID del cliente del contexto
     const {selectedSex} = useContext(AppContext); // Obtiene el sexo seleccionado del contexto
     const {setImageUrl} = useContext(AppContext); // Obtiene la URL de la imagen del contexto
+    const [loading, setLoading] = useState(false); // Estado para manejar el loading
     const [measurements, setMeasurements] = useState({
         Hombros: "",
         Pecho: "",
@@ -170,99 +171,82 @@ export function SignUpMeasures() {
 
 
     const resultModelo = async (bodyType) => {
-        try {
-            const data = {
-                ClienteId: IdCliente,
-                TipoCuerpo: bodyType,
-                Sexo: selectedSex,
-            };
-            setLoading(true); 
-            const modeloResult = await asignarModelo(data);
-            // Guarda la URL de la imagen y el tipo de cuerpo en el contexto
+        const data = {
+            ClienteId: IdCliente,
+            TipoCuerpo: bodyType,
+            Sexo: selectedSex,
+        };
+        const modeloResult = await asignarModelo(data);
+        
+        if (modeloResult.success) {
             setImageUrl(modeloResult.imagenUrl);
-            const newBodyType = modeloResult.tipoCuerpo + modeloResult.sexo; // Construye el nuevo valor
-            
-
-            // Usa el valor directamente en lugar de depender del estado
-            navigate(`/bodyType/${newBodyType}`); // Redirige a la página de resultados del tipo de cuerpo
+            const newBodyType = modeloResult.tipoCuerpo + modeloResult.sexo;
+            setLoading(false);
+            navigate(`/bodyType/${newBodyType}`);
+            return;
+        } else {
+            setLoading(false);
+            setPopupMessage(`Error al asignar el modelo: ${modeloResult.message || "Error desconocido"}`);
+            setPopupMessageVisible(true);
+            return;
         }
-        catch (error) {
-            // Captura el mensaje del error
-            const errorMessage = error.response?.data?.message || error.message || "Error desconocido";
-    
-            // Muestra el mensaje en el popup
-            setPopupMessage(`Error al asignar el modelo: ${errorMessage}`);
-            setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
-        }
-    
     };
 
     const tipoCuerpoApi = async () => {
-    
         // Convierte las medidas a números flotantes
         const numericMeasurements = Object.keys(measurements).reduce((acc, key) => {
-            acc[key] = parseFloat(measurements[key]) || 0; // Convierte a float o usa 0 si no es válido
+            acc[key] = parseFloat(measurements[key]) || 0;
             return acc;
         }, {});
-    
+
         const data = {
             ...numericMeasurements,
             IdCliente: IdCliente,
         };
-    
-    
-        try {
-            const bodyType = await calcularTipoCuerpo(data, 1);
-            const type = bodyType.replace(/ /g, ""); // Elimina espacios en blanco del tipo de cuerpo
-            return type; // Devuelve el tipo de cuerpo calculado
-        } catch (error) {
-            // Captura el mensaje del error
-            const errorMessage = error.response?.data?.message || error.message || "Error desconocido";
-    
-            // Muestra el mensaje en el popup
-            setPopupMessage(`Error al asignar el modelo: ${errorMessage}`);
-            setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
+
+        const response = await calcularTipoCuerpo(data, IdCliente);
+        if (response.success && response.tipoCuerpo) {
+            const type = response.tipoCuerpo.replace(/ /g, ""); // Elimina espacios en blanco
+            return type;
+        } else {
+            setPopupMessage(`Error al calcular el tipo de cuerpo: ${response.message || "Error desconocido"}`);
+            setPopupMessageVisible(true);
+            return null;
         }
     };
 
-
     const handleSubmit = async () => {
-
         const isValid = Object.keys(measurements).every((key) => {
             const value = measurements[key];
             return value && !warnings[key];
         });
-    
+
         if (!isValid) {
             setPopupMessage("Por favor, corrige los errores antes de continuar.");
             setPopupMessageVisible(true);
-            setLoading(false); // Desactiva el spinner si hay errores
+            setLoading(false);
             return;
         }
-    
-        try {
-            const data = {
-                ...measurements,
-                IdCliente: IdCliente,
-            };
-            const response = await crearTallaje(data);
-            if (response){
-                // Llama a la API para calcular el tipo de cuerpo
-                const bodyType = await tipoCuerpoApi();
-                // Verifica si bodyType está definido antes de llamar a resultModelo
-                
-                await resultModelo(bodyType); // Llama a resultModelo solo si bodyType está definido
-               
-            }else{
-             setPopupMessage(response);
-             setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
-            }
-        } catch (error) {
-            // Captura el mensaje del error
-            const errorMessage = error.response?.data?.message || error.message || "Error desconocido";
-            setPopupMessageVisible(true); // Muestra el popup con el mensaje de error
-            setPopupMessage("Error al crear el tallaje:", errorMessage);
+
+        setLoading(true);
+        const data = {
+            ...measurements,
+            IdCliente: IdCliente,
+        };
+        console.log("Datos enviados:", data); // Para depuración
+        const response = await crearTallaje(data);
+
+        if (!response.success) {
+            setPopupMessage(response.message || "No fue posible crear el tallaje. Por favor, intentalo de nuevo.");
+            setPopupMessageVisible(true);
+            setLoading(false);
+            return;
         } 
+        const bodyType = await tipoCuerpoApi();
+        if (bodyType) {
+            await resultModelo(bodyType);
+            return;
+        }
     };
     if (loading) {
         return (

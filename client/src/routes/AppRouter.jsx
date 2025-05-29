@@ -4,7 +4,7 @@ import { SignUpPersonal } from '../pages/signUpPersonal.jsx';
 import {SignUpMeasures} from '../pages/signUpMeasures.jsx';
 import { BodyTypeResultsPage } from '../pages/bodyTypeResultPage.jsx';
 import { ForgotPassword } from '../pages/forgotPassword.jsx';
-import { CodeVerification } from '../pages/codeVerification.jsx';
+import { CodeVerification } from '../pages/CodeVerification.jsx';
 import { CreateNewPassword } from '../pages/createNewPassword.jsx';
 
 

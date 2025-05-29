@@ -2,7 +2,7 @@ import React, { useContext, useRef } from "react";
 import "./codeLabel.css";
 import { AppContext } from "../context/AppUserContext.jsx";
 
-export function CodeLabel() {
+export function CodeLabel({codeError}) {
     const inputRefs = useRef([]);
     const {setCode} = useContext(AppContext);
 
@@ -30,7 +30,7 @@ export function CodeLabel() {
                     key={idx}
                     type="text"
                     maxLength={1}
-                    className="code-input"
+                    className={`code-input${codeError ? " code-input-error" : ""}`}
                     ref={el => inputRefs.current[idx] = el}
                     onChange={e => handleChange(e, idx)}
                     onKeyDown={e => handleKeyDown(e, idx)}
