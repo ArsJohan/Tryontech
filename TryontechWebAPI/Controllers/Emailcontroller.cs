@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using TryontechWebAPI.Clases;
 using TryontechWebAPI.Models;
 
+
 namespace TryontechWebAPI.Controllers
 {
     [Route("api/account")]
@@ -32,9 +33,6 @@ namespace TryontechWebAPI.Controllers
                 return BadRequest(new { success = false, message = "Error al enviar código, verifica el email" });
         }
 
-        public class EmailRequestModel
-        {
-            public string Correo { get; set; } // 🔹 Coincide con la base de datos
-        }
+       
     }
 }
