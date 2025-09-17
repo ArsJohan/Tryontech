@@ -1,0 +1,16 @@
+# Imagen base del SDK para compilar
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copiar archivos del proyecto
+COPY ["TryontechWebAPI.csproj", "./"]
+RUN dotnet restore "./TryontechWebAPI.csproj"
+
+COPY . .
+RUN dotnet publish "TryontechWebAPI.csproj" -c Release -o /app/publish
+
+# Imagen base para ejecución
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+ENTRYPOINT ["dotnet", "TryontechWebAPI.dll"]
