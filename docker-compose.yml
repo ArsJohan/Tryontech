@@ -1,0 +1,39 @@
+version: "3.9"
+services:
+  backend:
+    build: ./TryontechWebAPI
+    container_name: tryontech-backend
+    ports:
+      - "5177:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - tryontech-net
+
+  frontend:
+    build: ./client
+    container_name: client
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - tryontech-net
+
+sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: tryontech-db
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourStrong!Passw0rd
+    volumes:
+      - ./DBTryOnTech.sql:/docker-entrypoint-initdb.d/DBTryOnTech.sql
+    networks:
+      - tryontech-net
+
+
+networks:
+  tryontech-net:
+    driver: bridge
