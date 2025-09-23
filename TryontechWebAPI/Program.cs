@@ -61,6 +61,44 @@ app.UseAuthentication(); // Habilitar autenticaci�n Sgp
 // Configure the HTTP request pipeline.
 app.UseCors("FrontendPolicy"); // Use CORS policy
 app.UseRouting();
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<TryontechContext>();
+    try
+    {
+        if (db.Database.CanConnect())
+            Console.WriteLine("✅Conectado a la base de datos correctamente.");
+        else
+            Console.WriteLine("❌No se pudo conectar a la base de datos.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("❌Error al conectar a la DB: " + ex.Message);
+    }
+}
+Console.WriteLine("DB => " +
+builder.Configuration.GetConnectionString("DefaultConnection"));
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<TryontechContext>();
+    try
+    {
+        if (db.Database.CanConnect())
+            Console.WriteLine("✅Conectado a la base de datos correctamente.");
+        else
+            Console.WriteLine("❌No se pudo conectar a la base de datos.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("❌Error al conectar a la DB: " + ex.Message);
+    }
+}
+
+app.UseStaticFiles(); // Esto hace que wwwroot funcione
+app.UseAuthentication(); // Habilitar autenticaci�n Sgp
+// Configure the HTTP request pipeline.
+app.UseCors("FrontendPolicy"); // Use CORS policy
+app.UseRouting();
 
 
 app.UseAuthorization();

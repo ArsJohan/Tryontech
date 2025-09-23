@@ -6,7 +6,7 @@ import { Header } from "../components/header.jsx";
 import Footer from "../components/footer.jsx";
 import Background from "../components/background.jsx";
 import Button from "../components/button.jsx";
-import Barstep from  "../components/Barstep.jsx";
+import Barstep from  "../components/barStep.jsx";
 import rowUp from "../assets/images/row-up.svg";
 import oneCircle from "../assets/images/one.svg";
 import twoCircle from "../assets/images/two.svg";

@@ -6,7 +6,7 @@ import Title from "../components/title.jsx";
 import Footer from "../components/footer.jsx";
 import Banner from "../components/banner.jsx";
 import "../assets/styles/pages/bodyTypeResult.css";
-import "../assets/styles/pages/SignUp.css";
+import "../assets/styles/pages/signUp.css";
 import InvertedTriangleIcon from "../assets/images/bodyType/Icons/InvertedTriangle.png";
 import OvalIcon from "../assets/images/bodyType/Icons/Oval.png";
 import TriangleIcon from "../assets/images/bodyType/Icons/Triangle.png";

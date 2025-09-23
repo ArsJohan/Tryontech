@@ -1,5 +1,5 @@
 import React from 'react';
-import './Popup.css'; // Archivo CSS para estilos
+import './popup.css'; // Archivo CSS para estilos
 import errorIcon from '../assets/images/cancel.png'; // Asegúrate de tener un ícono en esta ruta
 
 const Popup = ({ isVisible, message, onClose }) => {

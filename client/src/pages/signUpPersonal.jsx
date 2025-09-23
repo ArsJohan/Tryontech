@@ -4,7 +4,7 @@ import '../assets/styles/pages/signUp.css';
 import Card from "../components/card.jsx";
 import { Header } from "../components/header.jsx";
 import Footer from "../components/footer.jsx";
-import Barstep from "../components/Barstep.jsx";
+import Barstep from "../components/barStep.jsx";
 import Button from "../components/button.jsx";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";

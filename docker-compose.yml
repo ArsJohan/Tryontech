@@ -20,18 +20,18 @@ services:
     networks:
       - tryontech-net
 
-sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: tryontech-db
-    ports:
-      - "1433:1433"
-    environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=YourStrong!Passw0rd
-    volumes:
-      - ./DBTryOnTech.sql:/docker-entrypoint-initdb.d/DBTryOnTech.sql
-    networks:
-      - tryontech-net
+  sqlserver:
+      image: mcr.microsoft.com/mssql/server:2022-latest
+      container_name: tryontech-db
+      ports:
+        - "1433:1433"
+      environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=YourStrongPassw0rd
+      volumes:
+        - ./DBTryOnTech.sql:/docker-entrypoint-initdb.d/DBTryOnTech.sql
+      networks:
+        - tryontech-net
 
 
 networks:
